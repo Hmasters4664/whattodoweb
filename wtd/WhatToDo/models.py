@@ -37,7 +37,16 @@ class Categories(models.Model):
     name = models.CharField(max_length=100, validators=[validate_characters], )
 
 class TicketClass(models.Model):
-    name =
+    name = models.CharField(max_length=100, validators=[validate_characters], )
+    soldout = models.CharField(max_length=5, validators=[validate_characters], )
+    description = models.TextField(validators=[validate_characters], )
+    donation = models.CharField(max_length=5, validators=[validate_characters], )
+    provisionallysoldout = models.CharField(max_length=5, validators=[validate_characters], )
+    price = models.DecimalField(max_digits=19, decimal_places=2,default=200.00,validators = [check_negative_number],)
+    start = models.DateField()
+    end = models.DateField()
+
+
 
 
 
