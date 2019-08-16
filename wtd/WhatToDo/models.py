@@ -11,11 +11,7 @@ class Events(models.Model):
     lastModified = models.DateField()
     startDate = models.DateField()
     endDate = models.DateField()
-    ticketprice1 = models.DecimalField(max_digits=19, decimal_places=2,default=00.00,validators = [check_negative_number],)
-    ticketprice2 = models.DecimalField(max_digits=19, decimal_places=2, default=00.00,
-                                       validators=[check_negative_number], )
-    ticketprice3 = models.DecimalField(max_digits=19, decimal_places=2, default=00.00,
-                                       validators=[check_negative_number], )
+    ticketclass =
     venue = models.ForeignKey('Venue', on_delete=models.CASCADE)
 
 
@@ -39,6 +35,9 @@ class Organisers(models.Model):
 
 class Categories(models.Model):
     name = models.CharField(max_length=100, validators=[validate_characters], )
+
+class TicketClass(models.Model):
+
 
 
 
