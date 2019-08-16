@@ -37,6 +37,7 @@ class Categories(models.Model):
     name = models.CharField(max_length=100, validators=[validate_characters], )
 
 class TicketClass(models.Model):
+    name
 
 
 
