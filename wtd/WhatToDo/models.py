@@ -11,7 +11,6 @@ class Events(models.Model):
     lastModified = models.DateField()
     startDate = models.DateField()
     endDate = models.DateField()
-    ticketclass =
     venue = models.ForeignKey('Venue', on_delete=models.CASCADE)
 
 
