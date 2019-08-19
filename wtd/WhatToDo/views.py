@@ -71,3 +71,5 @@ class Login(FormView):
         if not is_safe_url(url=redirect_to, allowed_hosts=self.request.get_host()):
             redirect_to = self.success_url
         return redirect_to
+
+
