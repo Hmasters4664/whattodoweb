@@ -29,7 +29,6 @@ from django.db.models import Q
 import xlwt
 import xlrd
 from tablib import Dataset
-from import_export import resources
 import magic
 from django.core.files.storage import default_storage
 import os
@@ -88,7 +87,7 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
-            return redirect('home')
+            return redirect('login')
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})

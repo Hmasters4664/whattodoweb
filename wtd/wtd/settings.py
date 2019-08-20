@@ -57,7 +57,7 @@ ROOT_URLCONF = 'wtd.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'WhatToDo/template'),],
+        'DIRS': [os.path.join(BASE_DIR, 'WhatToDo/template'), ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
