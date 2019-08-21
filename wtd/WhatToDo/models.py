@@ -5,6 +5,7 @@ from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from .validators import validate_characters, check_negative_number, check_zero_number
 from django.utils import timezone
+from wtd.comment.models import Comment
 
 RELATIONSHIP_FOLLOWING = 1
 RELATIONSHIP_BLOCKED = 2
@@ -127,6 +128,22 @@ class Relationship(models.Model):
     to_person = models.ForeignKey(Profile, related_name='to_people', on_delete=models.CASCADE)
     status = models.IntegerField(choices=RELATIONSHIP_STATUSES)
 
+
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+
+
+class EventCommentQuerySet(models.query.QuerySet):
+
+    def get_comments(self, event):
+        return self.filter(event=event)
+
+
+class EventComment(Comment):
+    event = models.ForeignKey('Event', on_delete=models.CASCADE, related_name='comments')
+    objects = EventCommentQuerySet.as_manager()
 
 
 

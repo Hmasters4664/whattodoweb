@@ -39,20 +39,20 @@ class Blog(models.Model):
         return self.title
 
 
-class CommentQuerySet(models.query.QuerySet):
+class BlogCommentQuerySet(models.query.QuerySet):
 
     def get_comments(self, post):
 
         return self.filter(post=post)
 
 
-class Comment(models.Model):
+class BlogComment(models.Model):
     post = models.ForeignKey('Blog', on_delete=models.CASCADE, related_name='comments')
     author = models.CharField(max_length=200)
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now())
     approved_comment = models.BooleanField(default=True)
-    objects = CommentQuerySet.as_manager()
+    objects = BlogCommentQuerySet.as_manager()
 
     class Meta:
         ordering = ['-created_date']
