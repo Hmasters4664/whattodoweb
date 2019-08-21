@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'WhatToDo',
     'crispy_forms',
+    'comment',
     'rest_framework',
 ]
 
