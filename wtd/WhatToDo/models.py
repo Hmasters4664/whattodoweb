@@ -5,13 +5,24 @@ from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from .validators import validate_characters, check_negative_number, check_zero_number
 from django.utils import timezone
-from wtd.comment.models import Comment
+from comment.models import Comment
+from autoslug import AutoSlugField
+
+from django.template.defaultfilters import slugify
 
 RELATIONSHIP_FOLLOWING = 1
 RELATIONSHIP_BLOCKED = 2
 RELATIONSHIP_STATUSES = (
     (RELATIONSHIP_FOLLOWING, 'Friends'),
     (RELATIONSHIP_BLOCKED, 'Blocked'),
+)
+
+PUBLIC = 1
+PRIVATE = 0
+Event_TYPE = (
+    (PUBLIC, 'Public'),
+    (PRIVATE, 'Private'),
+
 )
 
 
@@ -25,14 +36,14 @@ class Event(models.Model):
     lastModified = models.DateField(auto_now_add=True)
     startDate = models.DateField(_('Start Date and Time'))
     endDate = models.DateField(_('End Date and Time'))
-    TicketPrice1 = models.DecimalField(max_digits=19, decimal_places=2, default=200.00,
+    TicketPrice1 = models.DecimalField(max_digits=19, decimal_places=2, default=000.00,
                                        validators=[check_negative_number],)
-    TicketPrice2 = models.DecimalField(max_digits=19, decimal_places=2, default=200.00,
+    TicketPrice2 = models.DecimalField(max_digits=19, decimal_places=2, default=000.00,
                                        validators=[check_negative_number], )
-    TicketPrice3 = models.DecimalField(max_digits=19, decimal_places=2, default=200.00,
+    TicketPrice3 = models.DecimalField(max_digits=19, decimal_places=2, default=000.00,
                                        validators=[check_negative_number], )
     category = models.ForeignKey('Category', null=True, blank=True, on_delete=models.CASCADE)
-    venue = models.OneToOneField('Venue', on_delete=models.CASCADE)
+    venue = models.OneToOneField('Venue', on_delete=models.CASCADE, blank=True)
 
 
 class Venue(models.Model):
@@ -56,8 +67,8 @@ class Organiser(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=200)
-    slug = models.SlugField()
+    name = models.CharField(max_length=50, validators=[validate_characters],)
+    slug = AutoSlugField(populate_from='name')
     parent = models.ForeignKey('self', blank=True, null=True, related_name='children', on_delete=models.CASCADE)
 
     class Meta:
@@ -65,9 +76,7 @@ class Category(models.Model):
         verbose_name_plural = "categories"
 
     def __str__(self):
-        full_path = [self.name]
-
-        k = self.parent
+        return self.name
 
 
 class Profile(models.Model):

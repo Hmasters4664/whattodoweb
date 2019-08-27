@@ -38,3 +38,9 @@ class VenueForm(forms.ModelForm):
         model = Venue
         fields = ['name', 'addressline1', 'addressline2',
                   'country', 'province', 'city']
+
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name', 'parent']
