@@ -32,10 +32,10 @@ class Event(models.Model):
     url = models.CharField(_('Ticket Purchase URL'), max_length=50, blank=True)
     imageUrl = models.CharField(max_length=50,)
     picture = models.ImageField(upload_to='images/', blank=True, null=True)
-    dateCreated = models.DateField(auto_now_add=True)
-    lastModified = models.DateField(auto_now_add=True)
-    startDate = models.DateField(_('Start Date and Time'))
-    endDate = models.DateField(_('End Date and Time'))
+    dateCreated = models.DateTimeField(auto_now_add=True)
+    lastModified = models.DateTimeField(auto_now_add=True)
+    startDate = models.DateTimeField(_('Start Date and Time'))
+    endDate = models.DateTimeField(_('End Date and Time'),)
     TicketPrice1 = models.DecimalField(max_digits=19, decimal_places=2, default=000.00,
                                        validators=[check_negative_number],)
     TicketPrice2 = models.DecimalField(max_digits=19, decimal_places=2, default=000.00,
@@ -43,7 +43,7 @@ class Event(models.Model):
     TicketPrice3 = models.DecimalField(max_digits=19, decimal_places=2, default=000.00,
                                        validators=[check_negative_number], )
     category = models.ForeignKey('Category', null=True, blank=True, on_delete=models.CASCADE)
-    venue = models.OneToOneField('Venue', on_delete=models.CASCADE, blank=True)
+    #venue = models.OneToOneField('Venue', on_delete=models.CASCADE, blank=True)
 
 
 class Venue(models.Model):
@@ -55,8 +55,6 @@ class Venue(models.Model):
     country = models.CharField(max_length=50, validators=[validate_characters],)
     province = models.CharField(_('provice/state'), max_length=50, validators=[validate_characters],)
     city = models.CharField(max_length=100, validators=[validate_characters],)
-
-
 
 
 class Organiser(models.Model):

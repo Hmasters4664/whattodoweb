@@ -124,5 +124,9 @@ class AddEvent(LoginRequiredMixin, FormView):
     redirect_field_name = 'redirect_to'
 
     def form_valid(self,form):
-        form.save()
+        event = form.save(commit=False)
+        event.startDate = form.cleaned_data.get('start')
+        event.endDate = form.cleaned_data.get('end')
+
+        event.save()
         return super().form_valid(form)
