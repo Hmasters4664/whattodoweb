@@ -30,8 +30,7 @@ class Event(models.Model):
     name = models.CharField(max_length=100, validators=[validate_characters],)
     description = models.TextField(validators=[validate_characters],)
     url = models.CharField(_('Ticket Purchase URL'), max_length=50, blank=True)
-    imageUrl = models.CharField(max_length=50,)
-    picture = models.ImageField(upload_to='images/', blank=True, null=True)
+    picture = models.ImageField(upload_to='events', blank=True, null=True, default='events/default_events.jpg')
     dateCreated = models.DateTimeField(auto_now_add=True)
     lastModified = models.DateTimeField(auto_now_add=True)
     startDate = models.DateTimeField(_('Start Date and Time'))
@@ -91,6 +90,30 @@ class Profile(models.Model):
     def __unicode__(self):
         return self.name
 
+    def add_relationship(self, person, status, symm=True):
+        relationship, created = Relationship.objects.get_or_create(
+            from_person=self,
+            to_person=person,
+            status=status)
+        if symm:
+            # avoid recursion by passing `symm=False`
+            person.add_relationship(self, status, False)
+        return relationship
+
+    def get_relationships(self, status):
+        return self.relationships.filter(
+            to_people__status=status,
+            to_people__from_person=self)
+
+    def remove_relationship(self, person, status, symm=True):
+        Relationship.objects.filter(
+            from_person=self,
+            to_person=person,
+            status=status).delete()
+        if symm:
+            # avoid recursion by passing `symm=False`
+            person.remove_relationship(self, status, False)
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -101,33 +124,6 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
-
-
-def add_relationship(self, person, status, symm=True):
-    relationship, created = Relationship.objects.get_or_create(
-        from_person=self,
-        to_person=person,
-        status=status)
-    if symm:
-        # avoid recursion by passing `symm=False`
-        person.add_relationship(self, status, False)
-    return relationship
-
-
-def remove_relationship(self, person, status, symm=True):
-    Relationship.objects.filter(
-        from_person=self,
-        to_person=person,
-        status=status).delete()
-    if symm:
-        # avoid recursion by passing `symm=False`
-        person.remove_relationship(self, status, False)
-
-
-def get_relationships(self, status):
-    return self.relationships.filter(
-        to_people__status=status,
-        to_people__from_person=self)
 
 
 class Relationship(models.Model):
@@ -147,13 +143,18 @@ class EventCommentQuerySet(models.query.QuerySet):
     def get_comments(self, event):
         return self.filter(event=event)
 
+    def count_comments(self, event_id):
+        return self.filter(pk=event_id).count()
+
 
 class EventComment(Comment):
     event = models.ForeignKey('Event', on_delete=models.CASCADE, related_name='comments')
     objects = EventCommentQuerySet.as_manager()
 
 
-
+class Groups(models.Model):
+    administrator = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    members = models.ManyToManyField(User)
 
 
 

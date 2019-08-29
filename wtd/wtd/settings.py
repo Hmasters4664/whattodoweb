@@ -135,4 +135,5 @@ STATICFILES_DIRS = [
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'WhatToDo/media')
+MEDIA_URL = '/media/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
