@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from .validators import validate_characters, check_negative_number, check_zero_number
 from django.utils import timezone
 from comment.models import Comment
+from groups.models import Group, GroupMember
 from autoslug import AutoSlugField
 
 from django.template.defaultfilters import slugify
@@ -151,10 +152,6 @@ class EventComment(Comment):
     event = models.ForeignKey('Event', on_delete=models.CASCADE, related_name='comments')
     objects = EventCommentQuerySet.as_manager()
 
-
-class Groups(models.Model):
-    administrator = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
-    members = models.ManyToManyField(User)
 
 
 

@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'WhatToDo',
     'django.forms',
     'crispy_forms',
-    'bootstrap_datepicker_plus',
+    'groups',
     'comment',
     'rest_framework',
 ]
