@@ -3,6 +3,8 @@ from .models import *
 from django.contrib.auth.models import User
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
+from .widgets import XDSoftDateTimePickerInput
+from django.forms import DateTimeInput
 
 
 class SignUpForm(UserCreationForm):
@@ -26,11 +28,33 @@ class UserForm(forms.ModelForm):
         fields = ('first_name', 'last_name', 'email')
 
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+
 class EventForm(forms.ModelForm):
+    start = forms.DateTimeField(
+        input_formats=['%Y-%m-%dT%H:%M'],
+        widget=forms.DateTimeInput(
+            attrs={
+                'type': 'datetime-local',
+                'class': 'form-control'},
+            format='%Y-%m-%dT%H:%M')
+    )
+    end = forms.DateTimeField(
+        input_formats=['%Y-%m-%dT%H:%M'],
+        widget=forms.DateTimeInput(
+            attrs={
+                'type': 'datetime-local',
+                'class': 'form-control'},
+            format='%Y-%m-%dT%H:%M')
+    )
     class Meta:
         model = Event
         fields = ['name', 'description', 'url', 'picture',
-                  'startDate', 'endDate', 'TicketPrice1', 'TicketPrice2', 'TicketPrice3', 'category']
+                  'TicketPrice1', 'TicketPrice2', 'TicketPrice3', 'category']
+
+
 
 
 class VenueForm(forms.ModelForm):
@@ -38,3 +62,9 @@ class VenueForm(forms.ModelForm):
         model = Venue
         fields = ['name', 'addressline1', 'addressline2',
                   'country', 'province', 'city']
+
+
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name', 'parent']

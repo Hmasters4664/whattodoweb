@@ -5,7 +5,10 @@ from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from .validators import validate_characters, check_negative_number, check_zero_number
 from django.utils import timezone
-from wtd.comment.models import Comment
+from comment.models import Comment
+from autoslug import AutoSlugField
+
+from django.template.defaultfilters import slugify
 
 RELATIONSHIP_FOLLOWING = 1
 RELATIONSHIP_BLOCKED = 2
@@ -14,25 +17,32 @@ RELATIONSHIP_STATUSES = (
     (RELATIONSHIP_BLOCKED, 'Blocked'),
 )
 
+PUBLIC = 1
+PRIVATE = 0
+Event_TYPE = (
+    (PUBLIC, 'Public'),
+    (PRIVATE, 'Private'),
+
+)
+
 
 class Event(models.Model):
     name = models.CharField(max_length=100, validators=[validate_characters],)
     description = models.TextField(validators=[validate_characters],)
     url = models.CharField(_('Ticket Purchase URL'), max_length=50, blank=True)
-    imageUrl = models.CharField(max_length=50,)
-    picture = models.ImageField(upload_to='images/', blank=True, null=True)
-    dateCreated = models.DateField(auto_now_add=True)
-    lastModified = models.DateField(auto_now_add=True)
-    startDate = models.DateField(_('Start Date and Time'))
-    endDate = models.DateField(_('End Date and Time'))
-    TicketPrice1 = models.DecimalField(max_digits=19, decimal_places=2, default=200.00,
+    picture = models.ImageField(upload_to='events', blank=True, null=True, default='events/default_events.jpg')
+    dateCreated = models.DateTimeField(auto_now_add=True)
+    lastModified = models.DateTimeField(auto_now_add=True)
+    startDate = models.DateTimeField(_('Start Date and Time'))
+    endDate = models.DateTimeField(_('End Date and Time'),)
+    TicketPrice1 = models.DecimalField(max_digits=19, decimal_places=2, default=000.00,
                                        validators=[check_negative_number],)
-    TicketPrice2 = models.DecimalField(max_digits=19, decimal_places=2, default=200.00,
+    TicketPrice2 = models.DecimalField(max_digits=19, decimal_places=2, default=000.00,
                                        validators=[check_negative_number], )
-    TicketPrice3 = models.DecimalField(max_digits=19, decimal_places=2, default=200.00,
+    TicketPrice3 = models.DecimalField(max_digits=19, decimal_places=2, default=000.00,
                                        validators=[check_negative_number], )
     category = models.ForeignKey('Category', null=True, blank=True, on_delete=models.CASCADE)
-    venue = models.OneToOneField('Venue', on_delete=models.CASCADE)
+    #venue = models.OneToOneField('Venue', on_delete=models.CASCADE, blank=True)
 
 
 class Venue(models.Model):
@@ -46,8 +56,6 @@ class Venue(models.Model):
     city = models.CharField(max_length=100, validators=[validate_characters],)
 
 
-
-
 class Organiser(models.Model):
     name = models.CharField(max_length=100, validators=[validate_characters], )
     phone = models.CharField(max_length=12, validators=[validate_characters], )
@@ -56,8 +64,8 @@ class Organiser(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=200)
-    slug = models.SlugField()
+    name = models.CharField(max_length=50, validators=[validate_characters],)
+    slug = AutoSlugField(populate_from='name')
     parent = models.ForeignKey('self', blank=True, null=True, related_name='children', on_delete=models.CASCADE)
 
     class Meta:
@@ -65,9 +73,7 @@ class Category(models.Model):
         verbose_name_plural = "categories"
 
     def __str__(self):
-        full_path = [self.name]
-
-        k = self.parent
+        return self.name
 
 
 class Profile(models.Model):
@@ -84,6 +90,30 @@ class Profile(models.Model):
     def __unicode__(self):
         return self.name
 
+    def add_relationship(self, person, status, symm=True):
+        relationship, created = Relationship.objects.get_or_create(
+            from_person=self,
+            to_person=person,
+            status=status)
+        if symm:
+            # avoid recursion by passing `symm=False`
+            person.add_relationship(self, status, False)
+        return relationship
+
+    def get_relationships(self, status):
+        return self.relationships.filter(
+            to_people__status=status,
+            to_people__from_person=self)
+
+    def remove_relationship(self, person, status, symm=True):
+        Relationship.objects.filter(
+            from_person=self,
+            to_person=person,
+            status=status).delete()
+        if symm:
+            # avoid recursion by passing `symm=False`
+            person.remove_relationship(self, status, False)
+
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -94,33 +124,6 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
-
-
-def add_relationship(self, person, status, symm=True):
-    relationship, created = Relationship.objects.get_or_create(
-        from_person=self,
-        to_person=person,
-        status=status)
-    if symm:
-        # avoid recursion by passing `symm=False`
-        person.add_relationship(self, status, False)
-    return relationship
-
-
-def remove_relationship(self, person, status, symm=True):
-    Relationship.objects.filter(
-        from_person=self,
-        to_person=person,
-        status=status).delete()
-    if symm:
-        # avoid recursion by passing `symm=False`
-        person.remove_relationship(self, status, False)
-
-
-def get_relationships(self, status):
-    return self.relationships.filter(
-        to_people__status=status,
-        to_people__from_person=self)
 
 
 class Relationship(models.Model):
@@ -140,13 +143,18 @@ class EventCommentQuerySet(models.query.QuerySet):
     def get_comments(self, event):
         return self.filter(event=event)
 
+    def count_comments(self, event_id):
+        return self.filter(pk=event_id).count()
+
 
 class EventComment(Comment):
     event = models.ForeignKey('Event', on_delete=models.CASCADE, related_name='comments')
     objects = EventCommentQuerySet.as_manager()
 
 
-
+class Groups(models.Model):
+    administrator = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    members = models.ManyToManyField(User)
 
 
 

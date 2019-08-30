@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'WhatToDo',
+    'django.forms',
     'crispy_forms',
+    'bootstrap_datepicker_plus',
     'comment',
     'rest_framework',
 ]
@@ -58,13 +60,16 @@ ROOT_URLCONF = 'wtd.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'WhatToDo/template'), ],
+        'DIRS': [os.path.join(BASE_DIR, 'WhatToDo/template'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.i18n',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
@@ -127,5 +132,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'WhatToDo/static'),
 ]
 
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'WhatToDo/media')
+MEDIA_URL = '/media/'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

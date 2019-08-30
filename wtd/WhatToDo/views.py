@@ -38,14 +38,23 @@ from django.core.exceptions import ValidationError
 from django.conf import settings
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
-from .forms import SignUpForm
+from .forms import SignUpForm, CategoryForm
 
 # Create your views here.
 
 
+class Main(LoginRequiredMixin, ListView):
+    model = Event
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    template_name = 'main.html'
+    context_object_name = 'events'
+    Event.objects.all()
+
+
 class Login(FormView):
     template_name = 'login.html'
-    success_url = '/assets/'
+    success_url = '/main/'
     form_class = AuthenticationForm
     redirect_field_name = REDIRECT_FIELD_NAME
 
@@ -93,3 +102,31 @@ def signup(request):
     return render(request, 'signup.html', {'form': form})
 
 
+class AddCategory(LoginRequiredMixin, FormView):
+    model = Category
+    template_name = 'forms.html'
+    success_url = '/main/'
+    login_url = '/login/'
+    form_class = CategoryForm
+    redirect_field_name = 'redirect_to'
+
+    def form_valid(self,form):
+        form.save()
+        return super().form_valid(form)
+
+
+class AddEvent(LoginRequiredMixin, FormView):
+    model = Event
+    template_name = 'forms.html'
+    success_url = '/main/'
+    login_url = '/login/'
+    form_class = EventForm
+    redirect_field_name = 'redirect_to'
+
+    def form_valid(self,form):
+        event = form.save(commit=False)
+        event.startDate = form.cleaned_data.get('start')
+        event.endDate = form.cleaned_data.get('end')
+
+        event.save()
+        return super().form_valid(form)
