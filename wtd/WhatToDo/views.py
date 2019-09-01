@@ -5,7 +5,7 @@ from django.utils.http import is_safe_url
 import csv
 from django.http import HttpResponse
 from django.http import JsonResponse
-from .models import Event, Venue, Organiser, Category, Profile
+from .models import Event, Venue, Organiser, Category, Profile, Notifications, Messages
 from django.views.generic import CreateView
 from django.views.generic.edit import FormView
 from django.views.generic.base import View, TemplateView
@@ -40,26 +40,6 @@ from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from .forms import SignUpForm, CategoryForm
 
-# Create your views here.
-
-
-def main(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            user.refresh_from_db()  # load the profile instance created by the signal
-            user.profile.birth_date = form.cleaned_data.get('birth_date')
-            user.profile.name = form.cleaned_data.get('name')
-            user.save()
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=user.username, password=raw_password)
-            login(request, user)
-            return redirect('login')
-    else:
-        form = SignUpForm()
-    return render(request, 'signup.html', {'form': form})
-
 
 class Main(LoginRequiredMixin, ListView):
     model = Event
@@ -68,6 +48,27 @@ class Main(LoginRequiredMixin, ListView):
     template_name = 'main.html'
     context_object_name = 'events'
     Event.objects.all()
+
+
+@login_required
+def notification(request):
+    notifications = Notifications.objects.filter(to_user=request.user, notification_type=1)
+    jayson = list(notifications)
+    return JsonResponse(jayson, safe=False)
+
+@login_required
+def friend(request):
+    friends = Notifications.objects.filter(to_user=request.user, notification_type=0)
+    jayson = list(friends)
+    return JsonResponse(jayson, safe=False)
+
+
+@login_required
+def message(request):
+    messages = Messages.objects.filter(to_user=request.user)
+    jayson = list(messages)
+    return JsonResponse(jayson, safe=False)
+
 
 
 class Login(FormView):
@@ -148,3 +149,12 @@ class AddEvent(LoginRequiredMixin, FormView):
 
         event.save()
         return super().form_valid(form)
+
+
+class MessageView(LoginRequiredMixin, ListView):
+    model = Messages
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    template_name = 'main.html'
+    context_object_name = 'events'
+    Messages.objects.all()

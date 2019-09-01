@@ -20,10 +20,18 @@ RELATIONSHIP_STATUSES = (
 
 PUBLIC = 1
 PRIVATE = 0
-Event_TYPE = (
+EVENT_TYPE = (
     (PUBLIC, 'Public'),
     (PRIVATE, 'Private'),
 
+)
+
+
+GENERAL = 1
+FRIEND = 0
+NOTIFICATION_TYPE = (
+    (GENERAL, 'General'),
+    (FRIEND, 'Friend'),
 )
 
 
@@ -151,6 +159,23 @@ class EventCommentQuerySet(models.query.QuerySet):
 class EventComment(Comment):
     event = models.ForeignKey('Event', on_delete=models.CASCADE, related_name='comments')
     objects = EventCommentQuerySet.as_manager()
+
+
+class Messages(models.Model):
+    from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender')
+    to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recipient')
+    text = models.CharField(max_length=150)
+    opened = models.BooleanField(_('opened'), default=False)
+    created = models.DateTimeField(auto_now_add=True)
+
+
+class Notifications(models.Model):
+    from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='actioner')
+    to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receiver')
+    notification_type = models.IntegerField(choices=EVENT_TYPE, default=1)
+    action = models.CharField(max_length=150)
+    read = models.BooleanField(_('read'), default=False)
+    created = models.DateTimeField(auto_now_add=True)
 
 
 
