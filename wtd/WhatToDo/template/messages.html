@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
 
     <!-- Messages Area -->
     {% block content %}
@@ -20,6 +20,7 @@
                     </div>
                 </div>  
                 <ul class="tabs tab_list">
+                {% for conversation in conversations %}
                     <li class="tab">
                        <a href="#messages-1"> 
                             <div class="media"> 
@@ -31,72 +32,7 @@
                             </div> 
                        </a>  
                    </li>
-                    <li class="tab">
-                       <a href="#messages-2"> 
-                           <div class="media"> 
-                                <img src="images/profile-4.jpg" alt="" class="circle responsive-img">  
-                                <div class="media_body">
-                                    <h4>Morgan Freeman <small>2 hours ago</small></h4>
-                                    <p>One of the best ways to make a great <br> vacation quickly horrible is to choose the...</p>
-                                </div> 
-                           </div> 
-                       </a>  
-                   </li>
-                    <li class="tab">
-                       <a href="#messages-3"> 
-                           <div class="media"> 
-                                <img src="images/profile-10.jpg" alt="" class="circle responsive-img">  
-                                <div class="media_body">
-                                    <h4>Samuel L.<small>3 hours ago</small></h4>
-                                    <p>Hi,</p>
-                                </div> 
-                           </div>
-                       </a>  
-                   </li> 
-                    <li class="tab">
-                       <a href="#messages-4" class="active"> 
-                           <div class="media"> 
-                                <img src="images/profile-5-2.jpg" alt="" class="circle responsive-img">  
-                                <div class="media_body">
-                                    <h4>Denzel Washington<small>2 days ago</small></h4>
-                                    <p>Hey Masum, I’m looking for you as a new <br>actor for my upcoming “Equalizer 2” movie...</p>
-                                </div> 
-                           </div>
-                       </a>  
-                   </li>                 
-                    <li class="tab">
-                       <a href="#messages-1" class="seen"> 
-                            <div class="media"> 
-                                <img src="images/profile-7.jpg" alt="" class="circle responsive-img">  
-                                <div class="media_body">
-                                    <h4>Dan Fisher <small>12:40pm</small></h4>
-                                    <p>Listen, I need to talk to you about this!</p>
-                                </div> 
-                            </div> 
-                       </a>  
-                   </li>
-                    <li class="tab">
-                       <a href="#messages-2" class="seen"> 
-                           <div class="media"> 
-                                <img src="images/profile-4.jpg" alt="" class="circle responsive-img">  
-                                <div class="media_body">
-                                    <h4>Morgan Freeman <small>2 hours ago</small></h4>
-                                    <p>One of the best ways to make a great <br> vacation quickly horrible is to choose the...</p>
-                                </div> 
-                           </div> 
-                       </a>  
-                   </li>
-                    <li class="tab">
-                       <a href="#messages-3" class="seen"> 
-                           <div class="media"> 
-                                <img src="images/profile-10.jpg" alt="" class="circle responsive-img">  
-                                <div class="media_body">
-                                    <h4>Samuel L.<small>3 hours ago</small></h4>
-                                    <p>Hi,</p>
-                                </div> 
-                           </div>
-                       </a>  
-                   </li> 
+                {% endfor %}
                 </ul>
            </div> 
             <div class="col s8 tab_content"> 

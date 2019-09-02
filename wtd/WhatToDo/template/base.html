@@ -125,7 +125,7 @@
                         </ul>
                     </li>
                     <!-- Messages -->
-                    <li class="notifications messages"><a class="dropdown-button" href="#!" data-activates="dropdown3"><i class="ion-ios-chatboxes-outline"></i><b class="n-number">{{ messages|length }}</b></a>
+                    <li class="notifications messages"><a class="dropdown-button" href="#!" data-activates="dropdown3"><i class="ion-ios-chatboxes-outline"></i><b class="n-number" id="Mnumber">{{ messages|length }}</b></a>
                         <!-- Dropdown Structure -->
                         <ul id="dropdown3" class="dropdown-content">
                             <li class="hed_notic">Messages <span>Mark all as read <i class="ion-ios-gear-outline"></i></span></li>
@@ -148,7 +148,7 @@
                         </ul>
                     </li>
                     <!-- Notifications -->
-                    <li class="notifications"><a class="dropdown-button" href="#!" data-activates="dropdown2"><i class="ion-ios-bell-outline"></i><b class="n-number">{{ notifications|length }}</b></a>
+                    <li class="notifications"><a class="dropdown-button" href="#!" data-activates="dropdown2"><i class="ion-ios-bell-outline"></i><b class="n-number" id="Nnumber">{{ notifications|length }}</b></a>
                         <!-- Dropdown Structure -->
                         <ul id="dropdown2" class="dropdown-content">
                             <li class="hed_notic">Notifications <span>Mark all as read <i class="ion-ios-gear-outline"></i></span></li>
@@ -242,7 +242,7 @@
                         </ul>
                     </li>
                     <!-- Messages -->
-                    <li class="notifications messages"><a class="dropdown-button" href="#!" data-activates="dropdown_s2"><i class="ion-ios-chatboxes-outline"></i><b class="n-number">{{ messages|length }}</b></a>
+                    <li class="notifications messages"><a class="dropdown-button" href="#!" data-activates="dropdown_s2"><i class="ion-ios-chatboxes-outline"></i><b class="n-number" id="Mnumber">{{ messages|length }}</b></a>
                         <!-- Dropdown Structure -->
                         <ul id="dropdown_s2" class="dropdown-content">
                             <li class="hed_notic">Messages <span>Mark all as read <i class="ion-ios-gear-outline"></i></span></li>
@@ -265,7 +265,7 @@
                         </ul>
                     </li>
                     <!-- Notifications -->
-                    <li class="notifications"><a class="dropdown-button" href="#!" data-activates="dropdown_s3"><i class="ion-ios-bell-outline"></i><b class="n-number">{{ notifications|length }}</b></a>
+                    <li class="notifications"><a class="dropdown-button" href="#!" data-activates="dropdown_s3"><i class="ion-ios-bell-outline"></i><b class="n-number" id="Nnumber">{{ notifications|length }}</b></a>
                         <!-- Dropdown Structure -->
                         <ul id="dropdown_s3" class="dropdown-content">
                             <li class="hed_notic">Notifications <span>Mark all as read <i class="ion-ios-gear-outline"></i></span></li>
@@ -752,6 +752,6 @@
     <script src="{% static 'vendors/check-button/jquery.jqflipswitch.js' %}"></script>
     <!-- Theme JS -->
     <script src="{% static 'js/theme.js' %}"></script>
-    <script src="{% static 'js/friends.js' %}"></script>
+    <script src="{% static 'js/notifications.js' %}"></script>
 </body>
 </html>
