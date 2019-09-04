@@ -158,3 +158,20 @@ class MessageView(LoginRequiredMixin, ListView):
     template_name = 'main.html'
     context_object_name = 'events'
     Messages.objects.all()
+
+
+@login_required
+def logout(request):
+    success_url = '/login/'
+    redirect_field_name = REDIRECT_FIELD_NAME
+    auth_logout(request)
+
+    return redirect(success_url)
+
+
+@login_required
+def Search(request):
+    object_list = Profile.objects.filter(name__startswith=request.GET.get('search')).values("name", "profile_picture")
+    jason = list(object_list)
+    #print(jason)
+    return JsonResponse(jason, safe=False)

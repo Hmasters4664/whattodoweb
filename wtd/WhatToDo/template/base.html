@@ -35,6 +35,7 @@
          var FRIEND = '{% url "friend" %}';
          var NOTIFICATION = '{% url "notification" %}';
          var MESSAGE = '{% url "message" %}';
+         var SEARCH = '{% url "search" %}';
     </script>
 
 </head>
@@ -93,8 +94,21 @@
                 <ul class="right right_menu hide-on-med-and-down">
                     <li class="search_min">
                        <ul class="search_from">
-                            <li><input placeholder="Search Here" type="text"></li>
+                            <li><input placeholder="Search Here" type="text" id="txtSearch"></li>
                             <li><a href="#" class="search_icon"><i class="ion-ios-search"></i></a> </li>
+                           <a class="dropdown-button" id="p" href="#!" data-activates="dropdownsearch"></a>
+                           <ul id="dropdownsearch" class="dropdown-content">
+                            <li>
+                               <a href="#">
+                                   <div class="media">
+                                        <img src="images/profile-9.jpg" alt="" class="circle responsive-img">
+                                        <div class="media_body">
+                                            <p><b></b></p>
+                                        </div>
+                                   </div>
+                               </a>
+                            </li>
+                        </ul>
                        </ul>
                     </li>
                     <li><a href="#post_modal" class="waves-effect btn post_btn modal-trigger"><i class="ion-plus"></i><span>Add Post</span></a></li>
@@ -172,7 +186,7 @@
                         </ul>
                     </li>
                     <!-- Profile -->
-                    <li class="user_dropdown"><a class="dropdown-button" href="#!" data-activates="dropdown1"><img src="images/profile-pic.png" alt="" class="circle p_2"></a>
+                    <li class="user_dropdown"><a class="dropdown-button" href="#!" data-activates="dropdown1"><img src="{{ request.user.profile.profile_picture.url }}" alt="" class="circle p_2" height="42" width="42"></a>
                         <!-- Dropdown Structure -->
                         <ul id="dropdown1" class="dropdown-content">
                             <li><a href="profile.html"><i class="ion-person"></i>My profile</a></li>
@@ -182,7 +196,7 @@
                             <li><a href="#"><i class="ion-gear-b"></i>Settings</a></li>
                             <li><a href="#"><i class="ion-ios-flag"></i>Privacy Policy</a></li>
                             <li><a href="#"><i class="ion-podium"></i>FAQ</a></li>
-                            <li><a href="#"><i class="ion-power"></i>Log out</a></li>
+                            <li><a href="{% url 'logout'%}"><i class="ion-power"></i>Log out</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -299,7 +313,7 @@
                             <li><a href="#"><i class="ion-gear-b"></i>Settings</a></li>
                             <li><a href="#"><i class="ion-ios-flag"></i>Privacy Policy</a></li>
                             <li><a href="#"><i class="ion-podium"></i>FAQ</a></li>
-                            <li><a href="#"><i class="ion-power"></i>Log out</a></li>
+                            <li><a href="{% url 'logout'%}"><i class="ion-power"></i>Log out</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -753,5 +767,6 @@
     <!-- Theme JS -->
     <script src="{% static 'js/theme.js' %}"></script>
     <script src="{% static 'js/notifications.js' %}"></script>
+    <script src="{% static 'js/search.js' %}"></script>
 </body>
 </html>

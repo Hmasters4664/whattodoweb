@@ -1,0 +1,13 @@
+{% for message in messages %}
+    {% if message.from_user == request.user  %}
+  <div class="sms">
+                        <p>{{message.text}}</p>
+                        <h6>{{message.created}}<</h6>
+                    </div>
+    {% else %}
+                    <div class="sms_right">
+                        <p>{{message.text}}</p>
+                        <h6>{{message.created}}<</h6>
+                    </div>
+    {% endif %}
+{% endfor %}

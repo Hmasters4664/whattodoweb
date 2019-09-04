@@ -20,15 +20,14 @@
                     </div>
                 </div>  
                 <ul class="tabs tab_list">
-                {% for conversation in conversations %}
+                {% for friend in friends %}
 
                     <li class="tab">
                        <a href="#messages-1"> 
                             <div class="media"> 
                                 <img src="images/profile-7.jpg" alt="" class="circle responsive-img">  
                                 <div class="media_body">
-                                    <h4>Dan Fisher <small>12:40pm</small></h4>
-                                    <p>Listen, I need to talk to you about this!</p>
+                                    <h4>{{friend.name}} </h4>
                                 </div> 
                             </div> 
                        </a>  
@@ -48,191 +47,18 @@
                     <div class="messages_date">
                         <h4>July 13, 2018</h4>
                     </div>
-                    <div class="sms">
-                        <p>Hey Masum, How about you?</p>
-                        <h6>5:27 pm</h6>
-                    </div>
-                    <div class="sms_right">
-                        <p>Hey Masum, How about you?</p>
-                        <h6>5:27 pm</h6>
-                    </div> 
-                    <div class="sms">
-                        <p>Yeah what’s the matter? You know I’m kinda busy with my new  <br>upcoming Equalizer 2, spending all the time in Hollywood.</p>
-                        <p> So tell me what’s exciting? What’s going on?</p>
-                        <h6>5:28 pm</h6>
-                    </div> 
-                    <div class="messages_date md_2">
-                        <h4>July 15, 2018</h4>
-                    </div>
-                    
-                    <div class="sms_right">
-                        <p>Ah got it...</p>
-                        <h6>5:29 pm</h6>
-                    </div> 
-                    <div class="sms_right">
-                        <p>Actually nothing so important.. OK it’s important. I heard you were <br>looking for a new villain for Equalizer 2. May be I’m a good fit for this.</p>
-                        <p>You know what? I can give good dialogue delivery like Samuel L. Jackson <br>and, and nice expressions like Di Caprio.</p>
-                        <h6>5:30 pm</h6>
-                    </div> 
+
+                    {% include "messageitem.html" %}
                     
                     <div class="type_messages">  
                         <div class="input-field">
-                            <textarea  placeholder="Type something & press enter"></textarea>
-                            <ul class="imoji">
-                                <li><a href="#"><i class="fa fa-smile-o"></i></a></li>
-                                <li><a href="#"><i class="fa fa-picture-o"></i></a></li>
-                                <li><a href="#"><i class="fa fa-paperclip"></i></a></li>
-                            </ul>
+                            <textarea  placeholder="Type something here"></textarea>
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                            Send
+                                        </button>
                         </div>
                     </div>  
-                </div> 
-                <div id="messages-2" class="col s12 all_messages"> 
-                    <div class="media profile"> 
-                        <img src="images/profile-4.jpg" alt="" class="circle responsive-img">  
-                        <div class="media_body">
-                            <a href="#">Morgan Freeman</a>
-                            <p>Acting is just a way of making a living, the family is life.</p>
-                        </div> 
-                    </div> 
-                    <div class="messages_date">
-                        <h4>July 13, 2018</h4>
-                    </div>
-                    <div class="sms">
-                        <p>Hey Masum, How about you?</p>
-                        <h6>5:27 pm</h6>
-                    </div>
-                    <div class="sms_right">
-                        <p>Hey Masum, How about you?</p>
-                        <h6>5:27 pm</h6>
-                    </div> 
-                    <div class="sms">
-                        <p>Yeah what’s the matter? You know I’m kinda busy with my new  <br>upcoming Equalizer 2, spending all the time in Hollywood.</p>
-                        <p> So tell me what’s exciting? What’s going on?</p>
-                        <h6>5:28 pm</h6>
-                    </div> 
-                    <div class="messages_date md_2">
-                        <h4>July 15, 2018</h4>
-                    </div>
-                    
-                    <div class="sms_right">
-                        <p>Ah got it...</p>
-                        <h6>5:29 pm</h6>
-                    </div> 
-                    <div class="sms_right">
-                        <p>Actually nothing so important.. OK it’s important. I heard you were <br>looking for a new villain for Equalizer 2. May be I’m a good fit for this.</p>
-                        <p>You know what? I can give good dialogue delivery like Samuel L. Jackson <br>and, and nice expressions like Di Caprio.</p>
-                        <h6>5:30 pm</h6>
-                    </div> 
-                    
-                    <div class="type_messages">  
-                        <div class="input-field">
-                            <textarea placeholder="Type something & press enter"></textarea>
-                            <ul class="imoji">
-                                <li><a href="#"><i class="fa fa-smile-o"></i></a></li>
-                                <li><a href="#"><i class="fa fa-picture-o"></i></a></li>
-                                <li><a href="#"><i class="fa fa-paperclip"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>  
-                </div> 
-                <div id="messages-3" class="col s12 all_messages"> 
-                    <div class="media profile"> 
-                        <img src="images/profile-10.jpg" alt="" class="circle responsive-img">  
-                        <div class="media_body">
-                            <a href="#">Samuel L.</a>
-                            <p>Acting is just a way of making a living, the family is life.</p>
-                        </div> 
-                    </div> 
-                    <div class="messages_date">
-                        <h4>July 13, 2018</h4>
-                    </div>
-                    <div class="sms">
-                        <p>Hey Masum, How about you?</p>
-                        <h6>5:27 pm</h6>
-                    </div>
-                    <div class="sms_right">
-                        <p>Hey Masum, How about you?</p>
-                        <h6>5:27 pm</h6>
-                    </div> 
-                    <div class="sms">
-                        <p>Yeah what’s the matter? You know I’m kinda busy with my new  <br>upcoming Equalizer 2, spending all the time in Hollywood.</p>
-                        <p> So tell me what’s exciting? What’s going on?</p>
-                        <h6>5:28 pm</h6>
-                    </div> 
-                    <div class="messages_date md_2">
-                        <h4>July 15, 2018</h4>
-                    </div>
-                    
-                    <div class="sms_right">
-                        <p>Ah got it...</p>
-                        <h6>5:29 pm</h6>
-                    </div> 
-                    <div class="sms_right">
-                        <p>Actually nothing so important.. OK it’s important. I heard you were <br>looking for a new villain for Equalizer 2. May be I’m a good fit for this.</p>
-                        <p>You know what? I can give good dialogue delivery like Samuel L. Jackson <br>and, and nice expressions like Di Caprio.</p>
-                        <h6>5:30 pm</h6>
-                    </div> 
-                    
-                    <div class="type_messages">  
-                        <div class="input-field">
-                            <textarea placeholder="Type something & press enter"></textarea>
-                            <ul class="imoji">
-                                <li><a href="#"><i class="fa fa-smile-o"></i></a></li>
-                                <li><a href="#"><i class="fa fa-picture-o"></i></a></li>
-                                <li><a href="#"><i class="fa fa-paperclip"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>  
-                </div> 
-                <div id="messages-4" class="col s12 all_messages"> 
-                    <div class="media profile"> 
-                        <img src="images/profile-5-2.jpg" alt="" class="circle responsive-img">  
-                        <div class="media_body">
-                            <a href="#">Denzel Washington</a>
-                            <p>Acting is just a way of making a living, the family is life.</p>
-                        </div> 
-                    </div> 
-                    <div class="messages_date">
-                        <h4>July 13, 2018</h4>
-                    </div>
-                    <div class="sms">
-                        <p>Hey Masum, How about you?</p>
-                        <h6>5:27 pm</h6>
-                    </div>
-                    <div class="sms_right">
-                        <p>Hey Masum, How about you?</p>
-                        <h6>5:27 pm</h6>
-                    </div> 
-                    <div class="sms">
-                        <p>Yeah what’s the matter? You know I’m kinda busy with my new  <br>upcoming Equalizer 2, spending all the time in Hollywood.</p>
-                        <p> So tell me what’s exciting? What’s going on?</p>
-                        <h6>5:28 pm</h6>
-                    </div> 
-                    <div class="messages_date md_2">
-                        <h4>July 15, 2018</h4>
-                    </div>
-                    
-                    <div class="sms_right">
-                        <p>Ah got it...</p>
-                        <h6>5:29 pm</h6>
-                    </div> 
-                    <div class="sms_right">
-                        <p>Actually nothing so important.. OK it’s important. I heard you were <br>looking for a new villain for Equalizer 2. May be I’m a good fit for this.</p>
-                        <p>You know what? I can give good dialogue delivery like Samuel L. Jackson <br>and, and nice expressions like Di Caprio.</p>
-                        <h6>5:30 pm</h6>
-                    </div> 
-                    
-                    <div class="type_messages">  
-                        <div class="input-field">
-                            <textarea placeholder="Type something & press enter"></textarea>
-                            <ul class="imoji">
-                                <li><a href="#"><i class="fa fa-smile-o"></i></a></li>
-                                <li><a href="#"><i class="fa fa-picture-o"></i></a></li>
-                                <li><a href="#"><i class="fa fa-paperclip"></i></a></li>
-                            </ul>
-                        </div>
-                    </div>  
-                </div> 
+                </div>
             </div>
         </div>
     </section>

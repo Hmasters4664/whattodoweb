@@ -90,6 +90,7 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, blank=True)
     name = models.TextField(max_length=50, blank=True)
     country = models.CharField(max_length=30, blank=True)
+    profile_picture = models.ImageField(upload_to='profile', blank=True, null=True, default='profile/avatar.jpg')
     city = models.CharField(max_length=30, blank=True)
     province = models.CharField(_('provice/state'),max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
@@ -138,7 +139,7 @@ def save_user_profile(sender, instance, **kwargs):
 class Relationship(models.Model):
     from_person = models.ForeignKey(Profile, related_name='from_people', on_delete=models.CASCADE)
     to_person = models.ForeignKey(Profile, related_name='to_people', on_delete=models.CASCADE)
-    status = models.IntegerField(choices=RELATIONSHIP_STATUSES)
+    status = models.IntegerField(choices=RELATIONSHIP_STATUSES, default=1)
 
 
 class Like(models.Model):
