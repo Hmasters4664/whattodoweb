@@ -36,6 +36,13 @@
          var NOTIFICATION = '{% url "notification" %}';
          var MESSAGE = '{% url "message" %}';
          var SEARCH = '{% url "search" %}';
+
+         function enterpressalert(e, textarea){
+            var code = (e.keyCode ? e.keyCode : e.which);
+            if(code == 13) { //Enter keycode
+                window.location.replace("/results?item="+document.getElementById('txtSearch2').value);
+}
+}
     </script>
 
 </head>
@@ -44,7 +51,7 @@
     <nav class="header_area">
         <div class="custom_container">
             <div class="nav-wrapper">
-                <a href="index.html" class="brand-logo"><img src="images/logo.png" alt=""></a>
+                <a href="index.html" class="brand-logo"><img src="{% static 'images/logo.png' %}" alt=""></a>
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                 <a href="#post_modal" class="waves-effect btn post_btn sm_post_btn modal-trigger"><i class="ion-plus"></i>Add Post</a>
                 <ul class="left_menu hide-on-med-and-down">
@@ -86,7 +93,7 @@
                         <!-- Dropdown Structure -->
                         <ul id="dropdown5" class="dropdown-content">
                            <li class="search_from">
-                                <input placeholder="Search and enter" type="text">
+                                <input placeholder="Search and enter" type="text" id="txtSearch2" onKeyPress="enterpressalert(event, this)">
                            </li>
                         </ul>
                     </li>

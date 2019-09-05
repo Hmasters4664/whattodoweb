@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from django.urls import include, re_path, path
-from .views import Login, AddCategory, AddEvent, Main
+from .views import Login, AddCategory, AddEvent, Main,Results
 from . import views
 
 urlpatterns = [
@@ -9,6 +9,7 @@ urlpatterns = [
     re_path(r'^login', Login.as_view(), name='login'),
     re_path(r'^logout',views.logout,name='logout'),
     re_path(r'^search',views.Search,name='search'),
+    re_path(r'^results/$',Results.as_view(),name='results'),
     re_path(r'^signup', views.signup, name='Sign-UP'),
     re_path(r'^add-category', AddCategory.as_view(), name='add-category'),
     re_path(r'^create-event', AddEvent.as_view(), name='create-event'),

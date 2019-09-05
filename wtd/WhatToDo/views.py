@@ -176,3 +176,18 @@ def Search(request):
     jason = list(object_list)
     #print(jason)
     return JsonResponse(jason, safe=False)
+
+
+class Results(LoginRequiredMixin, ListView):
+    model = Profile
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    template_name = 'searchpage.html'
+    paginate_by = 10
+
+    def get_context_data(self, *, assets=None, **kwargs):
+        context = super(Results, self).get_context_data()
+        context['profiles'] = Profile.objects.filter(name__startswith=self.request.GET.get('item'))
+        return context
+
+

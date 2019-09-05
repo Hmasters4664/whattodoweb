@@ -1,0 +1,42 @@
+{% extends 'base2.html' %}
+
+
+<!-- Min Container area -->
+
+{% block content %}
+    <section class="notifications_area">
+        <div class="notifications">
+            <!-- Dropdown Structure -->
+            <div class="hed_notic">All Users</div>
+            <ul class="notifications_content"><div class="jscroll-inner">
+             {% for profile in profiles %}
+                <li>
+                   <a href="#">
+                       <div class="media">
+                            <img src={{ profile.profile_picture.url }} alt="" class="circle responsive-img">
+                            <div class="media_body">
+                                <p><b>{{profile.name}}</b></p>
+                                <p>{{profile.city}},{{ profile.country }}</p>
+                                <div class="btn_group">
+                                 <span class="waves-effect follow_b">Follow back</span>
+                                </div>
+                            </div>
+                       </div>
+                   </a>
+                </li>
+              {% endfor %}
+            <!--<div class="jscroll-added"><div class="jscroll-loading" id="jscroll-loading"><img src="images/preloader.svg" alt="Loading"></div></div>-->
+            </div>
+            </ul>
+        </div>
+    </section>
+{% endblock %}
+
+<div class="media_body">
+                                            <p><b>Dan Fisher</b> started following you.</p>
+                                            <h6>544 mutual</h6>
+                                            <div class="btn_group">
+                                                <span class="waves-effect follow_b">Follow back</span>
+                                                <span class="waves-effect">Block</span>
+                                            </div>
+                                        </div>
