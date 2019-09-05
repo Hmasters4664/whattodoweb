@@ -92,8 +92,21 @@
                 <ul class="right right_menu hide-on-med-and-down">
                     <li class="search_min">
                        <ul class="search_from">
-                            <li><input placeholder="Search Here" type="text"></li>
+                            <li><input placeholder="Search Here" type="text" id="txtSearch"></li>
                             <li><a href="#" class="search_icon"><i class="ion-ios-search"></i></a> </li>
+                           <a class="dropdown-button" id="p" href="#!" data-activates="dropdownsearch"></a>
+                           <ul id="dropdownsearch" class="dropdown-content">
+                            <li>
+                               <a href="#">
+                                   <div class="media">
+                                        <img src="images/profile-9.jpg" alt="" class="circle responsive-img">
+                                        <div class="media_body">
+                                            <p><b></b></p>
+                                        </div>
+                                   </div>
+                               </a>
+                            </li>
+                        </ul>
                        </ul>
                     </li>
                     <li><a href="#post_modal" class="waves-effect btn post_btn modal-trigger"><i class="ion-plus"></i><span>Add Post</span></a></li>
@@ -464,5 +477,6 @@
     <!-- Theme JS -->
     <script src="{% static 'js/theme.js' %}"></script>
     <script src="{% static 'js/notifications.js' %}"></script>
+     <script src="{% static 'js/search.js' %}"></script>
 </body>
 </html>

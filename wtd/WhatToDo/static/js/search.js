@@ -16,9 +16,10 @@ $(function() {
                      '<li>' +
                                '<a href="#">' +
                                    '<div class="media">' +
-                                        '<img src="' + profileImage +'" alt="" class="circle responsive-img">' +
+                                        '<img src="' + profileImage +'" alt="" class="circle responsive-img" width="42" height="42">' +
                                         '<div class="media_body">' +
                                             '<p>'+ data[i].name +'</p>' +
+                                            '<p><b>'+ data[i].city + '</b>'+ data[i].country +'</p>' +
                                         '</div>'+
                                    '</div>'+
                                '</a>'+

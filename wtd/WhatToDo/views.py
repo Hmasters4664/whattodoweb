@@ -171,7 +171,8 @@ def logout(request):
 
 @login_required
 def Search(request):
-    object_list = Profile.objects.filter(name__startswith=request.GET.get('search')).values("name", "profile_picture")
+    object_list = Profile.objects.filter(name__startswith=request.GET.get('search')).values("name", "profile_picture",
+                                                                                            "city", "country")
     jason = list(object_list)
     #print(jason)
     return JsonResponse(jason, safe=False)
