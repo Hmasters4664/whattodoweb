@@ -5,6 +5,13 @@
 
 {% block content %}
     <section class="notifications_area">
+        {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
         <div class="notifications">
             <!-- Dropdown Structure -->
             <div class="hed_notic">All Users</div>
@@ -18,7 +25,8 @@
                                 <p><b>{{profile.name}}</b></p>
                                 <p>{{profile.city}},{{ profile.country }}</p>
                                 <div class="btn_group">
-                                 <span class="waves-effect follow_b">Follow back</span>
+                                 <span class="waves-effect follow_b">
+                                     <a href="{% url 'send-request' profile.id %}">Send friend request</a></span>
                                 </div>
                             </div>
                        </div>

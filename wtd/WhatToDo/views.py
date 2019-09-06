@@ -3,9 +3,10 @@ from django.shortcuts import render
 from django.shortcuts import render_to_response, get_object_or_404
 from django.utils.http import is_safe_url
 import csv
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
-from .models import Event, Venue, Organiser, Category, Profile, Notifications, Messages
+from .models import Event, Venue, Organiser, Category, Profile, Notifications, Messages, RELATIONSHIP_REQUESTED, \
+    RELATIONSHIP_FOLLOWING
 from django.views.generic import CreateView
 from django.views.generic.edit import FormView
 from django.views.generic.base import View, TemplateView
@@ -26,6 +27,7 @@ from django.http import HttpResponseForbidden
 from django.shortcuts import redirect
 from django.contrib.auth import REDIRECT_FIELD_NAME, login as auth_login, logout as auth_logout
 from django.db.models import Q
+from django.contrib import messages
 import xlwt
 import xlrd
 from tablib import Dataset
@@ -68,7 +70,6 @@ def message(request):
     messages = Messages.objects.filter(to_user=request.user)
     jayson = list(messages)
     return JsonResponse(jayson, safe=False)
-
 
 
 class Login(FormView):
@@ -183,11 +184,24 @@ class Results(LoginRequiredMixin, ListView):
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
     template_name = 'searchpage.html'
-    paginate_by = 10
+    #paginate_by = 10
 
     def get_context_data(self, *, assets=None, **kwargs):
         context = super(Results, self).get_context_data()
-        context['profiles'] = Profile.objects.filter(name__startswith=self.request.GET.get('item'))
+        context['profiles'] = Profile.objects.filter(name__startswith=self.request.GET.get('item'))\
+            .exclude(user=self.request.user)
         return context
+
+
+@login_required
+def sendrequest(request,pk):
+    to_user = get_object_or_404(Profile,pk=pk)
+    if not to_user.relationships.filter(pk=request.user.profile.pk).exists():
+        request.user.profile.add_relationship(to_user,1)
+        messages.info(request, 'Request Sent to ' + to_user.name)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    else:
+        messages.info(request, 'Relationship already exists with ' + to_user.name)
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 

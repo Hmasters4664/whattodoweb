@@ -11,10 +11,12 @@ from autoslug import AutoSlugField
 
 from django.template.defaultfilters import slugify
 
-RELATIONSHIP_FOLLOWING = 1
+RELATIONSHIP_FOLLOWING = 0
+RELATIONSHIP_REQUESTED = 1
 RELATIONSHIP_BLOCKED = 2
 RELATIONSHIP_STATUSES = (
     (RELATIONSHIP_FOLLOWING, 'Friends'),
+    (RELATIONSHIP_REQUESTED, 'Request'),
     (RELATIONSHIP_BLOCKED, 'Blocked'),
 )
 
@@ -95,7 +97,7 @@ class Profile(models.Model):
     province = models.CharField(_('provice/state'),max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
     relationships = models.ManyToManyField('self', through='Relationship',
-                                           symmetrical=False,)
+                                           symmetrical=False, related_name='related_to')
 
     def __unicode__(self):
         return self.name
@@ -173,7 +175,7 @@ class Messages(models.Model):
 class Notifications(models.Model):
     from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='actioner')
     to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receiver')
-    notification_type = models.IntegerField(choices=EVENT_TYPE, default=1)
+    notification_type = models.IntegerField(choices=NOTIFICATION_TYPE, default=1)
     action = models.CharField(max_length=150)
     read = models.BooleanField(_('read'), default=False)
     created = models.DateTimeField(auto_now_add=True)

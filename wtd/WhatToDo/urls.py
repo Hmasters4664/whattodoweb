@@ -15,5 +15,7 @@ urlpatterns = [
     re_path(r'^create-event', AddEvent.as_view(), name='create-event'),
     re_path(r'^messages', views.message, name='message'),
     re_path(r'^friend', views.friend, name='friend'),
+    re_path(r'^request/(?P<pk>\d+)/', views.sendrequest, name='send-request'),
     re_path(r'^notification', views.notification, name='notification')
 ]
+
