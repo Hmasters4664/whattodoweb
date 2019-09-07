@@ -230,3 +230,17 @@ def acceptrequest(request, pk):
 
     else:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class FriendRequests(LoginRequiredMixin, ListView):
+    model = Profile
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    template_name = 'searchpage.html'
+
+    # paginate_by = 10
+
+    def get_context_data(self, *, assets=None, **kwargs):
+        context = super(Results, self).get_context_data()
+        context['profiles'] = self.request.user.profile.get_relationships(2)
+        return context
