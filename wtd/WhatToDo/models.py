@@ -8,6 +8,7 @@ from django.utils import timezone
 from comment.models import Comment
 from groups.models import Group, GroupMember
 from autoslug import AutoSlugField
+from django.shortcuts import get_list_or_404, get_object_or_404
 
 from django.template.defaultfilters import slugify
 
@@ -110,6 +111,32 @@ class Profile(models.Model):
         if symm:
             # avoid recursion by passing `symm=False`
             person.add_relationship(self, status, False)
+        return relationship
+
+    def friend_relationship(self, person, symm=True):
+        try:
+            relationship = Relationship.objects.get(from_person=self, to_person=person)
+        except Relationship.DoesNotExist:
+            relationship = None
+
+        if relationship:
+            relationship.status = 0
+        if symm:
+            # avoid recursion by passing `symm=False`
+            person.friend_relationship(self, False)
+        return relationship
+
+    def block_relationship(self, person, status, symm=True):
+        try:
+            relationship = Relationship.objects.get(from_person=self, to_person=person)
+        except Relationship.DoesNotExist:
+            relationship = None
+
+        if relationship:
+            relationship.status = 2
+        if symm:
+            # avoid recursion by passing `symm=False`
+            person.block_relationship(self, status, False)
         return relationship
 
     def get_relationships(self, status):

@@ -6,7 +6,7 @@ import csv
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
 from .models import Event, Venue, Organiser, Category, Profile, Notifications, Messages, RELATIONSHIP_REQUESTED, \
-    RELATIONSHIP_FOLLOWING
+    RELATIONSHIP_FOLLOWING, Relationship
 from django.views.generic import CreateView
 from django.views.generic.edit import FormView
 from django.views.generic.base import View, TemplateView
@@ -58,16 +58,17 @@ def notification(request):
     jayson = list(notifications)
     return JsonResponse(jayson, safe=False)
 
+
 @login_required
 def friend(request):
-    friends = Notifications.objects.filter(to_user=request.user, notification_type=0)
+    friends = Notifications.objects.filter(to_user=request.user, notification_type=0, read=False)
     jayson = list(friends)
     return JsonResponse(jayson, safe=False)
 
 
 @login_required
 def message(request):
-    messages = Messages.objects.filter(to_user=request.user)
+    messages = Messages.objects.filter(to_user=request.user, opened=False);
     jayson = list(messages)
     return JsonResponse(jayson, safe=False)
 
@@ -130,7 +131,7 @@ class AddCategory(LoginRequiredMixin, FormView):
     form_class = CategoryForm
     redirect_field_name = 'redirect_to'
 
-    def form_valid(self,form):
+    def form_valid(self, form):
         form.save()
         return super().form_valid(form)
 
@@ -143,7 +144,7 @@ class AddEvent(LoginRequiredMixin, FormView):
     form_class = EventForm
     redirect_field_name = 'redirect_to'
 
-    def form_valid(self,form):
+    def form_valid(self, form):
         event = form.save(commit=False)
         event.startDate = form.cleaned_data.get('start')
         event.endDate = form.cleaned_data.get('end')
@@ -175,7 +176,7 @@ def Search(request):
     object_list = Profile.objects.filter(name__startswith=request.GET.get('search')).values("name", "profile_picture",
                                                                                             "city", "country")
     jason = list(object_list)
-    #print(jason)
+    # print(jason)
     return JsonResponse(jason, safe=False)
 
 
@@ -184,24 +185,48 @@ class Results(LoginRequiredMixin, ListView):
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
     template_name = 'searchpage.html'
-    #paginate_by = 10
+
+    # paginate_by = 10
 
     def get_context_data(self, *, assets=None, **kwargs):
         context = super(Results, self).get_context_data()
-        context['profiles'] = Profile.objects.filter(name__startswith=self.request.GET.get('item'))\
+        context['profiles'] = Profile.objects.filter(name__startswith=self.request.GET.get('item')) \
             .exclude(user=self.request.user)
         return context
 
 
 @login_required
-def sendrequest(request,pk):
-    to_user = get_object_or_404(Profile,pk=pk)
+def sendrequest(request, pk):
+    to_user = get_object_or_404(Profile, pk=pk)
     if not to_user.relationships.filter(pk=request.user.profile.pk).exists():
-        request.user.profile.add_relationship(to_user,1)
+        request.user.profile.add_relationship(to_user, 1)
         messages.info(request, 'Request Sent to ' + to_user.name)
+        rmessage = Notifications(from_user=request.user, to_user=to_user.user,
+                                 notification_type=0, action=request.user.profile.name + " sent you a friend request ")
+        rmessage.save()
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     else:
         messages.info(request, 'Relationship already exists with ' + to_user.name)
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
+@login_required
+def acceptrequest(request, pk):
+    from_user = get_object_or_404(Profile, pk=pk)
+    try:
+        relationship = Relationship.objects.get(from_person=request.user, to_person=from_user.user, status=1)
+    except Relationship.DoesNotExist:
+        relationship = None
+
+    if relationship:
+        request.user.profile.friend_relationship(from_user)
+
+        rmessage = Notifications(from_user=request.user, to_user=from_user.user,
+                                 notification_type=0,
+                                 action=request.user.profile.name + " accepted your friend request ")
+        rmessage.save()
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+    else:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

@@ -1,5 +1,5 @@
 {% extends 'base2.html' %}
-
+{% load filter %}
 
 <!-- Min Container area -->
 
@@ -24,10 +24,19 @@
                             <div class="media_body">
                                 <p><b>{{profile.name}}</b></p>
                                 <p>{{profile.city}},{{ profile.country }}</p>
-                                <div class="btn_group">
+                                {%   if profile|check_relationship_exists:request.user %}
+                                    <div class="btn_group">
+                                 <span class="waves-effect follow_b">
+                                     <a href="#">message</a></span>
+                                </div>
+                                  {% else %}
+
+                                    <div class="btn_group">
                                  <span class="waves-effect follow_b">
                                      <a href="{% url 'send-request' profile.id %}">Send friend request</a></span>
                                 </div>
+
+                                {% endif %}
                             </div>
                        </div>
                    </a>
