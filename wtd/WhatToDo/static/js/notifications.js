@@ -12,7 +12,6 @@ function executeQuery() {
       $('#dropdown_s1').html('');
       var holder1 = "circle responsive-img";
       var blank = "";
-      var profileImage = "";
       var holder2 = "image img-cir img-40";
       var holder3 = "waves-effect follow_b";
       var holder4 = "waves-effect chack_all_btn";
@@ -24,15 +23,18 @@ function executeQuery() {
       $('#dropdown_s1').append(
           "<li class="+"hed_notic"+">" + "Friend Requests" + "<span><i class=" +"ion-ios-gear-outline"+ "></i></span></li>"
       );
-
-      for (i = 0; i < num; i++) {
+      if (num > 5) {
+        num = 5;
+      }
+      for (var i = 0; i < num; i++) {
+        var profileImage = "/media/"+data[i].from_user__profile__profile_picture;
         $('#dropdown4').append(
               "<li>" +
                                "<a href="+ "#" +">" +
                                    "<div class= "+ "media" + ">" +
                                         "<img src=" + profileImage + " alt= " + blank +  "class=" + holder1 + ">" +
                                         "<div class=" + "media_body"+ ">" +
-                                            "<p><b> " + data[i].from_user.profile.name +"</b>" + "sent you a friend request."+"</p>" +
+                                            "<p><b> " + data[i].action +"</b></p>" +
                                             "<div class=" +"btn_group"+">" +
                                                 '<span class="' + holder3 +'">' + "Accept" +'</span>' +
                                                 "<span class=" +"waves-effect "+">" + "Reject" +"</span>" +
@@ -48,7 +50,7 @@ function executeQuery() {
                                    "<div class= "+ "media" + ">" +
                                         "<img src=" + profileImage + " alt= " + blank +  "class=" + holder1 + ">" +
                                         "<div class=" + "media_body"+ ">" +
-                                            "<p><b> " + data[i].from_user.profile.name +"</b>" + "sent you a friend request."+"</p>" +
+                                            "<p><b> " + data[i].action +"</b></p>" +
                                             "<div class=" +"btn_group"+">" +
                                                 '<span class="' + holder3 +'">' + "Accept" +'</span>' +
                                                 "<span class=" +"waves-effect "+">" + "Reject" +"</span>" +
@@ -59,7 +61,7 @@ function executeQuery() {
                             "</li>"
         );
       }
-      var val = "requests.html"
+      var val = "/allrequests"
 
       $('#dropdown4').append(
           '<li><a href="' + val + '" class="' + holder4 + '" >' + "All Friend Request" + '</a></li>'
@@ -96,7 +98,6 @@ function executeQuery2() {
          $('#dropdown_s3').html('');
       var holder1 = "circle responsive-img";
       var blank = "";
-      var profileImage = "";
       var holder4 = "waves-effect chack_all_btn";
       var val = "requests.html"
 
@@ -106,14 +107,18 @@ function executeQuery2() {
       $('#dropdown_s3').append(
           "<li class="+"hed_notic"+">" + "Notifications" + "<span><i class=" +"ion-ios-gear-outline"+ "></i></span></li>"
       );
-      for (i = 0; i < num; i++) {
+       if (num > 5) {
+        num = 5;
+      }
+      for (var i = 0; i < num; i++) {
+        var profileImage = "/media/"+data[i].from_user__profile__profile_picture;
         $('#dropdown2').append(
                '<li>' +
                                '<a href="#">' +
                                    '<div class="media">' +
                                         '<img src="images/profile-1.jpg" alt="" class="circle responsive-img">' +
                                         '<div class="media_body">' +
-                                            '<p><b>'+ data[i].from_user.profile.name + '</b>'+ data[i].action +'</p>' +
+                                            '<p><b> ' + data[i].action +'</b></p>' +
                                             '<h6>' + data[i].created + '</h6>' +
                                         '</div>'+
                                    '</div>'+
@@ -126,7 +131,7 @@ function executeQuery2() {
                                    '<div class="media">' +
                                         '<img src="images/profile-1.jpg" alt="" class="circle responsive-img">' +
                                         '<div class="media_body">' +
-                                            '<p><b>'+ data[i].from_user.profile.name + '</b>'+ data[i].action +'</p>' +
+                                            '<p><b> ' + data[i].action +'</b></p>' +
                                             '<h6>' + data[i].created + '</h6>' +
                                         '</div>'+
                                    '</div>'+
@@ -165,7 +170,6 @@ function executeQuery3() {
          $('#dropdown_s2').html('');
       var holder1 = "circle responsive-img";
       var blank = "";
-      var profileImage = "";
       var holder4 = "waves-effect chack_all_btn";
       var val = "requests.html"
 
@@ -175,7 +179,11 @@ function executeQuery3() {
       $('#dropdown_s2').append(
           "<li class="+"hed_notic"+">" + "Notifications" + "<span><i class=" +"ion-ios-gear-outline"+ "></i></span></li>"
       );
-      for (i = 0; i < num; i++) {
+       if (num > 5) {
+        num = 5;
+      }
+      for (var i = 0; i < num; i++) {
+        var profileImage = "/media/"+data[i].from_user__profile__profile_picture;
         $('#dropdown3').append(
                '<li>' +
                                '<a href="#">' +

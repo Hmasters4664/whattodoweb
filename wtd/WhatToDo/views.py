@@ -54,21 +54,24 @@ class Main(LoginRequiredMixin, ListView):
 
 @login_required
 def notification(request):
-    notifications = Notifications.objects.filter(to_user=request.user, notification_type=1)
+    notifications = Notifications.objects.filter(to_user=request.user, notification_type=1,read=False)\
+        .values('action','created', 'from_user__profile__profile_picture')
     jayson = list(notifications)
     return JsonResponse(jayson, safe=False)
 
 
 @login_required
 def friend(request):
-    friends = Notifications.objects.filter(to_user=request.user, notification_type=0, read=False)
+    friends = Notifications.objects.filter(to_user=request.user, notification_type=0, read=False)\
+        .values('action', 'created', 'from_user__profile__profile_picture')
     jayson = list(friends)
     return JsonResponse(jayson, safe=False)
 
 
 @login_required
 def message(request):
-    messages = Messages.objects.filter(to_user=request.user, opened=False);
+    messages = Messages.objects.filter(to_user=request.user, opened=False)\
+        .values()
     jayson = list(messages)
     return JsonResponse(jayson, safe=False)
 
@@ -236,11 +239,11 @@ class FriendRequests(LoginRequiredMixin, ListView):
     model = Profile
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
-    template_name = 'searchpage.html'
+    template_name = 'friendrequestpage.html'
 
     # paginate_by = 10
 
     def get_context_data(self, *, assets=None, **kwargs):
-        context = super(Results, self).get_context_data()
-        context['profiles'] = self.request.user.profile.get_relationships(2)
+        context = super(FriendRequests, self).get_context_data()
+        context['profiles'] = self.request.user.profile.get_relationships(1).exclude(user=self.request.user)
         return context

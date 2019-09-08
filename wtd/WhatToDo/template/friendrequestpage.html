@@ -19,7 +19,7 @@
                                 <p>{{profile.city}},{{ profile.country }}</p>
                                     <div class="btn_group">
                                  <span class="waves-effect follow_b">
-                                     <a href="#">message</a></span>
+                                     <a href="{% url 'accept-request' profile.id %}">accept</a></span>
                                 </div>
                             </div>
                        </div>
