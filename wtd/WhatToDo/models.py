@@ -56,6 +56,9 @@ class Event(models.Model):
     category = models.ForeignKey('Category', null=True, blank=True, on_delete=models.CASCADE)
     #venue = models.OneToOneField('Venue', on_delete=models.CASCADE, blank=True)
 
+    class Meta:
+        ordering = ['-id']
+
 
 class Venue(models.Model):
     name = models.CharField(max_length=100, validators=[validate_characters],)
@@ -67,12 +70,18 @@ class Venue(models.Model):
     province = models.CharField(_('provice/state'), max_length=50, validators=[validate_characters],)
     city = models.CharField(max_length=100, validators=[validate_characters],)
 
+    class Meta:
+        ordering = ['-id']
+
 
 class Organiser(models.Model):
     name = models.CharField(max_length=100, validators=[validate_characters], )
     phone = models.CharField(max_length=12, validators=[validate_characters], )
     facebookurl = models.CharField(max_length=50,)
     twitterhandle = models.CharField(max_length=50,)
+
+    class Meta:
+        ordering = ['-id']
 
 
 class Category(models.Model):
@@ -100,6 +109,9 @@ class Profile(models.Model):
     relationships = models.ManyToManyField('self', through='Relationship',
                                            symmetrical=False, related_name='related_to')
 
+    class Meta:
+        ordering = ['-id']
+
     def __unicode__(self):
         return self.name
 
@@ -121,6 +133,7 @@ class Profile(models.Model):
 
         if relationship:
             relationship.status = 0
+            relationship.save()
         if symm:
             # avoid recursion by passing `symm=False`
             person.friend_relationship(self, False)
@@ -170,11 +183,17 @@ class Relationship(models.Model):
     to_person = models.ForeignKey(Profile, related_name='to_people', on_delete=models.CASCADE)
     status = models.IntegerField(choices=RELATIONSHIP_STATUSES, default=1)
 
+    class Meta:
+        ordering = ['-id']
+
 
 class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-id']
 
 
 class EventCommentQuerySet(models.query.QuerySet):
@@ -198,6 +217,9 @@ class Messages(models.Model):
     opened = models.BooleanField(_('opened'), default=False)
     created = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ['-created']
+
 
 class Notifications(models.Model):
     from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='actioner')
@@ -206,6 +228,9 @@ class Notifications(models.Model):
     action = models.CharField(max_length=150)
     read = models.BooleanField(_('read'), default=False)
     created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created']
 
 
 

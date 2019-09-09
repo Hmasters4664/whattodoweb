@@ -8,7 +8,7 @@
     <section class="notifications_area">
         <div class="notifications">
             <!-- Dropdown Structure -->
-            <div class="hed_notic">All Users</div>
+            <div class="hed_notic">  <a href="{% url 'mark-all'%}">Mark All As Read</a> </div>
             <ul class="notifications_content">
                 <div class="infinite-container">
              {% for notification in notifications %}
@@ -16,13 +16,12 @@
                 <li>
                    <a href="#">
                        <div class="media">
-                            <img src=/media/{{ notification.profile_picture }} alt="" class="circle responsive-img">
+                            <img src=/media/{{ notification.from_user__profile__profile_picture }} alt="" class="circle responsive-img">
                             <div class="media_body">
-                                <p><b>{{notification.name}}</b></p>
-                                <p>{{notification.city}},{{ notification.country }}</p>
+                                <p> {{ notification.action }} </p>
                                 <div class="btn_group">
                                  <span class="waves-effect follow_b">
-                                     <a href="{% url 'accept-request' notification.id %}">accept</a></span>
+                                     <a href="{% url 'mark-read' notification.id %}">Mark As Read</a></span>
                                 </div>
                             </div>
                        </div>

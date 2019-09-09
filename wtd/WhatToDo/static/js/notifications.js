@@ -36,8 +36,6 @@ function executeQuery() {
                                         "<div class=" + "media_body"+ ">" +
                                             "<p><b> " + data[i].action +"</b></p>" +
                                             "<div class=" +"btn_group"+">" +
-                                                '<span class="' + holder3 +'">' + "Accept" +'</span>' +
-                                                "<span class=" +"waves-effect "+">" + "Reject" +"</span>" +
                                             "</div>" +
                                         "</div>" +
                                    "</div>" +
@@ -52,8 +50,6 @@ function executeQuery() {
                                         "<div class=" + "media_body"+ ">" +
                                             "<p><b> " + data[i].action +"</b></p>" +
                                             "<div class=" +"btn_group"+">" +
-                                                '<span class="' + holder3 +'">' + "Accept" +'</span>' +
-                                                "<span class=" +"waves-effect "+">" + "Reject" +"</span>" +
                                             "</div>" +
                                         "</div>" +
                                    "</div>" +
@@ -99,7 +95,7 @@ function executeQuery2() {
       var holder1 = "circle responsive-img";
       var blank = "";
       var holder4 = "waves-effect chack_all_btn";
-      var val = "requests.html"
+      var val = "/allnotifications"
 
       $('#dropdown2').append(
           "<li class="+"hed_notic"+">" + "Notifications" + "<span><i class=" +"ion-ios-gear-outline"+ "></i></span></li>"

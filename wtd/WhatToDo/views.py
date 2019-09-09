@@ -54,15 +54,15 @@ class Main(LoginRequiredMixin, ListView):
 
 @login_required
 def notification(request):
-    notifications = Notifications.objects.filter(to_user=request.user, notification_type=1,read=False)\
-        .values('action','created', 'from_user__profile__profile_picture')
+    notifications = Notifications.objects.filter(to_user=request.user, notification_type=1, read=False) \
+        .values('action', 'created', 'from_user__profile__profile_picture')
     jayson = list(notifications)
     return JsonResponse(jayson, safe=False)
 
 
 @login_required
 def friend(request):
-    friends = Notifications.objects.filter(to_user=request.user, notification_type=0, read=False)\
+    friends = Notifications.objects.filter(to_user=request.user, notification_type=0, read=False) \
         .values('action', 'created', 'from_user__profile__profile_picture')
     jayson = list(friends)
     return JsonResponse(jayson, safe=False)
@@ -70,7 +70,7 @@ def friend(request):
 
 @login_required
 def message(request):
-    messages = Messages.objects.filter(to_user=request.user, opened=False)\
+    messages = Messages.objects.filter(to_user=request.user, opened=False) \
         .values()
     jayson = list(messages)
     return JsonResponse(jayson, safe=False)
@@ -215,9 +215,10 @@ def sendrequest(request, pk):
 
 @login_required
 def acceptrequest(request, pk):
-    from_user = get_object_or_404(Profile, pk=pk)
+    pg = int(pk)
+    from_user = get_object_or_404(Profile, pk=pg)
     try:
-        relationship = Relationship.objects.get(from_person=request.user, to_person=from_user.user, status=1)
+        relationship = Relationship.objects.get(from_person=request.user.profile, to_person=from_user, status=1)
     except Relationship.DoesNotExist:
         relationship = None
 
@@ -225,7 +226,7 @@ def acceptrequest(request, pk):
         request.user.profile.friend_relationship(from_user)
 
         rmessage = Notifications(from_user=request.user, to_user=from_user.user,
-                                 notification_type=0,
+                                 notification_type=1,
                                  action=request.user.profile.name + " accepted your friend request ")
         rmessage.save()
 
@@ -240,10 +241,43 @@ class FriendRequests(LoginRequiredMixin, ListView):
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
     template_name = 'friendrequestpage.html'
-
-    # paginate_by = 10
+    paginate_by = 5
 
     def get_context_data(self, *, assets=None, **kwargs):
+        friends = Notifications.objects.filter(to_user=self.request.user, notification_type=0, read=False)
+        friends.update(read=True)
         context = super(FriendRequests, self).get_context_data()
-        context['profiles'] = self.request.user.profile.get_relationships(1).exclude(user=self.request.user)
+        context['notifications'] = self.request.user.profile.get_relationships(1)\
+            .exclude(id=self.request.user.profile.id).distinct()
         return context
+
+
+class Notification(LoginRequiredMixin, ListView):
+    login_url = '/login/'
+    model = Notifications
+    redirect_field_name = 'redirect_to'
+    template_name = 'notifications.html'
+    paginate_by = 5
+
+    def get_context_data(self, *, assets=None, **kwargs):
+        noti = Notifications.objects.filter(to_user=self.request.user, notification_type=1, read=False)
+        context = super(Notification, self).get_context_data()
+        context['notifications'] = noti.values('id', 'action', 'created', 'from_user__profile__profile_picture')
+        return context
+
+
+@login_required
+def markasread(request, pk):
+    pg = int(pk)
+    noti = get_object_or_404(Notifications, pk=pg)
+    if noti.to_user == request.user:
+        noti.read = True
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required
+def markallasread(request):
+    noti = Notifications.objects.filter(to_user=request.user, notification_type=1, read=True)
+    noti.update(read=True)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
