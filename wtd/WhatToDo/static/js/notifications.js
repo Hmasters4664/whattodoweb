@@ -112,7 +112,7 @@ function executeQuery2() {
                '<li>' +
                                '<a href="#">' +
                                    '<div class="media">' +
-                                        '<img src="images/profile-1.jpg" alt="" class="circle responsive-img">' +
+                                        '<img src="'+ profileImage +'" alt="" class="circle responsive-img">' +
                                         '<div class="media_body">' +
                                             '<p><b> ' + data[i].action +'</b></p>' +
                                             '<h6>' + data[i].created + '</h6>' +
@@ -125,7 +125,7 @@ function executeQuery2() {
                '<li>' +
                                '<a href="#">' +
                                    '<div class="media">' +
-                                        '<img src="images/profile-1.jpg" alt="" class="circle responsive-img">' +
+                                        '<img src="'+ profileImage +'" alt="" class="circle responsive-img">' +
                                         '<div class="media_body">' +
                                             '<p><b> ' + data[i].action +'</b></p>' +
                                             '<h6>' + data[i].created + '</h6>' +
@@ -167,7 +167,7 @@ function executeQuery3() {
       var holder1 = "circle responsive-img";
       var blank = "";
       var holder4 = "waves-effect chack_all_btn";
-      var val = "requests.html"
+      var val = "/messageview"
 
       $('#dropdown3').append(
           "<li class="+"hed_notic"+">" + "Notifications" + "<span><i class=" +"ion-ios-gear-outline"+ "></i></span></li>"
@@ -184,9 +184,9 @@ function executeQuery3() {
                '<li>' +
                                '<a href="#">' +
                                    '<div class="media">' +
-                                        '<img src="images/profile-1.jpg" alt="" class="circle responsive-img">' +
+                                        '<img src="'+ profileImage +'" alt="" class="circle responsive-img">' +
                                         '<div class="media_body">' +
-                                            '<h4>'+ data[i].from_user.profile.name + '<small>'+ data[i].created +'</small><h4>' +
+                                            '<h4>'+ data[i].from_user__profile__name + '<small>'+ data[i].created +'</small><h4>' +
                                             ' <p>' + data[i].text + '</p>' +
                                         '</div>'+
                                    '</div>'+
@@ -197,7 +197,7 @@ function executeQuery3() {
                '<li>' +
                                '<a href="#">' +
                                    '<div class="media">' +
-                                        '<img src="images/profile-1.jpg" alt="" class="circle responsive-img">' +
+                                        '<img src="'+ profileImage +'" alt="" class="circle responsive-img">' +
                                         '<div class="media_body">' +
                                             '<h4>'+ data[i].from_user.profile.name + '<small>'+ data[i].created +'</small><h4>' +
                                             ' <p>' + data[i].text + '</p>' +

@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from django.urls import include, re_path, path
-from .views import Login, AddCategory, AddEvent, Main, Results, FriendRequests, Notification
+from .views import Login, AddCategory, AddEvent, Main, Results, FriendRequests, Notification, MessageView
 from . import views
 
 urlpatterns = [
@@ -21,6 +21,8 @@ urlpatterns = [
     re_path(r'^allnotifications', Notification.as_view(), name='all-notifications'),
     re_path(r'^markasread/(?P<pk>\d+)/', views.markasread, name='mark-read'),
     re_path(r'^markall', views.markallasread, name='mark-all'),
+    re_path(r'^messageview', MessageView.as_view(), name='message-view'),
+    re_path(r'^getmessages/(?P<pk>\d+)/', views.getmessages, name='get-messages'),
     re_path(r'^notification', views.notification, name='notification')
 ]
 

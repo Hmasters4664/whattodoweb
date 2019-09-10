@@ -41,6 +41,7 @@ from django.conf import settings
 from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from .forms import SignUpForm, CategoryForm
+from django.db.models import Q
 
 
 class Main(LoginRequiredMixin, ListView):
@@ -70,9 +71,9 @@ def friend(request):
 
 @login_required
 def message(request):
-    messages = Messages.objects.filter(to_user=request.user, opened=False) \
-        .values()
-    jayson = list(messages)
+    mess = Messages.objects.filter(to_user=request.user, opened=False) \
+        .values('from_user__profile__name', 'created', 'text')
+    jayson = list(mess)
     return JsonResponse(jayson, safe=False)
 
 
@@ -154,15 +155,6 @@ class AddEvent(LoginRequiredMixin, FormView):
 
         event.save()
         return super().form_valid(form)
-
-
-class MessageView(LoginRequiredMixin, ListView):
-    model = Messages
-    login_url = '/login/'
-    redirect_field_name = 'redirect_to'
-    template_name = 'main.html'
-    context_object_name = 'events'
-    Messages.objects.all()
 
 
 @login_required
@@ -247,7 +239,7 @@ class FriendRequests(LoginRequiredMixin, ListView):
         friends = Notifications.objects.filter(to_user=self.request.user, notification_type=0, read=False)
         friends.update(read=True)
         context = super(FriendRequests, self).get_context_data()
-        context['notifications'] = self.request.user.profile.get_relationships(1)\
+        context['notifications'] = self.request.user.profile.get_relationships(1) \
             .exclude(id=self.request.user.profile.id).distinct()
         return context
 
@@ -281,3 +273,26 @@ def markallasread(request):
     noti = Notifications.objects.filter(to_user=request.user, notification_type=1, read=True)
     noti.update(read=True)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class MessageView(LoginRequiredMixin, ListView):
+    login_url = '/login/'
+    model = Profile
+    redirect_field_name = 'redirect_to'
+    template_name = 'messages.html'
+
+    def get_context_data(self, *, assets=None, **kwargs):
+        context = super(MessageView, self).get_context_data()
+        context['friends'] = self.request.user.profile.get_relationships(0)
+        return context
+
+
+@login_required
+def getmessages(request, pk):
+    other_user_profile = get_object_or_404(Profile, pk=pk)
+    mess = Messages.objects.filter(Q(to_user=request.user, opened=False, from_user=other_user_profile.user) |
+                                   Q(to_user=other_user_profile.user, opened=False, from_user=request.user))
+    friends = request.user.profile.get_relationships(0)
+
+    return render(request, 'messages.html', {'messages': mess, 'profile': other_user_profile, 'friends': friends})
+

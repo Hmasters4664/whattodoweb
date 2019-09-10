@@ -23,44 +23,28 @@
                 {% for friend in friends %}
 
                     <li class="tab">
-                       <a href="#messages-1"> 
-                            <div class="media"> 
-                                <img src="images/profile-7.jpg" alt="" class="circle responsive-img">  
+                       <a target="_self" href="{% url 'get-messages' friend.id %}">
+                            <div class="media" >
+                                <img src={{friend.profile_picture.url}} alt=""  class="circle responsive-img">
                                 <div class="media_body">
-                                    <h4>{{friend.name}} </h4>
+                                    <h4>{{friend.name}}</h4>
+
                                 </div> 
-                            </div> 
-                       </a>  
+                            </div>
+                       </a>
                    </li>
                 {% endfor %}
                 </ul>
            </div> 
-            <div class="col s8 tab_content"> 
-                <div id="messages-1" class="col s12 all_messages"> 
-                    <div class="media profile"> 
-                        <img src="images/profile-7.jpg" alt="" class="circle responsive-img">  
-                        <div class="media_body">
-                            <a href="#">Dan Fisher</a>
-                            <p>Acting is just a way of making a living, the family is life.</p>
-                        </div> 
-                    </div> 
-                    <div class="messages_date">
-                        <h4>July 13, 2018</h4>
-                    </div>
+            <div class="col s8 tab_content">
+
+
 
                     {% include "messageitem.html" %}
                     
-                    <div class="type_messages">  
-                        <div class="input-field">
-                            <textarea  placeholder="Type something here"></textarea>
-                            <button type="submit" class="btn btn-primary btn-sm">
-                                            Send
-                                        </button>
-                        </div>
-                    </div>  
+
                 </div>
             </div>
-        </div>
     </section>
 
     {% endblock %}

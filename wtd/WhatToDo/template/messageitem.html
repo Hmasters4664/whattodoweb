@@ -1,4 +1,11 @@
-{% for message in messages %}
+<div id="messages-1" class="col s12 all_messages">
+                    <div class="media profile">
+                        <img src={{profile.profile_picture.url}} alt="" class="circle responsive-img">
+                        <div class="media_body">
+                            <a href="#">{{  profile.name }}</a>
+                        </div>
+                    </div>
+       {% for message in messages %}
     {% if message.from_user == request.user  %}
   <div class="sms">
                         <p>{{message.text}}</p>
@@ -11,3 +18,14 @@
                     </div>
     {% endif %}
 {% endfor %}
+
+ <div class="type_messages">
+                        <div class="input-field">
+                            {% csrf_token %}
+                            <textarea  placeholder="Type something here"></textarea>
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                            Send
+                                        </button>
+                        </div>
+                    </div>
+</div>
