@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.shortcuts import render
 
 from django.shortcuts import render_to_response, get_object_or_404
@@ -42,6 +43,8 @@ from django.contrib.auth import login, authenticate
 from django.shortcuts import render, redirect
 from .forms import SignUpForm, CategoryForm
 from django.db.models import Q
+import json
+from django.utils import timezone
 
 
 class Main(LoginRequiredMixin, ListView):
@@ -288,11 +291,23 @@ class MessageView(LoginRequiredMixin, ListView):
 
 
 @login_required
-def getmessages(request, pk):
+def getmessages(request):
+    pk = request.POST.get('key')
     other_user_profile = get_object_or_404(Profile, pk=pk)
     mess = Messages.objects.filter(Q(to_user=request.user, opened=False, from_user=other_user_profile.user) |
-                                   Q(to_user=other_user_profile.user, opened=False, from_user=request.user))
-    friends = request.user.profile.get_relationships(0)
+                                   Q(to_user=other_user_profile.user, opened=False, from_user=request.user))\
+        .values('from_user__profile__name', 'text', 'created','from_user__profile__profile_picture').order_by('created')
 
-    return render(request, 'messages.html', {'messages': mess, 'profile': other_user_profile, 'friends': friends})
+    jayson = list(mess)
+    return JsonResponse(jayson, safe=False)
 
+
+def send(request, pk):
+    mess = request.POST.get('message')
+    to_user = get_object_or_404(User, pk=pk)
+    rec = Messages(from_user=request.user, to_user=to_user, text=mess)
+    rec.save()
+    lists = {'text': mess, 'created': timezone.now()}
+    jason = json.dumps(lists)
+
+    return JsonResponse(jason, safe=False)

@@ -2,51 +2,50 @@
 
     <!-- Messages Area -->
     {% block content %}
-    <section class="messages_area">
-        <div class="messages_row row">
-            <div class="messages_heder">
-                <h2>All Messages</h2>  
-                <ul class="mg_btn">
-                    <li><a href="#" class="waves-effect btn active"><i class="ion-ios-chatboxes"></i>New Message</a></li>
-                    <li><a href="#" class="waves-effect btn">Mark all as read</a></li>
-                    <li><a href="#" class="waves-effect btn setting_i"><i class="ion-ios-gear-outline"></i></a></li>
-                </ul>
-            </div>
-           <div class="col s4 tab_panel">   
-                <div class="search_area">  
-                    <div class="input-field">
-                        <input type="text" placeholder="Search">
-                        <i class="ion-ios-search-strong"></i>
-                    </div>
-                </div>  
-                <ul class="tabs tab_list">
-                {% for friend in friends %}
-
-                    <li class="tab">
-                       <a target="_self" href="{% url 'get-messages' friend.id %}">
-                            <div class="media" >
-                                <img src={{friend.profile_picture.url}} alt=""  class="circle responsive-img">
-                                <div class="media_body">
-                                    <h4>{{friend.name}}</h4>
-
-                                </div> 
+        <script type="text/javascript">
+var csrf_token = "{{ csrf_token }}";
+</script>
+ <section class="notifications_area">
+        <div class="notifications">
+            <!-- Dropdown Structure -->
+            <div class="hed_notic">  <a href="{% url 'mark-all'%}">Mark All As Read</a> </div>
+            <ul class="notifications_content">
+                <div class="infinite-container">
+             {% for friend in friends %}
+                 <div class="infinite-item">
+                <li>
+                   <a href="#">
+                       <div class="media">
+                            <img src={{ friend.profile_picture.url }} alt="" class="circle responsive-img">
+                            <div class="media_body">
+                                <p> {{ friend.name }} </p>
                             </div>
-                       </a>
-                   </li>
-                {% endfor %}
-                </ul>
-           </div> 
-            <div class="col s8 tab_content">
+                       </div>
+                   </a>
+                </li>
+                 </div>
+              {% endfor %}
+            <div class="loading"><div class="jscroll-loading" id="jscroll-loading"><img src="{% static 'images/preloader.svg' %}" alt="Loading"></div></div>
+              {% if page_obj.has_next %}
+                <a class="infinite-more-link" href="?page={{ articles.next_page_number }}">More</a>
+            {% endif %}
 
-
-
-                    {% include "messageitem.html" %}
-                    
-
-                </div>
             </div>
+            </ul>
+        </div>
     </section>
+
+      <script>
+    var infinite = new Waypoint.Infinite({
+      element: $('.infinite-container')[0],
+      onBeforePageLoad: function () {
+        $('.loading').show();
+      },
+      onAfterPageLoad: function ($items) {
+        $('.loading').hide();
+      }
+    });
+  </script>
 
     {% endblock %}
     <!-- End Messages Area --> 
-    

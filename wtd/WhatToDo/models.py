@@ -240,3 +240,4 @@ class Notifications(models.Model):
 
 
 
+
