@@ -44,6 +44,9 @@ from django.shortcuts import render, redirect
 from .forms import SignUpForm, CategoryForm
 from django.db.models import Q
 import json
+from datetime import datetime
+from django.core.serializers import serialize
+from django.forms.models import model_to_dict
 from django.utils import timezone
 
 
@@ -291,23 +294,35 @@ class MessageView(LoginRequiredMixin, ListView):
 
 
 @login_required
-def getmessages(request):
-    pk = request.POST.get('key')
-    other_user_profile = get_object_or_404(Profile, pk=pk)
-    mess = Messages.objects.filter(Q(to_user=request.user, opened=False, from_user=other_user_profile.user) |
-                                   Q(to_user=other_user_profile.user, opened=False, from_user=request.user))\
-        .values('from_user__profile__name', 'text', 'created','from_user__profile__profile_picture').order_by('created')
+def getmessages(request, pk):
+    from_user = get_object_or_404(Profile, pk=pk)
+    try:
+        relationship = Relationship.objects.get(from_person=request.user.profile, to_person=from_user, status=0)
+    except Relationship.DoesNotExist:
+        relationship = None
 
-    jayson = list(mess)
-    return JsonResponse(jayson, safe=False)
+    if relationship:
+        mess = Messages.objects.filter(Q(to_user=request.user, opened=False, from_user=from_user.user) |
+                                       Q(to_user=from_user.user, opened=False, from_user=request.user)) \
+            .order_by('created')
+
+        return render(request, 'chatpage.html', {'friend': from_user, 'messages': mess})
+
+    else:
+        return redirect('message-view')
 
 
-def send(request, pk):
+def send(request):
+    pk = request.POST.get('id')
+    time = float(request.POST.get('time'))
+    #print(type(time))
+    t=datetime.fromtimestamp(time)
     mess = request.POST.get('message')
     to_user = get_object_or_404(User, pk=pk)
-    rec = Messages(from_user=request.user, to_user=to_user, text=mess)
+    b = timezone.now()
+    rec = Messages(from_user=request.user, to_user=to_user, text=mess, created=t)
     rec.save()
-    lists = {'text': mess, 'created': timezone.now()}
-    jason = json.dumps(lists)
-
-    return JsonResponse(jason, safe=False)
+    dict_obj = []
+    serialized_obj = json.dumps(dict_obj)
+    #print(serialized_obj)
+    return JsonResponse(serialized_obj, safe=False)

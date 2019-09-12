@@ -1,0 +1,76 @@
+ {% extends 'base2.html' %}
+{% load static %}
+
+
+    <!-- Messages Area -->
+    {% block content %}
+        <input type="hidden" id="me" name="variable" value="{{request.user.id}}">
+<input type="hidden" id="other" name="variable" value="{{friend.user.id}}">
+
+<section class="messages_area">
+
+        <div class="messages_row row">
+            <div class="messages_heder">
+                <h2>All Messages</h2>
+                <ul class="mg_btn">
+                    <li><a href="#" class="waves-effect btn active"><i class="ion-ios-chatboxes"></i>New Message</a></li>
+                    <li><a href="#" class="waves-effect btn">Mark all as read</a></li>
+                    <li><a href="#" class="waves-effect btn setting_i"><i class="ion-ios-gear-outline"></i></a></li>
+                </ul>
+            </div>
+           <div class="col s4 tab_panel">
+                <ul class="tabs tab_list">
+                    <li class="tab">
+                       <a href="#">
+                            <div class="media">
+                                <img src={{ friend.profile_picture.url }} alt="" class="circle responsive-img">
+                                <div class="media_body">
+                                    <h4>{{ friend.name }}</h4>
+                                </div>
+                            </div>
+                       </a>
+                   </li>
+
+
+                </ul>
+           </div>
+            <div class="col s8 tab_content">
+                <div id="messages-1" class="col s12 all_messages">
+                    <div class="media profile">
+                        <img src={{ friend.profile_picture.url }} alt="" class="circle responsive-img">
+                        <div class="media_body">
+                            <a href="#">{{ friend.name }}</a>
+                        </div>
+                    </div>
+
+                    {% for message in messages %}
+                        {% ifnotequal message.from_user  requet.user  %}
+                              <div class="sms_right">
+                        <p>{{ message.text}}</p>
+                        <h6>{{message.created}}</h6>
+                    </div>
+                      {% else %}
+                             <div class="sms">
+                        <p>{{ message.text}}</p>
+                        <h6>{{message.created}}</h6>
+                    </div>
+
+                        {% endifnotequal  %}
+                     {% endfor %}
+                    <div class="type_messages">
+                        <div class="input-field">
+                            <textarea  placeholder="Type something" id="mess"></textarea>
+                            <ul class="imoji">
+                                <li><a href="#" onclick="sendMessage();"><i class="fa fa-send"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+        <script src="{% static 'js/send.js' %}"></script>
+ {% endblock %}

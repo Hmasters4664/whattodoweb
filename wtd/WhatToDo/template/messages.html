@@ -1,20 +1,18 @@
 {% extends 'base2.html' %}
-
+{% load static %}
     <!-- Messages Area -->
     {% block content %}
-        <script type="text/javascript">
-var csrf_token = "{{ csrf_token }}";
-</script>
+
  <section class="notifications_area">
         <div class="notifications">
             <!-- Dropdown Structure -->
-            <div class="hed_notic">  <a href="{% url 'mark-all'%}">Mark All As Read</a> </div>
+            <div class="hed_notic">  <a href="#">All Friends</a> </div>
             <ul class="notifications_content">
                 <div class="infinite-container">
              {% for friend in friends %}
                  <div class="infinite-item">
                 <li>
-                   <a href="#">
+                   <a target="_blank" href="{% url 'get-messages' friend.id %}">
                        <div class="media">
                             <img src={{ friend.profile_picture.url }} alt="" class="circle responsive-img">
                             <div class="media_body">

@@ -9,6 +9,8 @@ from comment.models import Comment
 from groups.models import Group, GroupMember
 from autoslug import AutoSlugField
 from django.shortcuts import get_list_or_404, get_object_or_404
+from django.utils import timezone
+
 
 from django.template.defaultfilters import slugify
 
@@ -227,7 +229,7 @@ class Notifications(models.Model):
     notification_type = models.IntegerField(choices=NOTIFICATION_TYPE, default=1)
     action = models.CharField(max_length=150)
     read = models.BooleanField(_('read'), default=False)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(default=timezone.now)
 
     class Meta:
         ordering = ['-created']
