@@ -270,8 +270,9 @@ def markasread(request, pk):
     noti = get_object_or_404(Notifications, pk=pg)
     if noti.to_user == request.user:
         noti.read = True
+        noti.save()
 
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return redirect('all-notifications')
 
 
 @login_required

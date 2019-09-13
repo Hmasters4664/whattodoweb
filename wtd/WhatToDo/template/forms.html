@@ -35,13 +35,14 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form" method="post">
+				 <form method='POST' action='{{ action_url }}' enctype='multipart/form-data'>
 					<span class="login100-form-title p-b-26">
 						Welcome
 					</span>
 					<span class="login100-form-title p-b-48">
 						<img src="{% static 'images/login-logo.png' %}" alt="">
 					</span>
+
 
 
                                 {% csrf_token %}

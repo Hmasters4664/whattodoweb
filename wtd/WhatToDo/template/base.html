@@ -45,6 +45,7 @@
                 window.location.replace("/results?item="+document.getElementById('txtSearch2').value);
 }
 }
+
     </script>
 
 </head>
@@ -57,7 +58,7 @@
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
                 <a href="#post_modal" class="waves-effect btn post_btn sm_post_btn modal-trigger"><i class="ion-plus"></i>Add Post</a>
                 <ul class="left_menu hide-on-med-and-down">
-                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="{% url 'main' %}" class="active">Home</a></li>
                     <li class="user_dropdown"><a class="dropdown-button" href="#!" data-activates="dropdown6">All Pages</a>
                         <div id="dropdown6" class="dropdown-content submenu row">
                            <div class="col m4 menu_column">
@@ -216,7 +217,7 @@
                             <a href="#" class="search_icon"><i class="ion-ios-search"></i></a>
                        </div>
                     </li>
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="{% url 'main' %}">Home</a></li>
                     <li class="user_dropdown"><a class="dropdown-button" href="#!" data-activates="dropdown_s0">All Pages</a>
                         <!-- Dropdown Structure -->
                         <ul id="dropdown_s0" class="dropdown-content">
@@ -336,7 +337,7 @@
         <li><a href="#" class="waves-effect btn">Featured</a></li>
     </ul>
     <div class="banner_area">
-        <img src="{% static 'images/banner.jpg' %}" alt="" class="banner_img">
+        <img src="{% static 'images/banner-3.jpg' %}" alt="" class="banner_img" width="1900" height="400">
     </div>
     <!-- Min Container area -->
 <section class="min_container min_pages">

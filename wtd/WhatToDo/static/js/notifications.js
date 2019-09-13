@@ -199,20 +199,20 @@ function executeQuery3() {
                                    '<div class="media">' +
                                         '<img src="'+ profileImage +'" alt="" class="circle responsive-img">' +
                                         '<div class="media_body">' +
-                                            '<h4>'+ data[i].from_user.profile.name + '<small>'+ data[i].created +'</small><h4>' +
+                                            '<h4>'+ data[i].from_user__profile__name + '<small>'+ data[i].created +'</small><h4>' +
                                             ' <p>' + data[i].text + '</p>' +
                                         '</div>'+
                                    '</div>'+
                                '</a>'+
                             '</li>'
         );
-      };
+      }
 
          $('#dropdown3').append(
           '<li><a href="' + val + '" class="' + holder4 + '" >' + "Messages" + '</a></li>'
       );
              $('#dropdown_s2').append(
-          '<li><a href="' + val + '" class="' + holder4 + '" >' + "Notifications" + '</a></li>'
+          '<li><a href="' + val + '" class="' + holder4 + '" >' + "Messages" + '</a></li>'
       );
 
     },
