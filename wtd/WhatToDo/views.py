@@ -49,6 +49,12 @@ from django.core.serializers import serialize
 from django.forms.models import model_to_dict
 from django.utils import timezone
 
+import firebase_admin
+from firebase_admin import credentials, firestore
+
+cred = credentials.Certificate("secrets.json")
+firebase_admin.initialize_app(cred)
+
 
 class Main(LoginRequiredMixin, ListView):
     model = Event
@@ -307,7 +313,7 @@ def getmessages(request, pk):
                                        Q(to_user=from_user.user, opened=False, from_user=request.user)) \
             .order_by('created')
 
-        return render(request, 'chatpage.html', {'friend': from_user, 'messages': mess})
+        return render(request, 'chatpage.html', {'friend': from_user, 'messages': mess, 'chatkey': relationship.uuid})
 
     else:
         return redirect('message-view')
@@ -322,6 +328,7 @@ def send(request):
     to_user = get_object_or_404(User, pk=pk)
     b = timezone.now()
     rec = Messages(from_user=request.user, to_user=to_user, text=mess, created=t)
+    db = firestore.client()
     rec.save()
     dict_obj = []
     serialized_obj = json.dumps(dict_obj)

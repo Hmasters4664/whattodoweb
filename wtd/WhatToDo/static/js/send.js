@@ -12,13 +12,12 @@ function sendMessage(){
         'time' : now
     },
     success: function(data) {
-              console.log(data[0].text);
-            console.log(data[0].created);
+              console.log("sent");
 
-            $('<div class="sms_right"><p>' + $('#mess').val() + '</p><h6>' + dt + '</h6></div>').insertBefore('.type_messages');
             $('#mess').val('')
 
             $('#mess').focus()
+
 
 
     },

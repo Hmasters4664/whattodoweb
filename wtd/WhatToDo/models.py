@@ -11,7 +11,7 @@ from autoslug import AutoSlugField
 from django.shortcuts import get_list_or_404, get_object_or_404
 from django.utils import timezone
 
-
+import uuid
 from django.template.defaultfilters import slugify
 
 RELATIONSHIP_FOLLOWING = 0
@@ -31,7 +31,6 @@ EVENT_TYPE = (
 
 )
 
-
 GENERAL = 1
 FRIEND = 0
 NOTIFICATION_TYPE = (
@@ -41,36 +40,37 @@ NOTIFICATION_TYPE = (
 
 
 class Event(models.Model):
-    name = models.CharField(max_length=100, validators=[validate_characters],)
-    description = models.TextField(validators=[validate_characters],)
+    name = models.CharField(max_length=100, validators=[validate_characters], )
+    description = models.TextField(validators=[validate_characters], )
     url = models.CharField(_('Ticket Purchase URL'), max_length=50, blank=True)
     picture = models.ImageField(upload_to='events', blank=True, null=True, default='events/default_events.jpg')
     dateCreated = models.DateTimeField(auto_now_add=True)
     lastModified = models.DateTimeField(auto_now_add=True)
     startDate = models.DateTimeField(_('Start Date and Time'))
-    endDate = models.DateTimeField(_('End Date and Time'),)
+    endDate = models.DateTimeField(_('End Date and Time'), )
     TicketPrice1 = models.DecimalField(max_digits=19, decimal_places=2, default=000.00,
-                                       validators=[check_negative_number],)
+                                       validators=[check_negative_number], )
     TicketPrice2 = models.DecimalField(max_digits=19, decimal_places=2, default=000.00,
                                        validators=[check_negative_number], )
     TicketPrice3 = models.DecimalField(max_digits=19, decimal_places=2, default=000.00,
                                        validators=[check_negative_number], )
     category = models.ForeignKey('Category', null=True, blank=True, on_delete=models.CASCADE)
-    #venue = models.OneToOneField('Venue', on_delete=models.CASCADE, blank=True)
+
+    # venue = models.OneToOneField('Venue', on_delete=models.CASCADE, blank=True)
 
     class Meta:
         ordering = ['-id']
 
 
 class Venue(models.Model):
-    name = models.CharField(max_length=100, validators=[validate_characters],)
-    addressline1 = models.CharField(max_length=100, validators=[validate_characters],)
-    addressline2 = models.CharField(max_length=100, validators=[validate_characters],)
+    name = models.CharField(max_length=100, validators=[validate_characters], )
+    addressline1 = models.CharField(max_length=100, validators=[validate_characters], )
+    addressline2 = models.CharField(max_length=100, validators=[validate_characters], )
     latitude = models.DecimalField(max_digits=9, decimal_places=6)
     longitude = models.DecimalField(max_digits=9, decimal_places=6)
-    country = models.CharField(max_length=50, validators=[validate_characters],)
-    province = models.CharField(_('provice/state'), max_length=50, validators=[validate_characters],)
-    city = models.CharField(max_length=100, validators=[validate_characters],)
+    country = models.CharField(max_length=50, validators=[validate_characters], )
+    province = models.CharField(_('provice/state'), max_length=50, validators=[validate_characters], )
+    city = models.CharField(max_length=100, validators=[validate_characters], )
 
     class Meta:
         ordering = ['-id']
@@ -79,15 +79,15 @@ class Venue(models.Model):
 class Organiser(models.Model):
     name = models.CharField(max_length=100, validators=[validate_characters], )
     phone = models.CharField(max_length=12, validators=[validate_characters], )
-    facebookurl = models.CharField(max_length=50,)
-    twitterhandle = models.CharField(max_length=50,)
+    facebookurl = models.CharField(max_length=50, )
+    twitterhandle = models.CharField(max_length=50, )
 
     class Meta:
         ordering = ['-id']
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=50, validators=[validate_characters],)
+    name = models.CharField(max_length=50, validators=[validate_characters], )
     slug = AutoSlugField(populate_from='name')
     parent = models.ForeignKey('self', blank=True, null=True, related_name='children', on_delete=models.CASCADE)
 
@@ -106,7 +106,7 @@ class Profile(models.Model):
     country = models.CharField(max_length=30, blank=True)
     profile_picture = models.ImageField(upload_to='profile', blank=True, null=True, default='profile/avatar.jpg')
     city = models.CharField(max_length=30, blank=True)
-    province = models.CharField(_('provice/state'),max_length=30, blank=True)
+    province = models.CharField(_('provice/state'), max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
     relationships = models.ManyToManyField('self', through='Relationship',
                                            symmetrical=False, related_name='related_to')
@@ -117,14 +117,16 @@ class Profile(models.Model):
     def __unicode__(self):
         return self.name
 
-    def add_relationship(self, person, status, symm=True):
+    def add_relationship(self, person, status, uuids=uuid.uuid4(), symm=True):
+
         relationship, created = Relationship.objects.get_or_create(
             from_person=self,
             to_person=person,
-            status=status)
+            status=status,
+            uuid=uuids)
         if symm:
             # avoid recursion by passing `symm=False`
-            person.add_relationship(self, status, False)
+            person.add_relationship(self, status, uuids, False)
         return relationship
 
     def friend_relationship(self, person, symm=True):
@@ -184,6 +186,7 @@ class Relationship(models.Model):
     from_person = models.ForeignKey(Profile, related_name='from_people', on_delete=models.CASCADE)
     to_person = models.ForeignKey(Profile, related_name='to_people', on_delete=models.CASCADE)
     status = models.IntegerField(choices=RELATIONSHIP_STATUSES, default=1)
+    uuid = models.UUIDField(editable=False)
 
     class Meta:
         ordering = ['-id']
@@ -233,13 +236,3 @@ class Notifications(models.Model):
 
     class Meta:
         ordering = ['-created']
-
-
-
-
-
-
-
-
-
-

@@ -5,7 +5,8 @@
     <!-- Messages Area -->
     {% block content %}
         <input type="hidden" id="me" name="variable" value="{{request.user.id}}">
-<input type="hidden" id="other" name="variable" value="{{friend.user.id}}">
+    <input type="hidden" id="other" name="variable" value="{{friend.user.id}}">
+        <input type="hidden" id="chatroom" name="variable" value="{{chatkey}}">
 
 <section class="messages_area">
 
@@ -43,7 +44,7 @@
                         </div>
                     </div>
 
-                    {% for message in messages %}
+                  <!--  {% for message in messages %}
                         {% ifnotequal message.from_user  user  %}
                               <div class="sms_right">
                         <p>{{ message.text}}</p>
@@ -56,12 +57,12 @@
                     </div>
 
                         {% endifnotequal  %}
-                     {% endfor %}
+                     {% endfor %} -->
                     <div class="type_messages">
                         <div class="input-field">
                             <textarea  placeholder="Type something" id="mess"></textarea>
                             <ul class="imoji">
-                                <li><a href="#" onclick="sendMessage();"><i class="fa fa-send"></i></a></li>
+                                <li><a href="#" onclick="Save();"><i class="fa fa-send"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -72,5 +73,5 @@
         </div>
     </section>
 
-        <script src="{% static 'js/send.js' %}"></script>
+        <!--<script src="{% static 'js/send.js' %}"></script>-->
  {% endblock %}
