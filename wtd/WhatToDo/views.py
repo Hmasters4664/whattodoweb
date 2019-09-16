@@ -84,7 +84,7 @@ def friend(request):
 @login_required
 def message(request):
     mess = Messages.objects.filter(to_user=request.user, opened=False) \
-        .values('from_user__profile__name', 'created', 'text')
+        .values('from_user__profile__name','from_user__profile__profile_picture', 'created', 'text')
     jayson = list(mess)
     return JsonResponse(jayson, safe=False)
 
@@ -309,11 +309,11 @@ def getmessages(request, pk):
         relationship = None
 
     if relationship:
-        mess = Messages.objects.filter(Q(to_user=request.user, opened=False, from_user=from_user.user) |
-                                       Q(to_user=from_user.user, opened=False, from_user=request.user)) \
-            .order_by('created')
+       # mess = Messages.objects.filter(Q(to_user=request.user, opened=False, from_user=from_user.user) |
+       #                                Q(to_user=from_user.user, opened=False, from_user=request.user)) \
+      #      .order_by('created')
 
-        return render(request, 'chatpage.html', {'friend': from_user, 'messages': mess, 'chatkey': relationship.uuid})
+        return render(request, 'chatpage.html', {'friend': from_user, 'chatkey': relationship.uuid})
 
     else:
         return redirect('message-view')
