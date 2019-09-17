@@ -99,18 +99,27 @@ class Category(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    bio = models.TextField(max_length=500, blank=True)
-    name = models.TextField(max_length=50, blank=True)
-    country = models.CharField(max_length=30, blank=True)
+    bio = models.TextField(max_length=500, blank=True, validators=[validate_characters],)
+    name = models.TextField(max_length=50, blank=False, validators=[validate_characters],)
+    country = models.CharField(max_length=30, blank=True, validators=[validate_characters],)
     profile_picture = models.ImageField(upload_to='profile', blank=True, null=True, default='profile/avatar.jpg')
-    city = models.CharField(max_length=30, blank=True)
-    province = models.CharField(_('provice/state'), max_length=30, blank=True)
-    birth_date = models.DateField(null=True, blank=True)
+    city = models.CharField(max_length=30, blank=True, validators=[validate_characters],)
+    province = models.CharField(_('provice/state'), max_length=30, blank=True, validators=[validate_characters],)
+    birth_date = models.DateField(null=True, blank=True,)
     relationships = models.ManyToManyField('self', through='Relationship',
                                            symmetrical=False, related_name='related_to')
+    slug = models.SlugField(blank=True, unique=True)
 
     class Meta:
         ordering = ['-id']
+
+    def save(self, **kwargs):
+        if not self.name:
+            self.name = "Unkown"
+
+        slug_str = "%s %s" % (self.name, uuid.uuid4())
+        self.slug = slugify(slug_str)
+        super(Profile, self).save(**kwargs)
 
     def __unicode__(self):
         return self.name
@@ -177,6 +186,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def save_user_profile(sender, instance, **kwargs):
+    #instance.profile.full_clean()
     instance.profile.save()
 
 

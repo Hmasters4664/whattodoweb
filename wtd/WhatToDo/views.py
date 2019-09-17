@@ -48,7 +48,7 @@ from datetime import datetime
 from django.core.serializers import serialize
 from django.forms.models import model_to_dict
 from django.utils import timezone
-
+from .validators import validate_characters
 import firebase_admin
 from firebase_admin import credentials, firestore
 
@@ -152,6 +152,18 @@ class AddCategory(LoginRequiredMixin, FormView):
         form.save()
         return super().form_valid(form)
 
+
+class UpdateProfile(LoginRequiredMixin, UpdateView):
+    model = Profile
+    template_name = 'forms.html'
+    success_url = '/main/'
+    login_url = '/login/'
+    form_class = ProfileForm
+    redirect_field_name = 'redirect_to'
+
+    def form_valid(self, form):
+        form.save()
+        return super().form_valid(form)
 
 class AddEvent(LoginRequiredMixin, FormView):
     model = Event

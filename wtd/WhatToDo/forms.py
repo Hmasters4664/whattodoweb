@@ -6,11 +6,12 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .widgets import XDSoftDateTimePickerInput
 from django.forms import DateTimeInput
+from .validators import validate_characters
 
 
 class SignUpForm(UserCreationForm):
     birth_date = forms.DateField(help_text='Required. Format: YYYY-MM-DD')
-    name = forms.CharField(label='Your name')
+    name = forms.CharField(label='Your name', validators=[validate_characters])
 
     class Meta:
         model = User
