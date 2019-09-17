@@ -1,16 +1,14 @@
-from django.db import models
-from django.contrib.auth.models import User
+
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils.translation import ugettext_lazy as _
 from .validators import validate_characters, check_negative_number, check_zero_number
 from django.utils import timezone
-from comment.models import Comment
-from groups.models import Group, GroupMember
 from autoslug import AutoSlugField
 from django.shortcuts import get_list_or_404, get_object_or_404
 from django.utils import timezone
-
+from django.db import models
+from django.conf import settings
 import uuid
 from django.template.defaultfilters import slugify
 
@@ -100,7 +98,7 @@ class Category(models.Model):
 
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     bio = models.TextField(max_length=500, blank=True)
     name = models.TextField(max_length=50, blank=True)
     country = models.CharField(max_length=30, blank=True)
@@ -171,13 +169,13 @@ class Profile(models.Model):
             person.remove_relationship(self, status, False)
 
 
-@receiver(post_save, sender=User)
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
 
 
-@receiver(post_save, sender=User)
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
 
@@ -193,7 +191,7 @@ class Relationship(models.Model):
 
 
 class Like(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -210,14 +208,9 @@ class EventCommentQuerySet(models.query.QuerySet):
         return self.filter(pk=event_id).count()
 
 
-class EventComment(Comment):
-    event = models.ForeignKey('Event', on_delete=models.CASCADE, related_name='comments')
-    objects = EventCommentQuerySet.as_manager()
-
-
 class Messages(models.Model):
-    from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sender')
-    to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='recipient')
+    from_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='sender')
+    to_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='recipient')
     text = models.CharField(max_length=150)
     opened = models.BooleanField(_('opened'), default=False)
     created = models.DateTimeField(auto_now_add=True)
@@ -227,8 +220,8 @@ class Messages(models.Model):
 
 
 class Notifications(models.Model):
-    from_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='actioner')
-    to_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receiver')
+    from_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='actioner')
+    to_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='receiver')
     notification_type = models.IntegerField(choices=NOTIFICATION_TYPE, default=1)
     action = models.CharField(max_length=150)
     read = models.BooleanField(_('read'), default=False)

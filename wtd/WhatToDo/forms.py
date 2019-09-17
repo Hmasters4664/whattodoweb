@@ -1,6 +1,7 @@
 from django.forms import ModelForm
 from .models import *
-from django.contrib.auth.models import User
+from user.models import User
+from django.conf import settings
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .widgets import XDSoftDateTimePickerInput
@@ -13,7 +14,7 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'birth_date', 'name', 'password1', 'password2', )
+        fields = ('email', 'birth_date', 'name', 'password1', 'password2', )
 
 
 class ProfileForm(ModelForm):
@@ -25,7 +26,7 @@ class ProfileForm(ModelForm):
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ('first_name', 'last_name', 'email')
+        fields = ('email',)
 
 
 class DateInput(forms.DateInput):

@@ -52,6 +52,7 @@ from django.utils import timezone
 import firebase_admin
 from firebase_admin import credentials, firestore
 
+
 cred = credentials.Certificate("secrets.json")
 firebase_admin.initialize_app(cred)
 
@@ -131,9 +132,9 @@ def signup(request):
             user.profile.name = form.cleaned_data.get('name')
             user.save()
             raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=user.username, password=raw_password)
+            user = authenticate(username=user.email, password=raw_password)
             login(request, user)
-            return redirect('login')
+            return redirect('main')
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
@@ -309,9 +310,7 @@ def getmessages(request, pk):
         relationship = None
 
     if relationship:
-       # mess = Messages.objects.filter(Q(to_user=request.user, opened=False, from_user=from_user.user) |
-       #                                Q(to_user=from_user.user, opened=False, from_user=request.user)) \
-      #      .order_by('created')
+
 
         return render(request, 'chatpage.html', {'friend': from_user, 'chatkey': relationship.uuid})
 
@@ -328,6 +327,8 @@ def send(request):
     to_user = get_object_or_404(User, pk=pk)
     b = timezone.now()
     rec = Messages(from_user=request.user, to_user=to_user, text=mess, created=t)
+    mess = Messages.objects.filter(to_user=request.user, opened=False, from_user=to_user)
+    mess.update(opened=True)
     db = firestore.client()
     rec.save()
     dict_obj = []
