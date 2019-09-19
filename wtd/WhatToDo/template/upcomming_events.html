@@ -1,0 +1,14 @@
+
+{% for uevent in uevents %}
+<div class="row valign-wrapper popular_item">
+                            <div class="col s3 p_img">
+                               <a href="#">
+                                    <img src={{ uevent.picture.url }} alt="" class="circle responsive-img">
+                               </a>
+                            </div>
+                            <div class="col s9 p_content">
+                                <span class="black_text">{{ uevent.name }} </span>
+                                <span class="black_text">{{ uevent.startDate }}</span>
+                            </div>
+</div>
+{% endfor %}

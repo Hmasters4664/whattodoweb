@@ -42,7 +42,12 @@
 
                     <div class="like_comment_area row">
                         <div class="col s4 btn_floating">
-                            <a class="btn-floating waves-effect"><i class="ion-android-share-alt"></i></a>
+                            {% if request.user.profile in event.interest.all %}
+                                     <a class="btn-floating waves-effect" ><i class="ion-android-favorite" id="like"></i></a>
+                                {% else %}
+                                   <a class="btn-floating waves-effect" onclick="Like({{ event.id }});"><i class="ion-android-favorite-outline" id="like"></i></a>
+                                {% endif %}
+
                             <h6>place likes here</h6>
                         </div>
                         <div class="col s4 updown_btn">
@@ -55,7 +60,6 @@
                             <a href="#" class="count_n">14</a>
                         </div>
                     </div>
-                    <a href="#post_modal" class="submit_open_list modal-trigger">Submit Open List</a>
                 </div>
 </div>
 {% endfor %}

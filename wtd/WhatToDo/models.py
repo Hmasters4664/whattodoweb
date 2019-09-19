@@ -53,6 +53,7 @@ class Event(models.Model):
     TicketPrice3 = models.DecimalField(max_digits=19, decimal_places=2, default=000.00,
                                        validators=[check_negative_number], )
     category = models.ForeignKey('Category', null=True, blank=True, on_delete=models.CASCADE)
+    interest = models.ManyToManyField('Profile', blank=True, related_name='post_interest')
 
     # venue = models.OneToOneField('Venue', on_delete=models.CASCADE, blank=True)
 

@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
 from django.shortcuts import render
 
 from django.shortcuts import render_to_response, get_object_or_404
@@ -62,8 +62,12 @@ class Main(LoginRequiredMixin, ListView):
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
     template_name = 'main.html'
-    context_object_name = 'events'
-    Event.objects.all()
+
+    def get_context_data(self, *, assets=None, **kwargs):
+        context = super(Main, self).get_context_data()
+        context['events'] = Event.objects.all()
+        context['uevents'] = Event.objects.all().order_by('-startDate')[:5]
+        return context
 
 
 @login_required
@@ -347,3 +351,18 @@ def send(request):
     serialized_obj = json.dumps(dict_obj)
     #print(serialized_obj)
     return JsonResponse(serialized_obj, safe=False)
+
+def like(request):
+    id = request.POST.get('key')
+    event = get_object_or_404(Event, pk=id)
+    if request.user.profile in event.interest.all():
+        dict_obj = []
+        serialized_obj = json.dumps(dict_obj)
+        return JsonResponse(serialized_obj, safe=False)
+    else:
+        event.interest.add(request.user.profile)
+        dict_obj = []
+        serialized_obj = json.dumps(dict_obj)
+        return JsonResponse(serialized_obj, safe=False)
+
+
