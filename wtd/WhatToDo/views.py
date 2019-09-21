@@ -51,7 +51,7 @@ from django.utils import timezone
 from .validators import validate_characters
 import firebase_admin
 from firebase_admin import credentials, firestore
-
+from django.db.models import Count
 
 cred = credentials.Certificate("secrets.json")
 firebase_admin.initialize_app(cred)
@@ -63,10 +63,22 @@ class Main(LoginRequiredMixin, ListView):
     redirect_field_name = 'redirect_to'
     template_name = 'main.html'
 
+    def post(self, request, *args, **kwargs):
+        d = Event.objects.all()
+        name = request.POST.get('name')
+        events = d.filter(name__startswith=name)
+        uevents = d.order_by('-startDate')[:5]
+        tops = d.annotate(l_count=Count('interest')).order_by('-l_count')[:5]
+        return render(request, self.template_name, {'events': events, 'uevents': uevents, 'tops' : tops })
+
+
+
     def get_context_data(self, *, assets=None, **kwargs):
+        d= Event.objects.all()
         context = super(Main, self).get_context_data()
-        context['events'] = Event.objects.all()
-        context['uevents'] = Event.objects.all().order_by('-startDate')[:5]
+        context['events'] = d
+        context['uevents'] = d.order_by('-startDate')[:5]
+        context['tops'] = d.annotate(l_count=Count('interest')).order_by('-l_count')[:5]
         return context
 
 
@@ -352,17 +364,22 @@ def send(request):
     #print(serialized_obj)
     return JsonResponse(serialized_obj, safe=False)
 
+@login_required
 def like(request):
     id = request.POST.get('key')
     event = get_object_or_404(Event, pk=id)
     if request.user.profile in event.interest.all():
-        dict_obj = []
+        event.interest.remove(request.user.profile)
+        dict_obj = {'itemz':'ion-android-favorite-outline', 'counter':event.interest.count()}
         serialized_obj = json.dumps(dict_obj)
-        return JsonResponse(serialized_obj, safe=False)
+        print(serialized_obj)
+
     else:
         event.interest.add(request.user.profile)
-        dict_obj = []
+        dict_obj = {'itemz':'ion-android-favorite', 'counter':event.interest.count()}
         serialized_obj = json.dumps(dict_obj)
-        return JsonResponse(serialized_obj, safe=False)
+        print(serialized_obj)
+
+    return JsonResponse(serialized_obj, safe=False)
 
 

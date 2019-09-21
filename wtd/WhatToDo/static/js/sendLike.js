@@ -7,7 +7,10 @@ function Like(id) {
     csrfmiddlewaretoken: csrf_token,
   data: {'key': id},
     success: function(data) {
-          $('#like').attr('class', 'ion-android-favorite');
+                  var response = JSON.parse(data);
+          $('#like'+ id).attr('class', response.itemz);
+
+          $('#count'+id).html(response.counter);
 
     },
           error: function(error) {

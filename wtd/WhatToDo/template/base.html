@@ -47,6 +47,14 @@
 }
 }
 
+         function entersearch(e, textarea){
+            var code = (e.keyCode ? e.keyCode : e.which);
+            if(code == 13) { //Enter keycode
+                searchEvent()
+}
+}
+
+
     </script>
 
 </head>
@@ -353,7 +361,7 @@
                 <div class="left_side_bar">
                     <div class="categories">
                         <h3 class="categories_tittle">Search</h3>
-                       <li><input placeholder="Search Event Here" type="text" id="evntSearch"></li>
+                       <li><input placeholder="Search Event Here" type="text" id="evntSearch"  onKeyPress="entersearch(event, this)"></li>
                     </div>
                     <div class="interests">
                         <h3 class="categories_tittle">Your Interests <span>Edit</span></h3>
@@ -453,22 +461,7 @@
                         <ul class="collapsible trending_collaps" data-collapsible="accordion">
 
 
-                            <li>
-                                <div class="collapsible-header"><i class="ion-chevron-right"></i>Healthy Environment For Self Esteem</div>
-                                <div class="collapsible-body">
-                                    <div class="row collaps_wrpper">
-                                        <div class="col s1 media_l">
-                                            <b>1</b>
-                                            <i class="ion-android-arrow-dropdown-circle"></i>
-                                        </div>
-                                        <div class="col s11 media_b">
-                                            <a href="#" class="close_btn"><i class="ion-close-round"></i></a>
-                                            <p>If you will be traveling for a ski vacation, it is often difficult to know what to pack. You may not even have a problem knowing what to pack, but instead have</p>
-                                            <h6>By <a href="#">Thomas Omalley</a></h6>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
+                            {% include "mostpopular.html" %}
 
 
                         </ul>
@@ -626,5 +619,6 @@
     <script src="{% static 'js/notifications.js' %}"></script>
     <script src="{% static 'js/search.js' %}"></script>
     <script src="{% static 'js/sendLike.js' %}"></script>
+    <script src="{% static 'js/searchEvent.js' %}"></script>
 </body>
 </html>

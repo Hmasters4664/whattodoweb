@@ -1,10 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
-</body>
-</html>
+{% for top in tops %}
+ <li>
+                                <div class="collapsible-header"><i class="ion-chevron-right"></i>{{ top.name }}</div>
+                                <div class="collapsible-body">
+                                    <div class="row collaps_wrpper">
+                                        <div class="col s11 media_b">
+                                            <p>`{{ top.description }}</p>
+                                            <h6><a href="#">{{ top.startDate }}</a></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+{% endfor %}
