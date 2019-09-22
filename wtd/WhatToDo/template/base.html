@@ -50,7 +50,7 @@
          function entersearch(e, textarea){
             var code = (e.keyCode ? e.keyCode : e.which);
             if(code == 13) { //Enter keycode
-                searchEvent()
+                window.location.replace("/events?item="+document.getElementById("evntSearch").value+"&category=Pretoria");
 }
 }
 
@@ -619,6 +619,5 @@
     <script src="{% static 'js/notifications.js' %}"></script>
     <script src="{% static 'js/search.js' %}"></script>
     <script src="{% static 'js/sendLike.js' %}"></script>
-    <script src="{% static 'js/searchEvent.js' %}"></script>
 </body>
 </html>

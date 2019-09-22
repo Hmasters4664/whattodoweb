@@ -63,20 +63,26 @@ class Main(LoginRequiredMixin, ListView):
     redirect_field_name = 'redirect_to'
     template_name = 'main.html'
 
-    def post(self, request, *args, **kwargs):
-        d = Event.objects.all()
-        name = request.POST.get('name')
-        events = d.filter(name__startswith=name)
-        uevents = d.order_by('-startDate')[:5]
-        tops = d.annotate(l_count=Count('interest')).order_by('-l_count')[:5]
-        return render(request, self.template_name, {'events': events, 'uevents': uevents, 'tops' : tops })
-
-
-
     def get_context_data(self, *, assets=None, **kwargs):
         d= Event.objects.all()
         context = super(Main, self).get_context_data()
         context['events'] = d
+        context['uevents'] = d.order_by('-startDate')[:5]
+        context['tops'] = d.annotate(l_count=Count('interest')).order_by('-l_count')[:5]
+        return context
+
+
+class EventSearch(LoginRequiredMixin, ListView):
+    model = Event
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    template_name = 'main.html'
+
+    def get_context_data(self, *, assets=None, **kwargs):
+        d= Event.objects.all()
+        context = super(EventSearch, self).get_context_data()
+        context['events'] = d.filter(Q(name__startswith=self.request.GET.get('item'))
+                                     | Q(category__name__startswith=self.request.GET.get('item')))
         context['uevents'] = d.order_by('-startDate')[:5]
         context['tops'] = d.annotate(l_count=Count('interest')).order_by('-l_count')[:5]
         return context
