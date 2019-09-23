@@ -51,6 +51,13 @@ class EventForm(forms.ModelForm):
                 'class': 'form-control'},
             format='%Y-%m-%dT%H:%M')
     )
+
+    venueName = forms.CharField(label='Venue Name', validators=[validate_characters])
+    Adress1 = forms.CharField(label='Adress Line 1', validators=[validate_characters])
+    Adress2 = forms.CharField(label='Adress Line 2', validators=[validate_characters])
+    city = forms.CharField(validators=[validate_characters])
+    province = forms.CharField(validators=[validate_characters])
+    country = forms.CharField(validators=[validate_characters])
     class Meta:
         model = Event
         fields = ['name', 'description', 'url', 'picture',

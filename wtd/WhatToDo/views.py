@@ -187,6 +187,7 @@ class UpdateProfile(LoginRequiredMixin, UpdateView):
         form.save()
         return super().form_valid(form)
 
+
 class AddEvent(LoginRequiredMixin, FormView):
     model = Event
     template_name = 'forms.html'
@@ -196,10 +197,14 @@ class AddEvent(LoginRequiredMixin, FormView):
     redirect_field_name = 'redirect_to'
 
     def form_valid(self, form):
+        ven = Venue(name=form.cleaned_data.get('venueName'), addressline1=form.cleaned_data.get('Adress1'),
+                    addressline2=form.cleaned_data.get('Adress2'), city=form.cleaned_data.get('city'),
+                    province=form.cleaned_data.get('province'), country=form.cleaned_data.get('country'), )
+        ven.save()
         event = form.save(commit=False)
         event.startDate = form.cleaned_data.get('start')
         event.endDate = form.cleaned_data.get('end')
-
+        event.venue = ven
         event.save()
         return super().form_valid(form)
 

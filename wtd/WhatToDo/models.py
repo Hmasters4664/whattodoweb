@@ -46,16 +46,16 @@ class Event(models.Model):
     lastModified = models.DateTimeField(auto_now_add=True)
     startDate = models.DateTimeField(_('Start Date and Time'))
     endDate = models.DateTimeField(_('End Date and Time'), )
-    TicketPrice1 = models.DecimalField(max_digits=19, decimal_places=2, default=000.00,
+    TicketPrice1 = models.DecimalField(_('Lowest Ticket Price'), max_digits=19, decimal_places=2, default=000.00,
                                        validators=[check_negative_number], )
-    TicketPrice2 = models.DecimalField(max_digits=19, decimal_places=2, default=000.00,
+    TicketPrice2 = models.DecimalField(_('Middle Ticket Price'), max_digits=19, decimal_places=2, default=000.00,
                                        validators=[check_negative_number], )
-    TicketPrice3 = models.DecimalField(max_digits=19, decimal_places=2, default=000.00,
+    TicketPrice3 = models.DecimalField(_('Highest Ticket Price'), max_digits=19, decimal_places=2, default=000.00,
                                        validators=[check_negative_number], )
     category = models.ForeignKey('Category', null=True, blank=True, on_delete=models.CASCADE)
     interest = models.ManyToManyField('Profile', blank=True, related_name='post_interest')
 
-    # venue = models.OneToOneField('Venue', on_delete=models.CASCADE, blank=True)
+    venue = models.ForeignKey('Venue', on_delete=models.CASCADE, blank=True, null=True)
 
     class Meta:
         ordering = ['-id']
@@ -65,8 +65,8 @@ class Venue(models.Model):
     name = models.CharField(max_length=100, validators=[validate_characters], )
     addressline1 = models.CharField(max_length=100, validators=[validate_characters], )
     addressline2 = models.CharField(max_length=100, validators=[validate_characters], )
-    latitude = models.DecimalField(max_digits=9, decimal_places=6)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     country = models.CharField(max_length=50, validators=[validate_characters], )
     province = models.CharField(_('provice/state'), max_length=50, validators=[validate_characters], )
     city = models.CharField(max_length=100, validators=[validate_characters], )
