@@ -1,4 +1,4 @@
-#from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django.shortcuts import render
 
 from django.shortcuts import render_to_response, get_object_or_404
@@ -15,7 +15,7 @@ from django.core import serializers
 import json
 from .forms import EventForm, ProfileForm, UserForm, VenueForm
 from django.views.generic.list import ListView
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from datetime import datetime
 from django.contrib.auth.decorators import login_required
@@ -64,28 +64,21 @@ class Main(LoginRequiredMixin, ListView):
     template_name = 'main.html'
 
     def get_context_data(self, *, assets=None, **kwargs):
-        d= Event.objects.all()
+        d = Event.objects.all()
         context = super(Main, self).get_context_data()
         context['events'] = d
         context['uevents'] = d.order_by('-startDate')[:5]
         context['tops'] = d.annotate(l_count=Count('interest')).order_by('-l_count')[:5]
+        context['categories'] = Category.objects.filter(parent__isnull=True)
         return context
 
-
-class EventSearch(LoginRequiredMixin, ListView):
-    model = Event
-    login_url = '/login/'
-    redirect_field_name = 'redirect_to'
-    template_name = 'main.html'
-
-    def get_context_data(self, *, assets=None, **kwargs):
-        d= Event.objects.all()
-        context = super(EventSearch, self).get_context_data()
-        context['events'] = d.filter(Q(name__startswith=self.request.GET.get('item'))
-                                     | Q(category__name__startswith=self.request.GET.get('item')))
-        context['uevents'] = d.order_by('-startDate')[:5]
-        context['tops'] = d.annotate(l_count=Count('interest')).order_by('-l_count')[:5]
-        return context
+@login_required
+def event_search(request):
+    var1 = request.POST.get('item', '')
+    var2 = request.POST.get('category', '')
+    d = Event.objects.filter(Q(name__startswith=var1, category__name__startswith=var2)
+                             | Q(venue__city=var1, category__name__startswith=var2))
+    return render(request, 'temp.html', {'events': d})
 
 
 @login_required
@@ -107,7 +100,7 @@ def friend(request):
 @login_required
 def message(request):
     mess = Messages.objects.filter(to_user=request.user, opened=False) \
-        .values('from_user__profile__name','from_user__profile__profile_picture', 'created', 'text')
+        .values('from_user__profile__name', 'from_user__profile__profile_picture', 'created', 'text')
     jayson = list(mess)
     return JsonResponse(jayson, safe=False)
 
@@ -350,7 +343,6 @@ def getmessages(request, pk):
 
     if relationship:
 
-
         return render(request, 'chatpage.html', {'friend': from_user, 'chatkey': relationship.uuid})
 
     else:
@@ -360,8 +352,8 @@ def getmessages(request, pk):
 def send(request):
     pk = request.POST.get('id')
     time = float(request.POST.get('time'))
-    #print(type(time))
-    t=datetime.fromtimestamp(time)
+    # print(type(time))
+    t = datetime.fromtimestamp(time)
     mess = request.POST.get('message')
     to_user = get_object_or_404(User, pk=pk)
     b = timezone.now()
@@ -372,8 +364,9 @@ def send(request):
     rec.save()
     dict_obj = []
     serialized_obj = json.dumps(dict_obj)
-    #print(serialized_obj)
+    # print(serialized_obj)
     return JsonResponse(serialized_obj, safe=False)
+
 
 @login_required
 def like(request):
@@ -381,16 +374,16 @@ def like(request):
     event = get_object_or_404(Event, pk=id)
     if request.user.profile in event.interest.all():
         event.interest.remove(request.user.profile)
-        dict_obj = {'itemz':'ion-android-favorite-outline', 'counter':event.interest.count()}
+        dict_obj = {'itemz': 'ion-android-favorite-outline', 'counter': event.interest.count()}
         serialized_obj = json.dumps(dict_obj)
         print(serialized_obj)
 
     else:
         event.interest.add(request.user.profile)
-        dict_obj = {'itemz':'ion-android-favorite', 'counter':event.interest.count()}
+        dict_obj = {'itemz': 'ion-android-favorite', 'counter': event.interest.count()}
         serialized_obj = json.dumps(dict_obj)
         print(serialized_obj)
 
     return JsonResponse(serialized_obj, safe=False)
 
-
+#class PublisherDetail(DetailView):

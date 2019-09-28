@@ -2,14 +2,15 @@ function searchEvent()
 {
      $.ajax({
           headers: { "X-CSRFToken": csrf_token },
-    url: "/main",
+    url: Event,
     type: 'POST',
     dataType: "html",
     data: {
-        'name': document.getElementById("evntSearch").value,
+        'item': document.getElementById("evntSearch").value,
+        'category': Cate
     },
     success: function(data) {
-              $("html").html(data);
+              $("#infinite_scroll").html(data);
     },
           error: function(error) {
                 console.log(error);

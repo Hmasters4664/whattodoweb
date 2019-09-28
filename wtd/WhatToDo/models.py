@@ -41,7 +41,7 @@ class Event(models.Model):
     name = models.CharField(max_length=100, validators=[validate_characters], )
     description = models.TextField(validators=[validate_characters], )
     url = models.CharField(_('Ticket Purchase URL'), max_length=50, blank=True)
-    picture = models.ImageField(upload_to='events', blank=True, null=True, default='events/default_events.jpg')
+    picture = models.ImageField(upload_to='events', blank=True, null=True, default='default_events.jpg')
     dateCreated = models.DateTimeField(auto_now_add=True)
     lastModified = models.DateTimeField(auto_now_add=True)
     startDate = models.DateTimeField(_('Start Date and Time'))
