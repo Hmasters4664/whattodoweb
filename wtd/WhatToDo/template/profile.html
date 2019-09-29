@@ -1,6 +1,7 @@
 {% extends 'base3.html' %}
 {% load static %}
 
+{% block content %}
  <!-- Min Container area -->
 <section class="min_container profile_pages">
     <div class="section_row">
@@ -11,37 +12,15 @@
       <!-- left side bar -->
     <div class="col">
                 <div class="left_side_bar">
-                    <div class="categories">
-                        <h3 class="categories_tittle">Search</h3>
-                       <li><input placeholder="Search by event or city" type="text" id="evntSearch"></li>
-                        <button id="eventSearch" onclick="searchEvent();">Search</button>
-                    </div>
-                    <div class="interests">
-                        <h3 class="categories_tittle">Your Interests <span>Edit</span></h3>
-                        <ul class="interests_list">
-                            <li><a href="#"><i class="ion-android-radio-button-on"></i>Arts</a></li>
-                            <li><a href="#"><i class="ion-android-radio-button-off"></i>Beauty</a></li>
-                            <li><a href="#"><i class="ion-android-radio-button-off"></i>Entertainment</a></li>
-                            <li><a href="#"><i class="ion-android-radio-button-off"></i>Travel</a></li>
-                            <li><a href="#"><i class="ion-android-radio-button-off"></i>Personal</a></li>
-                            <li><a href="#"><i class="ion-android-radio-button-off"></i>Politics</a></li>
-                            <li><a href="#"><i class="ion-android-radio-button-off"></i>Space Science</a></li>
-                        </ul>
-                    </div>
                     <div class="profile">
                         <h3 class="categories_tittle">Profile <span>Edit</span></h3>
                         <ul class="profile_pic">
                             <li><a href=""><img src="images/profile-1.jpg" alt="" class="circle"></a></li>
-                            <li><a href=""><img src="images/profile-2.jpg" alt="" class="circle"></a></li>
-                            <li><a href=""><img src="images/profile-3.jpg" alt="" class="circle"></a></li>
-                            <li><a href=""><img src="images/profile-4.jpg" alt="" class="circle"></a></li>
-                            <li><a href=""><img src="images/profile-5.jpg" alt="" class="circle"></a></li>
-                            <li><a href=""><img src="images/profile-6.jpg" alt="" class="circle"></a></li>
-                            <li><a href=""><img src="images/profile-7.jpg" alt="" class="circle"></a></li>
-                            <li><a href=""><img src="images/profile-8.jpg" alt="" class="circle"></a></li>
-                            <li><a href=""><img src="images/profile-9.jpg" alt="" class="circle"></a></li>
-                            <li><a href=""><img src="images/profile-10.jpg" alt="" class="circle"></a></li>
                         </ul>
+                    </div>
+                    <div class="categories">
+                        <h3 class="categories_tittle me_tittle">About Me</h3>
+                       <p> {{ request.user.profile.bio }}
                     </div>
                     <div class="badges">
                         <h3 class="categories_tittle">Badges</h3>
@@ -123,4 +102,5 @@
             </div>
     </div>
 </section>
+{% endblock %}
     <!-- End Min Container area -->

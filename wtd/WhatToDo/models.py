@@ -248,3 +248,4 @@ class Post(models.Model):
     picture = models.ImageField(upload_to='posts', blank=True, null=True)
     dateCreated = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField('Profile', blank=True, related_name='user_likes')
+    public = models.BooleanField(_('Is Public'), default=False)

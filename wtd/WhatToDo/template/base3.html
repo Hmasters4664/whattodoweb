@@ -61,7 +61,7 @@
             <div class="nav-wrapper">
                 <a href="index.html" class="brand-logo"><img src="{% static 'images/logo.png' %}" alt=""></a>
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-                <a href="#post_modal" class="waves-effect btn post_btn sm_post_btn modal-trigger"><i class="ion-plus"></i>Add Post</a>
+                <a href="{% url 'add-post' %}" class="waves-effect btn post_btn sm_post_btn modal-trigger"><i class="ion-plus"></i>Add Post</a>
                 <ul class="left_menu hide-on-med-and-down">
                     <li><a href="{% url 'main' %}" class="active">Home</a></li>
                     <li class="user_dropdown"><a class="dropdown-button" href="#!" data-activates="dropdown6">All Pages</a>
@@ -126,7 +126,7 @@
                         </ul>
                        </ul>
                     </li>
-                    <li><a href="#post_modal" class="waves-effect btn post_btn modal-trigger"><i class="ion-plus"></i><span>Add Post</span></a></li>
+                    <li><a href="{% url 'add-post' %}"  class="waves-effect btn post_btn modal-trigger"><i class="ion-plus"></i><span>Add Post</span></a></li>
                     <!-- Follow feed -->
                     <li class="notifications follow"><a class="dropdown-button" href="#!" data-activates="dropdown4"><i class="ion-ios-person-outline"></i><b class="n-number" id="fnumber">0</b></a>
                         <!-- Dropdown Structure -->
@@ -204,7 +204,7 @@
                     <li class="user_dropdown"><a class="dropdown-button" href="#!" data-activates="dropdown1"><img src="{{ request.user.profile.profile_picture.url }}" alt="" class="circle p_2" height="42" width="42"></a>
                         <!-- Dropdown Structure -->
                         <ul id="dropdown1" class="dropdown-content">
-                            <li><a href="{% url 'modify-profile' request.user.profile.slug %}"><i class="ion-person"></i>My profile</a></li>
+                            <li><a href="{% url 'view-profile' request.user.profile.slug %}" ><i class="ion-android-folder-open"></i>View Profile</a></li>
                             <li><a href="read-later.html"><i class="ion-android-folder-open"></i>Saved Articles</a></li>
                             <li class="b_t"><a href="#"><i class="ion-android-notifications"></i>Notification settings</a></li>
                             <li class="b_b"><a href="#"><i class="ion-ios-locked"></i>Change Password</a></li>
@@ -230,7 +230,8 @@
                            <li><a href="dashboard.html">Dashboard</a></li>
                            <li><a href="details.html">Post details</a></li>
                            <li><a href="details-2.html">Post details 2</a></li>
-                           <li><a href="{% url 'modify-profile' request.user.profile.slug %}">Profile</a></li>
+                           <li><a href="{% url 'modify-profile' request.user.profile.slug %}">Modify Profile</a></li>
+                            <li><a href="{% url 'view-profile' request.user.profile.slug %}" >View Profile</a></li>
                            <li><a href="messages.html">Messages</a></li>
                            <li><a href="requests.html">Requests</a></li>
                            <li><a href="read-later.html">Read-Later</a></li>
@@ -322,7 +323,7 @@
                         <!-- Dropdown Structure -->
                         <ul id="dropdown_s4" class="dropdown-content">
                             <li><a href="{% url 'modify-profile' request.user.profile.slug %}"><i class="ion-person"></i>My profile</a></li>
-                            <li><a href="read-later.html"><i class="ion-android-folder-open"></i>Saved Articles</a></li>
+                            <li><a href="{% url 'view-profile' request.user.profile.slug %}" ><i class="ion-android-folder-open"></i>View Profile</a></li>
                             <li class="b_t"><a href="#"><i class="ion-android-notifications"></i>Notification settings</a></li>
                             <li class="b_b"><a href="#"><i class="ion-ios-locked"></i>Change Password</a></li>
                             <li><a href="#"><i class="ion-gear-b"></i>Settings</a></li>
@@ -337,11 +338,11 @@
     </nav>
     <!-- End  Header_Area -->
      <div class="banner_area banner_2">
-        <img src="{{ request.user.profile.profile_picture.url }}" alt="" class="banner_img">
+        <img src="{% static 'images/banner-3.jpg' %}" alt="" class="banner_img" width="1900" height="400">
         <div class="media profile_picture">
-            <a href="{{ request.user.profile.profile_picture.url }}"><img src="images/profile-hed-1.jpg" alt="" class="circle"></a>
+            <a href="#"><img src="{{ request.user.profile.profile_picture.url }}" alt="" class="circle"></a>
             <div class="media_body">
-                <a href="profile.html">{{ request.user.profile.name }}</a>
+                <a href="#">{{ request.user.profile.name }}</a>
                 <h6>{{ request.user.profile.city }}, {{ request.user.profile.country }}</h6>
             </div>
         </div>

@@ -213,7 +213,7 @@ function enterpressalert2(e, textarea){
                     <li class="user_dropdown"><a class="dropdown-button" href="#!" data-activates="dropdown1"><img src="{{ request.user.profile.profile_picture.url }}" alt="" class="circle p_2" height="42" width="42"></a>
                         <!-- Dropdown Structure -->
                         <ul id="dropdown1" class="dropdown-content">
-                            <li><a href="{% url 'modify-profile' request.user.profile.slug %}"><i class="ion-person"></i>My profile</a></li>
+                            <li><a href="{% url 'view-profile' request.user.profile.slug %}" ><i class="ion-android-folder-open"></i>View Profile</a></li>
                             <li><a href="read-later.html"><i class="ion-android-folder-open"></i>Saved Articles</a></li>
                             <li class="b_t"><a href="#"><i class="ion-android-notifications"></i>Notification settings</a></li>
                             <li class="b_b"><a href="#"><i class="ion-ios-locked"></i>Change Password</a></li>
@@ -240,6 +240,7 @@ function enterpressalert2(e, textarea){
                            <li><a href="details.html">Post details</a></li>
                            <li><a href="details-2.html">Post details 2</a></li>
                            <li><a href="{% url 'modify-profile' request.user.profile.slug %}">Profile</a></li>
+                            <li><a href="{% url 'view-profile' request.user.profile.slug %}" >View Profile</a></li>
                            <li><a href="messages.html">Messages</a></li>
                            <li><a href="requests.html">Requests</a></li>
                            <li><a href="read-later.html">Read-Later</a></li>
@@ -330,8 +331,8 @@ function enterpressalert2(e, textarea){
                     <li class="user_dropdown"><a class="dropdown-button" href="#!" data-activates="dropdown_s4"><img src="images/profile-pic.png" alt="" class="circle p_2"></a>
                         <!-- Dropdown Structure -->
                         <ul id="dropdown_s4" class="dropdown-content">
-                            <li><a href="{% url 'modify-profile' request.user.profile.slug %}"><i class="ion-person"></i>My profile</a></li>
-                            <li><a href="read-later.html"><i class="ion-android-folder-open"></i>Saved Articles</a></li>
+                            <li><a href="{% url 'modify-profile' request.user.profile.slug %}"><i class="ion-person"></i>Modify profile</a></li>
+                            <li><a href="{% url 'view-profile' request.user.profile.slug %}" ><i class="ion-android-folder-open"></i>View Profile</a></li>
                             <li class="b_t"><a href="#"><i class="ion-android-notifications"></i>Notification settings</a></li>
                             <li class="b_b"><a href="#"><i class="ion-ios-locked"></i>Change Password</a></li>
                             <li><a href="#"><i class="ion-gear-b"></i>Settings</a></li>

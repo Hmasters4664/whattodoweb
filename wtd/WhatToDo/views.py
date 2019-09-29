@@ -13,7 +13,7 @@ from django.views.generic.edit import FormView
 from django.views.generic.base import View, TemplateView
 from django.core import serializers
 import json
-from .forms import EventForm, ProfileForm, UserForm, VenueForm
+from .forms import EventForm, ProfileForm, UserForm, VenueForm, PostForm
 from django.views.generic.list import ListView
 from django.views.generic import UpdateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -406,3 +406,31 @@ def likepost(request):
         print(serialized_obj)
 
     return JsonResponse(serialized_obj, safe=False)
+
+
+class AddPost(LoginRequiredMixin, FormView):
+    model = Post
+    template_name = 'Post_Form.html'
+    success_url = '/main/'
+    login_url = '/login/'
+    form_class = PostForm
+    redirect_field_name = 'redirect_to'
+
+    def form_valid(self, form):
+        post = form.save(commit=False)
+        post.picture = self.request.FILES['myfile']
+        post.author = self.request.user
+        post.save()
+        return super().form_valid(form)
+
+
+class ViewProfile(LoginRequiredMixin, ListView):
+    model = Post
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    template_name = 'profile.html'
+
+    def get_context_data(self, *, assets=None, **kwargs):
+        context = super(ViewProfile, self).get_context_data()
+        context['posts'] = Post.objects.all()
+        return context

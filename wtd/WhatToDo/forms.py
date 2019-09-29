@@ -81,3 +81,7 @@ class CategoryForm(forms.ModelForm):
         fields = ['name', 'parent']
 
 
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['content', 'public']
