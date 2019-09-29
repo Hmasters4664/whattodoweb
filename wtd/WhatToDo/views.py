@@ -7,7 +7,7 @@ import csv
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
 from .models import Event, Venue, Organiser, Category, Profile, Notifications, Messages, RELATIONSHIP_REQUESTED, \
-    RELATIONSHIP_FOLLOWING, Relationship
+    RELATIONSHIP_FOLLOWING, Relationship, Post
 from django.views.generic import CreateView
 from django.views.generic.edit import FormView
 from django.views.generic.base import View, TemplateView
@@ -387,3 +387,22 @@ def like(request):
     return JsonResponse(serialized_obj, safe=False)
 
 #class PublisherDetail(DetailView):
+
+
+@login_required
+def likepost(request):
+    id = request.POST.get('key')
+    post = get_object_or_404(Post, pk=id)
+    if request.user.profile in post.likes.all():
+        post.likes.remove(request.user.profile)
+        dict_obj = {'itemz': 'ion-android-favorite-outline', 'counter': post.likes.count()}
+        serialized_obj = json.dumps(dict_obj)
+        print(serialized_obj)
+
+    else:
+        post.likes.add(request.user.profile)
+        dict_obj = {'itemz': 'ion-android-favorite', 'counter': post.likes.count()}
+        serialized_obj = json.dumps(dict_obj)
+        print(serialized_obj)
+
+    return JsonResponse(serialized_obj, safe=False)

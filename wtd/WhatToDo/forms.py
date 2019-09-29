@@ -1,4 +1,6 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, Widget
+from django.utils.safestring import mark_safe
+
 from .models import *
 from user.models import User
 from django.conf import settings
@@ -77,3 +79,5 @@ class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
         fields = ['name', 'parent']
+
+

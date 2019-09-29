@@ -27,6 +27,7 @@ urlpatterns = [
     re_path(r'^send', views.send, name='send-messages'),
     re_path(r'^profile/(?P<slug>[\w-]+)/$', UpdateProfile.as_view(), name='modify-profile'),
     re_path(r'^like/', views.like, name='like-event'),
+    re_path(r'^postlike/', views.like, name='like-post'),
     re_path(r'^eventsearch/$',views.event_search,name='event-search'),
     re_path(r'^messages', views.message, name='message'),
     re_path(r'^notification', views.notification, name='notification')

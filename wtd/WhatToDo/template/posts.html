@@ -1,0 +1,35 @@
+{% for post in posts %}
+
+    <div class="fast_post">
+                <div class="post">
+                   <div class="post_content">
+                        <a href="details.html" class="post_img">
+                            <img src={{ post.picture.url }} alt="">
+                        </a>
+                        <div class="row author_area">
+                            <div class="col s4 author">
+                                <div class="col s4 media_left"><img src="images/author-1.jpg" alt="" class="circle"></div>
+                                <div class="col s8 media_body">
+                                    <a href="#">{{ post.author.name }}</a>
+                                </div>
+                            </div>
+                            <div class="col s4 btn_floating">
+                                <a class="btn-floating waves-effect"><i class="ion-navicon-round"></i></a>
+                            </div>
+                        </div>
+                        <p>{{ post.content}}</p>
+                   </div>
+
+                    <div class="like_comment_area row">
+                        <div class="col s4 btn_floating">
+                            {% if request.user.profile in post.likes.all %}
+                                     <a class="btn-floating waves-effect" onclick="PostLike({{ post.id }});" ><i class="ion-android-favorite" id="like{{ post.id }}"></i></a>
+                                {% else %}
+                                   <a class="btn-floating waves-effect" onclick="PostLike({{ post.id }});"><i class="ion-android-favorite-outline" id="like{{ post.id }}"></i></a>
+                                {% endif %}
+                        </div>
+                    </div>
+                </div>
+</div>
+
+{% endfor %}
