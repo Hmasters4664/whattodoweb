@@ -10,7 +10,7 @@
                 <div class="post">
                    <div class="post_content">
                         <a href="details.html" class="post_img">
-                            <img src={{ event.picture.url }} alt="">
+                            <img src={{ event.picture.url }} alt="" width="620" height="300">
                             <span><i class="ion-android-radio-button-off"></i>{{ event.category.name }}</span>
                         </a>
                         <div class="row author_area">
@@ -29,8 +29,8 @@
                                     <li class="post_d"><a class="dropdown-button waves-effect" href="#!" data-activates="post_dropdown"><i 						class="ion-android-more-vertical"></i></a>
                                         <!-- Dropdown Structure -->
                                         <ul id="post_dropdown" class="dropdown-content">
-					    <li><a href="#">Add To Calender</a></li>
-                                            <li><a href="#">Save</a></li>
+					                        <li><a href="#">Add To Calender</a></li>
+                                            <li><a href="#">More Info</a></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -38,7 +38,7 @@
                         </div>
                         <a href="details.html" class="post_heding">{{ event.name }}</a>
                         <p>{{ event.description}}</p>
-                       <p>{{ event.venue.city}},{{ event.venue.country }}</p>
+                       <p>{{ event.venue.city}}, {{ event.venue.country }}</p>
                    </div>
 
                     <div class="like_comment_area row">

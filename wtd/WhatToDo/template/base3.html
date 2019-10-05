@@ -205,7 +205,7 @@
                         <!-- Dropdown Structure -->
                         <ul id="dropdown1" class="dropdown-content">
                             <li><a href="{% url 'view-profile' request.user.profile.slug %}" ><i class="ion-android-folder-open"></i>View Profile</a></li>
-                            <li><a href="read-later.html"><i class="ion-android-folder-open"></i>Saved Articles</a></li>
+                            <li><a href="read-later.html"><i class="ion-android-folder-open"></i>Saved events</a></li>
                             <li class="b_t"><a href="#"><i class="ion-android-notifications"></i>Notification settings</a></li>
                             <li class="b_b"><a href="#"><i class="ion-ios-locked"></i>Change Password</a></li>
                             <li><a href="#"><i class="ion-gear-b"></i>Settings</a></li>
@@ -340,7 +340,7 @@
      <div class="banner_area banner_2">
         <img src="{% static 'images/banner-3.jpg' %}" alt="" class="banner_img" width="1900" height="400">
         <div class="media profile_picture">
-            <a href="#"><img src="{{ request.user.profile.profile_picture.url }}" alt="" class="circle"></a>
+            <a href="#"><img src="{{ request.user.profile.profile_picture.url }}" alt="" class="circle" width="160" height="155"></a>
             <div class="media_body">
                 <a href="#">{{ request.user.profile.name }}</a>
                 <h6>{{ request.user.profile.city }}, {{ request.user.profile.country }}</h6>
@@ -498,7 +498,8 @@
     <!-- Theme JS -->
     <script src="{% static 'js/theme.js' %}"></script>
     <script src="{% static 'js/notifications.js' %}"></script>
-     <script src="{% static 'js/search.js' %}"></script>
+    <script src="{% static 'js/search.js' %}"></script>
+    <script src="{% static 'js/postLike.js' %}"></script>
 
 
 
@@ -506,7 +507,5 @@
     <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-firestore.js"></script>
-
-    <script src="{% static 'js/firebasechat.js' %}"></script>
 </body>
 </html>

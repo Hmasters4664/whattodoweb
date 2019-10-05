@@ -42,6 +42,8 @@
 
          var Cate = "";
 
+
+
          function enterpressalert(e, textarea){
             var code = (e.keyCode ? e.keyCode : e.which);
             if(code == 13) { //Enter keycode
@@ -70,7 +72,7 @@ function enterpressalert2(e, textarea){
             <div class="nav-wrapper">
                 <a href="index.html" class="brand-logo"><img src="{% static 'images/logo.png' %}" alt=""></a>
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-                <a href="#post_modal" class="waves-effect btn post_btn sm_post_btn modal-trigger"><i class="ion-plus"></i>Add Post</a>
+                <a href="#post_modal" class="waves-effect btn post_btn sm_post_btn modal-trigger"><i class="ion-plus"></i>Create Event</a>
                 <ul class="left_menu hide-on-med-and-down">
                     <li><a href="{% url 'main' %}" class="active">Home</a></li>
                     <li class="user_dropdown"><a class="dropdown-button" href="#!" data-activates="dropdown6">All Pages</a>
@@ -135,7 +137,7 @@ function enterpressalert2(e, textarea){
                         </ul>
                        </ul>
                     </li>
-                    <li><a href="#post_modal" class="waves-effect btn post_btn modal-trigger"><i class="ion-plus"></i><span>Add Post</span></a></li>
+                    <li><a href="#post_modal" class="waves-effect btn post_btn modal-trigger"><i class="ion-plus"></i><span>Create Event</span></a></li>
                     <!-- Follow feed -->
                     <li class="notifications follow"><a class="dropdown-button" href="#!" data-activates="dropdown4"><i class="ion-ios-person-outline"></i><b class="n-number" id="fnumber">0</b></a>
                         <!-- Dropdown Structure -->
@@ -214,7 +216,7 @@ function enterpressalert2(e, textarea){
                         <!-- Dropdown Structure -->
                         <ul id="dropdown1" class="dropdown-content">
                             <li><a href="{% url 'view-profile' request.user.profile.slug %}" ><i class="ion-android-folder-open"></i>View Profile</a></li>
-                            <li><a href="read-later.html"><i class="ion-android-folder-open"></i>Saved Articles</a></li>
+                            <li><a href="read-later.html"><i class="ion-android-folder-open"></i>Saved Events</a></li>
                             <li class="b_t"><a href="#"><i class="ion-android-notifications"></i>Notification settings</a></li>
                             <li class="b_b"><a href="#"><i class="ion-ios-locked"></i>Change Password</a></li>
                             <li><a href="#"><i class="ion-gear-b"></i>Settings</a></li>

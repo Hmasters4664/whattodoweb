@@ -12,15 +12,15 @@
       <!-- left side bar -->
     <div class="col">
                 <div class="left_side_bar">
-                    <div class="profile">
-                        <h3 class="categories_tittle">Profile <span>Edit</span></h3>
-                        <ul class="profile_pic">
-                            <li><a href=""><img src="images/profile-1.jpg" alt="" class="circle"></a></li>
-                        </ul>
+                    <div class="categories">
+                        <h3 class="categories_tittle me_tittle">Details</h3>
+                        <p> {{ request.user.profile.name }}</p>
+                        <p> {{ request.user.profile.country }}</p>
+                        <p> {{ request.user.profile.city }}</p>
                     </div>
                     <div class="categories">
                         <h3 class="categories_tittle me_tittle">About Me</h3>
-                       <p> {{ request.user.profile.bio }}
+                        <p> {{ request.user.profile.bio }}</p>
                     </div>
                     <div class="badges">
                         <h3 class="categories_tittle">Badges</h3>
@@ -36,19 +36,9 @@
                             <li><a href="#"><i class="ion-clock"></i></a></li>
                         </ul>
                     </div>
-                    <div class="calendar_widget">
+                    <div class="calendar_widget" >
                         <h3 class="categories_tittle">Calendar</h3>
-                        <table class="calendar"></table>
-                    </div>
-                    <div class="social_Sharing">
-                        <h3 class="categories_tittle">Social Sharing</h3>
-                        <ul class="social_icon">
-                            <li><a href="#"><i class="ion-social-twitter"></i></a></li>
-                            <li><a href="#" class="tumblr"><i class="ion-social-tumblr"></i></a></li>
-                            <li><a href="#" class="googleplus"><i class="ion-social-googleplus"></i></a></li>
-                            <li><a href="#" class="pinterest"><i class="ion-social-pinterest"></i></a></li>
-                            <li><a href="#" class="facebook"><i class="ion-social-facebook"></i></a></li>
-                        </ul>
+                        <table class="calendar" width="65"></table>
                     </div>
                     <div class="advertis">
                         <a href="#"><img src="images/advertis.jpg" alt=""></a>

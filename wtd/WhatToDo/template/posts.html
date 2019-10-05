@@ -4,13 +4,13 @@
                 <div class="post">
                    <div class="post_content">
                         <a href="details.html" class="post_img">
-                            <img src={{ post.picture.url }} alt="">
+                            <img src={{ post.picture.url }} alt="" width="620" height="300">
                         </a>
                         <div class="row author_area">
                             <div class="col s4 author">
-                                <div class="col s4 media_left"><img src="images/author-1.jpg" alt="" class="circle"></div>
+                                <div class="col s4 media_left"><img src={{post.author.profile.profile_picture.url}} alt="" class="circle" width="25" height="25"></div>
                                 <div class="col s8 media_body">
-                                    <a href="#">{{ post.author.name }}</a>
+                                    <a href="#">{{ post.author.profile.name }}</a>
                                 </div>
                             </div>
                             <div class="col s4 btn_floating">
