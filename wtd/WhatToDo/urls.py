@@ -1,7 +1,7 @@
 from django.conf.urls import url
 from django.urls import include, re_path, path
 from .views import Login, AddCategory, AddEvent, Main, Results, FriendRequests, Notification, MessageView, \
-    UpdateProfile, AddPost, ViewProfile
+    UpdateProfile, AddPost, ViewProfile, CalendarView
 from . import views
 
 urlpatterns = [
@@ -32,6 +32,7 @@ urlpatterns = [
     re_path(r'^addPost/', AddPost.as_view(), name='add-post'),
     re_path(r'^eventsearch/$',views.event_search,name='event-search'),
     re_path(r'^messages', views.message, name='message'),
+    re_path(r'^calender/', CalendarView.as_view(), name='calender'),
     re_path(r'^notification', views.notification, name='notification')
 ]
 

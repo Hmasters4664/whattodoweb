@@ -6,6 +6,8 @@ from django.utils.http import is_safe_url
 import csv
 from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
+from django.utils.safestring import mark_safe
+
 from .models import Event, Venue, Organiser, Category, Profile, Notifications, Messages, RELATIONSHIP_REQUESTED, \
     RELATIONSHIP_FOLLOWING, Relationship, Post
 from django.views.generic import CreateView
@@ -17,7 +19,7 @@ from .forms import EventForm, ProfileForm, UserForm, VenueForm, PostForm
 from django.views.generic.list import ListView
 from django.views.generic import UpdateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from datetime import datetime
+from datetime import datetime, date
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.decorators import method_decorator
@@ -52,6 +54,7 @@ from .validators import validate_characters
 import firebase_admin
 from firebase_admin import credentials, firestore
 from django.db.models import Count
+from .calender import Calendar
 
 cred = credentials.Certificate("secrets.json")
 firebase_admin.initialize_app(cred)
@@ -434,3 +437,29 @@ class ViewProfile(LoginRequiredMixin, ListView):
         context = super(ViewProfile, self).get_context_data()
         context['posts'] = Post.objects.all()
         return context
+
+
+class CalendarView(ListView):
+    model = Event
+    template_name = 'calander.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # use today's date for the calendar
+        d = get_date(self.request.GET.get('day', None))
+
+        # Instantiate our calendar class with today's year and date
+        cal = Calendar(d.year, d.month, self.request.user)
+
+        # Call the formatmonth method, which returns our calendar as a table
+        html_cal = cal.formatmonth(withyear=True)
+        print(mark_safe(html_cal))
+        context['calandar'] = mark_safe(html_cal)
+        return context
+
+def get_date(req_day):
+    if req_day:
+        year, month = (int(x) for x in req_day.split('-'))
+        return date(year, month, day=1)
+    return datetime.today()
