@@ -1,0 +1,12 @@
+{% for schedule in schedules %}
+ <li>
+                                <div class="collapsible-header"><i class="ion-chevron-right"></i>{{ schedule.title }}</div>
+                                <div class="collapsible-body">
+                                    <div class="row collaps_wrpper">
+                                        <div class="col s11 media_b">
+                                            <h6><a href="{% url 'calender' %}">{{ schedule.start_time }}</a></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+{% endfor %}

@@ -9,7 +9,7 @@ from django.http import JsonResponse
 from django.utils.safestring import mark_safe
 
 from .models import Event, Venue, Organiser, Category, Profile, Notifications, Messages, RELATIONSHIP_REQUESTED, \
-    RELATIONSHIP_FOLLOWING, Relationship, Post
+    RELATIONSHIP_FOLLOWING, Relationship, Post, Schedule
 from django.views.generic import CreateView
 from django.views.generic.edit import FormView
 from django.views.generic.base import View, TemplateView
@@ -19,7 +19,7 @@ from .forms import EventForm, ProfileForm, UserForm, VenueForm, PostForm
 from django.views.generic.list import ListView
 from django.views.generic import UpdateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.decorators import method_decorator
@@ -55,6 +55,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 from django.db.models import Count
 from .calender import Calendar
+import calendar
 
 cred = credentials.Certificate("secrets.json")
 firebase_admin.initialize_app(cred)
@@ -72,6 +73,7 @@ class Main(LoginRequiredMixin, ListView):
         context['events'] = d
         context['uevents'] = d.order_by('-startDate')[:5]
         context['tops'] = d.annotate(l_count=Count('interest')).order_by('-l_count')[:5]
+        context['schedules'] = Schedule.objects.filter(creator=self.request.user).order_by('start_time')[:5]
         context['categories'] = Category.objects.filter(parent__isnull=True)
         return context
 
@@ -447,19 +449,47 @@ class CalendarView(ListView):
         context = super().get_context_data(**kwargs)
 
         # use today's date for the calendar
-        d = get_date(self.request.GET.get('day', None))
-
+        d = get_date(self.request.GET.get('month', None))
+        #print(d)
         # Instantiate our calendar class with today's year and date
         cal = Calendar(d.year, d.month, self.request.user)
 
         # Call the formatmonth method, which returns our calendar as a table
         html_cal = cal.formatmonth(withyear=True)
-        print(mark_safe(html_cal))
+        #print(mark_safe(html_cal))
+        #print(prev_month(d))
+        context['prev_month'] = prev_month(d)
+        context['next_month'] = next_month(d)
         context['calandar'] = mark_safe(html_cal)
         return context
+
 
 def get_date(req_day):
     if req_day:
         year, month = (int(x) for x in req_day.split('-'))
         return date(year, month, day=1)
     return datetime.today()
+
+
+def prev_month(d):
+    first = d.replace(day=1)
+    prev_month = first - timedelta(days=1)
+    month = 'month=' + str(prev_month.year) + '-' + str(prev_month.month)
+    return month
+
+
+def next_month(d):
+    days_in_month = calendar.monthrange(d.year, d.month)[1]
+    last = d.replace(day=days_in_month)
+    next_month = last + timedelta(days=1)
+    month = 'month=' + str(next_month.year) + '-' + str(next_month.month)
+    return month
+
+@login_required
+def addtoschedule(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    if event:
+        schedule = Schedule(creator=request.user, title=event.name, start_time=event.startDate, end_time=event.endDate)
+        schedule.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+

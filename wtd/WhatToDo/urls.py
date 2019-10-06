@@ -32,6 +32,7 @@ urlpatterns = [
     re_path(r'^addPost/', AddPost.as_view(), name='add-post'),
     re_path(r'^eventsearch/$',views.event_search,name='event-search'),
     re_path(r'^messages', views.message, name='message'),
+    re_path(r'^addSchedule/(?P<pk>\d+)/', views.addtoschedule, name='schedule-add'),
     re_path(r'^calender/', CalendarView.as_view(), name='calender'),
     re_path(r'^notification', views.notification, name='notification')
 ]

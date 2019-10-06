@@ -440,20 +440,10 @@ function enterpressalert2(e, textarea){
                         <img src="images/advertis-2.jpg" alt="" class="responsive-img">
                     </a>
                     <div class="popular_posts">
-                        <h3 class="categories_tittle">Saved Events</h3>
-
-
-                        <div class="row valign-wrapper popular_item">
-                            <div class="col s3 p_img">
-                               <a href="#">
-                                    <img src="images/recent-post-5.jpg" alt="" class="circle responsive-img">
-                               </a>
-                            </div>
-                            <div class="col s9 p_content">
-                               <a href="#">Famous is as famous does and the famous get known through publicity. </a>
-                                <span class="black_text">10 days ago</span>
-                            </div>
-                        </div>
+                        <h3 class="categories_tittle">Coming up</h3>
+                        <ul class="collapsible trending_collaps" data-collapsible="accordion">
+                        {% include "schedule.html" %}
+                        </ul>
 
                     </div>
 

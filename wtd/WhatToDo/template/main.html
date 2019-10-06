@@ -29,8 +29,7 @@
                                     <li class="post_d"><a class="dropdown-button waves-effect" href="#!" data-activates="post_dropdown"><i 						class="ion-android-more-vertical"></i></a>
                                         <!-- Dropdown Structure -->
                                         <ul id="post_dropdown" class="dropdown-content">
-					                        <li><a href="#">Add To Calender</a></li>
-                                            <li><a href="#">More Info</a></li>
+					                        <li><a href="{% url 'schedule-add' event.id %}">Add To Calender</a></li>
                                         </ul>
                                     </li>
                                 </ul>
