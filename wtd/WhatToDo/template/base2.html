@@ -64,32 +64,21 @@
                 <ul class="left_menu hide-on-med-and-down">
                     <li><a href="{% url 'main' %}" class="active">Home</a></li>
                     <li class="user_dropdown"><a class="dropdown-button" href="#!" data-activates="dropdown6">All Pages</a>
-                        <div id="dropdown6" class="dropdown-content submenu row">
+                            <div id="dropdown6" class="dropdown-content submenu row">
                            <div class="col m4 menu_column">
                                <ul>
-                                   <li><a href="get-started.html">Get started</a></li>
-                                   <li><a href="dashboard.html">Dashboard</a></li>
-                                   <li><a href="details.html">Post details</a></li>
-                                   <li><a href="details-2.html">Post details 2</a></li>
-                                   <li><a href="{% url 'modify-profile' request.user.profile.slug %}">Profile</a></li>
+                                   <li><a href="{% url 'message-view' %}">Messages</a></li>
+                                   <li><a href="{% url 'all-request' %}">Requests</a></li>
+                                   <li><a href="{% url 'all-notifications' %}">Notifications</a></li>
+                                   <li><a href="{% url 'calender' %}">Calender</a></li>
+                                   <li><a href="{% url 'modify-profile' request.user.profile.slug %}">Update Profile</a></li>
                                </ul>
                            </div>
                            <div class="col m4 menu_column">
                                <ul>
-                                   <li><a href="messages.html">Messages</a></li>
-                                   <li><a href="requests.html">Requests</a></li>
-                                   <li><a href="read-later.html">Read-Later</a></li>
-                                   <li><a href="notifications.html">Notifications</a></li>
-                                   <li><a href="block-list.html">Block-list</a></li>
-                               </ul>
-                           </div>
-                           <div class="col m4 menu_column">
-                               <ul>
-                                   <li><a href="photos.html">Photos</a></li>
-                                   <li><a href="photos-2.html">Photos v2</a></li>
-                                   <li><a href="video.html">Videos</a></li>
-                                   <li><a href="error.html">Error (404)</a></li>
-                                   <li><a href="#modal1" class="waves-effect modal-trigger">Sign in</a></li>
+                                   <li><a href="{% url 'main' %}">Events</a></li>
+                                   <li><a href="{% url 'view-profile' request.user.profile.slug %}">View Profile</a></li>
+                                   <li><a href="{% url 'all-notifications' %}">Notifications</a></li>
                                </ul>
                            </div>
                         </div>

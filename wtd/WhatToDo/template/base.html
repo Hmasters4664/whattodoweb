@@ -36,7 +36,7 @@
          var NOTIFICATION = '{% url "notification" %}';
          var MESSAGE = '{% url "message" %}';
          var SEARCH = '{% url "search" %}';
-         var csrf_token = "{{ csrf_token }}";
+         const csrf_token = "{{ csrf_token }}";
          var Likes = '{% url "like-event" %}';
          var Event = '{% url "event-search" %}';
 
@@ -46,7 +46,7 @@
 
          function enterpressalert(e, textarea){
             var code = (e.keyCode ? e.keyCode : e.which);
-            if(code == 13) { //Enter keycode
+            if(code === 13) { //Enter keycode
                 window.location.replace("/results?item="+document.getElementById('txtSearch2').value);
 }
 }
@@ -56,10 +56,12 @@
             Cate = name;
 }
 
-function enterpressalert2(e, textarea){
-            var code = (e.keyCode ? e.keyCode : e.which);
-            if(code == 13) { //Enter keycode
-                window.location.replace("/results?item="+document.getElementById('txtSearch').value);
+function enterpressalert2(e, textarea) {
+    var code = (e.keyCode ? e.keyCode : e.which);
+    if (code === 13) { //Enter keycode
+        window.location.replace("/results?item=" + document.getElementById('txtSearch').value);
+    }
+}
 
 
     </script>
@@ -79,35 +81,25 @@ function enterpressalert2(e, textarea){
                         <div id="dropdown6" class="dropdown-content submenu row">
                            <div class="col m4 menu_column">
                                <ul>
-                                   <li><a href="get-started.html">Get started</a></li>
-                                   <li><a href="dashboard.html">Dashboard</a></li>
-                                   <li><a href="details.html">Post details</a></li>
-                                   <li><a href="details-2.html">Post details 2</a></li>
-                                   <li><a href="{% url 'modify-profile' request.user.profile.slug %}">Profile</a></li>
+                                   <li><a href="{% url 'message-view' %}">Messages</a></li>
+                                   <li><a href="{% url 'all-request' %}">Requests</a></li>
+                                   <li><a href="{% url 'all-notifications' %}">Notifications</a></li>
+                                   <li><a href="{% url 'calender' %}">Calender</a></li>
+                                   <li><a href="{% url 'modify-profile' request.user.profile.slug %}">Update Profile</a></li>
                                </ul>
                            </div>
                            <div class="col m4 menu_column">
                                <ul>
-                                   <li><a href="messages.html">Messages</a></li>
-                                   <li><a href="requests.html">Requests</a></li>
-                                   <li><a href="read-later.html">Read-Later</a></li>
-                                   <li><a href="notifications.html">Notifications</a></li>
-                                   <li><a href="block-list.html">Block-list</a></li>
+                                   <li><a href="{% url 'main' %}">Events</a></li>
+                                   <li><a href="{% url 'view-profile' request.user.profile.slug %}">View Profile</a></li>
+                                   <li><a href="{% url 'all-notifications' %}">Notifications</a></li>
                                </ul>
                            </div>
-                           <div class="col m4 menu_column">
-                               <ul>
-                                   <li><a href="photos.html">Photos</a></li>
-                                   <li><a href="photos-2.html">Photos v2</a></li>
-                                   <li><a href="video.html">Videos</a></li>
-                                   <li><a href="error.html">Error (404)</a></li>
-                                   <li><a href="#modal1" class="waves-effect modal-trigger">Sign in</a></li>
-                               </ul>
-                           </div>
+
                         </div>
                     </li>
                     <li><a href="{% url 'modify-profile' request.user.profile.slug %}">Profile</a></li>
-                    <li><a href="dashboard.html">Dashboard</a></li>
+                    <li><a href="{% url 'calender' %}">Calender</a></li>
                     <li class="notifications search_sm"><a class="dropdown-button" href="#!" data-activates="dropdown5"><i class="ion-ios-search"></i></a>
                         <!-- Dropdown Structure -->
                         <ul id="dropdown5" class="dropdown-content">
@@ -237,21 +229,13 @@ function enterpressalert2(e, textarea){
                     <li class="user_dropdown"><a class="dropdown-button" href="#!" data-activates="dropdown_s0">All Pages</a>
                         <!-- Dropdown Structure -->
                         <ul id="dropdown_s0" class="dropdown-content">
-                           <li><a href="get-started.html">Get started</a></li>
-                           <li><a href="dashboard.html">Dashboard</a></li>
-                           <li><a href="details.html">Post details</a></li>
-                           <li><a href="details-2.html">Post details 2</a></li>
+
+                           <li><a href="{% url 'calender' %}">Calender</a></li>
                            <li><a href="{% url 'modify-profile' request.user.profile.slug %}">Profile</a></li>
                             <li><a href="{% url 'view-profile' request.user.profile.slug %}" >View Profile</a></li>
-                           <li><a href="messages.html">Messages</a></li>
-                           <li><a href="requests.html">Requests</a></li>
-                           <li><a href="read-later.html">Read-Later</a></li>
-                           <li><a href="notifications.html">Notifications</a></li>
-                           <li><a href="block-list.html">Block-list</a></li>
-                           <li><a href="photos.html">Photos</a></li>
-                           <li><a href="photos-2.html">Photos v2</a></li>
-                           <li><a href="video.html">Videos</a></li>
-                           <li><a href="block-list.html">Error (404)</a></li>
+                           <li><a href="{% url 'message-view' %}">Messages</a></li>
+                           <li><a href="{% url 'all-request' %}">Requests</a></li>
+                           <li><a href="{% url 'all-notifications' %}">Notifications</a></li>
                         </ul>
                     </li>
                     <li><a href="#">Shortcodes</a></li>
@@ -335,11 +319,9 @@ function enterpressalert2(e, textarea){
                         <ul id="dropdown_s4" class="dropdown-content">
                             <li><a href="{% url 'modify-profile' request.user.profile.slug %}"><i class="ion-person"></i>Modify profile</a></li>
                             <li><a href="{% url 'view-profile' request.user.profile.slug %}" ><i class="ion-android-folder-open"></i>View Profile</a></li>
-                            <li class="b_t"><a href="#"><i class="ion-android-notifications"></i>Notification settings</a></li>
                             <li class="b_b"><a href="#"><i class="ion-ios-locked"></i>Change Password</a></li>
                             <li><a href="#"><i class="ion-gear-b"></i>Settings</a></li>
                             <li><a href="#"><i class="ion-ios-flag"></i>Privacy Policy</a></li>
-                            <li><a href="#"><i class="ion-podium"></i>FAQ</a></li>
                             <li><a href="{% url 'logout'%}"><i class="ion-power"></i>Log out</a></li>
                         </ul>
                     </li>
@@ -350,7 +332,7 @@ function enterpressalert2(e, textarea){
     <!-- End  Header_Area -->
      <ul class="tranding_select">
          {% for category in categories %}
-        <li><a href="#" onclick="entersearch({{ category.name }})" class="waves-effect btn" color="red">{{ category.name }}</a></li>
+        <li><a href="#" onclick="entersearch('{{category.name }}');" class="waves-effect btn" color="red">{{ category.name }}</a></li>
          {% endfor %}
     </ul>
     <div class="banner_area">
@@ -372,7 +354,7 @@ function enterpressalert2(e, textarea){
                        <li><input placeholder="Search by event or city" type="text" id="evntSearch"></li>
                         <button id="eventSearch" onclick="searchEvent();">Search</button>
                     </div>
-                    <div class="interests">
+                    <!--<div class="interests">
                         <h3 class="categories_tittle">Your Interests <span>Edit</span></h3>
                         <ul class="interests_list">
                             <li><a href="#"><i class="ion-android-radio-button-on"></i>Arts</a></li>
@@ -383,22 +365,7 @@ function enterpressalert2(e, textarea){
                             <li><a href="#"><i class="ion-android-radio-button-off"></i>Politics</a></li>
                             <li><a href="#"><i class="ion-android-radio-button-off"></i>Space Science</a></li>
                         </ul>
-                    </div>
-                    <div class="profile">
-                        <h3 class="categories_tittle">Profile <span>Edit</span></h3>
-                        <ul class="profile_pic">
-                            <li><a href=""><img src="images/profile-1.jpg" alt="" class="circle"></a></li>
-                            <li><a href=""><img src="images/profile-2.jpg" alt="" class="circle"></a></li>
-                            <li><a href=""><img src="images/profile-3.jpg" alt="" class="circle"></a></li>
-                            <li><a href=""><img src="images/profile-4.jpg" alt="" class="circle"></a></li>
-                            <li><a href=""><img src="images/profile-5.jpg" alt="" class="circle"></a></li>
-                            <li><a href=""><img src="images/profile-6.jpg" alt="" class="circle"></a></li>
-                            <li><a href=""><img src="images/profile-7.jpg" alt="" class="circle"></a></li>
-                            <li><a href=""><img src="images/profile-8.jpg" alt="" class="circle"></a></li>
-                            <li><a href=""><img src="images/profile-9.jpg" alt="" class="circle"></a></li>
-                            <li><a href=""><img src="images/profile-10.jpg" alt="" class="circle"></a></li>
-                        </ul>
-                    </div>
+                    </div>-->
                     <div class="badges">
                         <h3 class="categories_tittle">Badges</h3>
                         <ul class="badges_list">
@@ -417,7 +384,7 @@ function enterpressalert2(e, textarea){
                         <h3 class="categories_tittle">Calendar</h3>
                         <table class="calendar"></table>
                     </div>
-                    <div class="social_Sharing">
+                    <!---<div class="social_Sharing">
                         <h3 class="categories_tittle">Social Sharing</h3>
                         <ul class="social_icon">
                             <li><a href="#"><i class="ion-social-twitter"></i></a></li>
@@ -426,7 +393,7 @@ function enterpressalert2(e, textarea){
                             <li><a href="#" class="pinterest"><i class="ion-social-pinterest"></i></a></li>
                             <li><a href="#" class="facebook"><i class="ion-social-facebook"></i></a></li>
                         </ul>
-                    </div>
+                    </div>-->
                     <div class="advertis">
                         <a href="#"><img src="images/advertis.jpg" alt=""></a>
                     </div>
@@ -439,7 +406,7 @@ function enterpressalert2(e, textarea){
                     <a href="#">
                         <img src="images/advertis-2.jpg" alt="" class="responsive-img">
                     </a>
-                    <div class="popular_posts">
+                    <div class="trending_area">
                         <h3 class="categories_tittle">Coming up</h3>
                         <ul class="collapsible trending_collaps" data-collapsible="accordion">
                         {% include "schedule.html" %}
@@ -615,9 +582,12 @@ function enterpressalert2(e, textarea){
     <script src="{% static 'vendors/check-button/jquery.jqflipswitch.js' %}"></script>
     <!-- Theme JS -->
     <script src="{% static 'js/theme.js' %}"></script>
+
     <script src="{% static 'js/notifications.js' %}"></script>
     <script src="{% static 'js/search.js' %}"></script>
     <script src="{% static 'js/searchEvent.js' %}"></script>
     <script src="{% static 'js/sendLike.js' %}"></script>
+
+
 </body>
 </html>

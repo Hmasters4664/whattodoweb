@@ -83,6 +83,7 @@ def event_search(request):
     var2 = request.POST.get('category', '')
     d = Event.objects.filter(Q(name__startswith=var1, category__name__startswith=var2)
                              | Q(venue__city=var1, category__name__startswith=var2))
+    print(d)
     return render(request, 'temp.html', {'events': d})
 
 

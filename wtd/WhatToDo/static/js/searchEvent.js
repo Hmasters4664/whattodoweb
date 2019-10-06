@@ -1,7 +1,7 @@
 function searchEvent()
 {
      $.ajax({
-          headers: { "X-CSRFToken": csrf_token },
+    headers: { "X-CSRFToken": csrf_token },
     url: Event,
     type: 'POST',
     dataType: "html",
