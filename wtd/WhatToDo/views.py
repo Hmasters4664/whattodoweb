@@ -75,6 +75,7 @@ class Main(LoginRequiredMixin, ListView):
         context['tops'] = d.annotate(l_count=Count('interest')).order_by('-l_count')[:5]
         context['schedules'] = Schedule.objects.filter(creator=self.request.user).order_by('start_time')[:5]
         context['categories'] = Category.objects.filter(parent__isnull=True)
+        #context['cities'] = Venue.objects.values('city').distinct()
         return context
 
 @login_required
