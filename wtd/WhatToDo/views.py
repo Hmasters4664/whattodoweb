@@ -435,7 +435,7 @@ class ViewProfile(LoginRequiredMixin, ListView):
     model = Post
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
-    template_name = 'profile.html'
+    template_name = 'true_profile.html'
 
     def get_context_data(self, *, assets=None, **kwargs):
         context = super(ViewProfile, self).get_context_data()
