@@ -1,0 +1,49 @@
+{% extends 'base3.html' %}
+{% load static %}
+
+{% block content %}
+<section class="author_profile">
+        <div class="row author_profile_row">
+            <div class="col l4 m6">
+                <ul class="profile_menu">
+                    <li><a href="#">About</a></li>
+                    <li class="post_d"><a class="dropdown-button" href="#!" data-activates="dro_pm">...</a>
+                        <!-- Dropdown Structure -->
+                        <ul id="dro_pm" class="dropdown-content">
+                            <li><a href="#">Popular Post</a></li>
+                            <li><a href="#">Save Post</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="col l4 m6">
+                <ul class="post_follow">
+                    <li>Posts <b>102</b></li>
+                    <li>Friends <b>389</b></li>
+                </ul>
+            </div>
+            <div class="col l4 m6">
+                <ul class="follow_messages">
+                    <li><a href="#" class="waves-effect">Follow</a></li>
+                    <li><a href="#" class="waves-effect">Messages</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+<section class="min_container photo_pages">
+        <div class="section_row row">
+            <div class="col s12">
+                <h2>Photo Gallery</h2>
+                <a href="#" class="waves-effect add_photos">Add Photos</a>
+            </div>
+            {% for post in posts %}
+            <div class="col col l3 m4 s6 photos_col">
+                <a href="#" class="photos"><img src="{{ post.picture.url }}" alt=""></a>
+            </div>
+           {% endfor %}
+        </div>
+        <div class="loding_img">
+            <img src="images/icons/loding.png" alt="">
+        </div>
+    </section>
+{% endblock %}

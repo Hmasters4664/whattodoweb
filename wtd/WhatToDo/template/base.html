@@ -74,7 +74,7 @@ function enterpressalert2(e, textarea) {
             <div class="nav-wrapper">
                 <a href="index.html" class="brand-logo"><img src="{% static 'images/logo.png' %}" alt=""></a>
                 <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
-                <a href="#post_modal" class="waves-effect btn post_btn sm_post_btn modal-trigger"><i class="ion-plus"></i>Create Event</a>
+                <!--<a href="#post_modal" class="waves-effect btn post_btn sm_post_btn modal-trigger"><i class="ion-plus"></i>Create Event</a>-->
                 <ul class="left_menu hide-on-med-and-down">
                     <li><a href="{% url 'main' %}" class="active">Home</a></li>
                     <li class="user_dropdown"><a class="dropdown-button" href="#!" data-activates="dropdown6">All Pages</a>
@@ -129,7 +129,7 @@ function enterpressalert2(e, textarea) {
                         </ul>
                        </ul>
                     </li>
-                    <li><a href="#post_modal" class="waves-effect btn post_btn modal-trigger"><i class="ion-plus"></i><span>Create Event</span></a></li>
+                    <!--<li><a href="#post_modal" class="waves-effect btn post_btn modal-trigger"><i class="ion-plus"></i><span>Create Event</span></a></li>-->
                     <!-- Follow feed -->
                     <li class="notifications follow"><a class="dropdown-button" href="#!" data-activates="dropdown4"><i class="ion-ios-person-outline"></i><b class="n-number" id="fnumber">0</b></a>
                         <!-- Dropdown Structure -->
@@ -407,7 +407,7 @@ function enterpressalert2(e, textarea) {
                         <img src="images/advertis-2.jpg" alt="" class="responsive-img">
                     </a>
                     <div class="trending_area">
-                        <h3 class="categories_tittle">Coming up</h3>
+                        <h3 class="categories_tittle">Saved Events</h3>
                         <ul class="collapsible trending_collaps" data-collapsible="accordion">
                         {% include "schedule.html" %}
                         </ul>
