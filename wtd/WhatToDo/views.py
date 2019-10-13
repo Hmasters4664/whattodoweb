@@ -8,6 +8,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.http import JsonResponse
 from django.utils.safestring import mark_safe
 
+from user.models import User
 from .models import Event, Venue, Organiser, Category, Profile, Notifications, Messages, RELATIONSHIP_REQUESTED, \
     RELATIONSHIP_FOLLOWING, Relationship, Post, Schedule
 from django.views.generic import CreateView
@@ -448,7 +449,9 @@ class ViewProfile(LoginRequiredMixin, ListView):
 
     def get_context_data(self, *, assets=None, **kwargs):
         context = super(ViewProfile, self).get_context_data()
-        context['posts'] = Post.objects.all()
+        context['posts'] = Post.objects.filter(author=self.request.user)
+        context['count'] = Post.objects.filter(author=self.request.user).count()
+        context['fcount'] = self.request.user.profile.count_relationships(0)
         return context
 
 

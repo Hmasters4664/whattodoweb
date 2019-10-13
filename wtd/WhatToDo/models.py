@@ -170,6 +170,11 @@ class Profile(models.Model):
             to_people__status=status,
             to_people__from_person=self)
 
+    def count_relationships(self, status):
+        return self.relationships.filter(
+            to_people__status=status,
+            to_people__from_person=self).count()
+
     def remove_relationship(self, person, status, symm=True):
         Relationship.objects.filter(
             from_person=self,
