@@ -75,17 +75,26 @@ class Main(LoginRequiredMixin, ListView):
         context['tops'] = d.annotate(l_count=Count('interest')).order_by('-l_count')[:5]
         context['schedules'] = Schedule.objects.filter(creator=self.request.user).order_by('start_time')[:5]
         context['categories'] = Category.objects.filter(parent__isnull=True)
-        #context['cities'] = Venue.objects.values('city').distinct()
+        context['cities'] = Venue.objects.values('city').distinct()
         return context
 
 @login_required
 def event_search(request):
     var1 = request.POST.get('item', '')
-    var2 = request.POST.get('category', '')
-    d = Event.objects.filter(Q(name__startswith=var1, category__name__startswith=var2)
-                             | Q(venue__city=var1, category__name__startswith=var2))
+    d = Event.objects.filter(name__startswith=var1)
+
     print(d)
     return render(request, 'temp.html', {'events': d})
+
+@login_required
+def event_select(request):
+    var1 = request.POST.get('city', '')
+    var2 = request.POST.get('category', '')
+    d = Event.objects.filter(venue__city__startswith=var1, category__name__startswith=var2)
+
+    print(d)
+    return render(request, 'temp.html', {'events': d})
+
 
 
 @login_required

@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Title</title>
+    <title>WhatToDo</title>
         <!-- Favicon -->
     <link rel="icon" href="{% static 'images/favicon.png' %}" type="image/x-icon" />
     <!-- Materialize CSS -->
@@ -39,7 +39,8 @@
          const csrf_token = "{{ csrf_token }}";
          var Likes = '{% url "like-event" %}';
          var Event = '{% url "event-search" %}';
-
+         var EventSelect = '{% url "event-select" %}';
+         var city = "";
          var Cate = "";
 
 
@@ -54,6 +55,12 @@
          function entersearch(name){
 
             Cate = name;
+            Evntselect();
+}
+         function selectcity(name){
+
+            city = name;
+            Evntselect();
 }
 
 function enterpressalert2(e, textarea) {
@@ -98,7 +105,19 @@ function enterpressalert2(e, textarea) {
 
                         </div>
                     </li>
-                    <li><a href="{% url 'modify-profile' request.user.profile.slug %}">Profile</a></li>
+                     <li class="user_dropdown"><a class="dropdown-button" href="#!" data-activates="dropdownC">Cities</a>
+                        <div id="dropdownC" class="dropdown-content submenu row">
+                           <div class="col m4 menu_column">
+                               <ul>
+                                   {% for city in cities %}
+                                   <li><a href="#" onclick="selectcity('{{city.city}}');">{{city.city}}</a></li>
+                                 {% endfor %}
+                                   <li><a href="#" onclick="selectcity('');">All</a></li>
+                               </ul>
+                           </div>
+
+                        </div>
+                    </li>
                     <li><a href="{% url 'calender' %}">Calender</a></li>
                     <li class="notifications search_sm"><a class="dropdown-button" href="#!" data-activates="dropdown5"><i class="ion-ios-search"></i></a>
                         <!-- Dropdown Structure -->
@@ -334,6 +353,7 @@ function enterpressalert2(e, textarea) {
          {% for category in categories %}
         <li><a href="#" onclick="entersearch('{{category.name }}');" class="waves-effect btn" color="red">{{ category.name }}</a></li>
          {% endfor %}
+         <li><a href="#" onclick="entersearch('');" class="waves-effect btn" color="red">All</a></li>
     </ul>
     <div class="banner_area">
         <img src="{% static 'images/banner-3.jpg' %}" alt="" class="banner_img" width="1900" height="400">
@@ -351,7 +371,7 @@ function enterpressalert2(e, textarea) {
                 <div class="left_side_bar">
                     <div class="categories">
                         <h3 class="categories_tittle">Search</h3>
-                       <li><input placeholder="Search by event or city" type="text" id="evntSearch"></li>
+                       <li><input placeholder="Search by event" type="text" id="evntSearch"></li>
                         <button id="eventSearch" onclick="searchEvent();">Search</button>
                     </div>
                     <!--<div class="interests">
@@ -587,6 +607,7 @@ function enterpressalert2(e, textarea) {
     <script src="{% static 'js/search.js' %}"></script>
     <script src="{% static 'js/searchEvent.js' %}"></script>
     <script src="{% static 'js/sendLike.js' %}"></script>
+    <script src="{% static 'js/selector.js' %}"></script>
 
 
 </body>

@@ -1,12 +1,13 @@
-function searchEvent()
+function Evntselect()
 {
      $.ajax({
     headers: { "X-CSRFToken": csrf_token },
-    url: Event,
+    url: EventSelect,
     type: 'POST',
     dataType: "html",
     data: {
-        'item': document.getElementById("evntSearch").value,
+        'city': city,
+        'category': Cate
     },
     success: function(data) {
               $("#infinite_scroll").html(data);
