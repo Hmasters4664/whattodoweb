@@ -12,6 +12,11 @@ from django.db import models
 from django.conf import settings
 import uuid
 from django.template.defaultfilters import slugify
+from sorl.thumbnail import ImageField, get_thumbnail
+from django.core.files.uploadedfile import SimpleUploadedFile
+from PIL import Image
+from io import StringIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 RELATIONSHIP_FOLLOWING = 0
 RELATIONSHIP_REQUESTED = 1
@@ -104,7 +109,9 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, blank=True, validators=[validate_characters],)
     name = models.TextField(max_length=50, blank=False, validators=[validate_characters],)
     country = models.CharField(max_length=30, blank=True, validators=[validate_characters],)
-    profile_picture = models.ImageField(upload_to='profile', blank=True, null=True, default='profile/avatar.jpg')
+    profile_picture = ImageField(upload_to='profile', blank=True, null=True, default='profile/avatar.jpg')
+    profile_small = ImageField(upload_to='profile', blank=True, null=True,)
+    profile_medium = ImageField(upload_to='profile', blank=True, null=True,)
     city = models.CharField(max_length=30, blank=True, validators=[validate_characters],)
     province = models.CharField(_('provice/state'), max_length=30, blank=True, validators=[validate_characters],)
     birth_date = models.DateField(null=True, blank=True,)
@@ -122,6 +129,12 @@ class Profile(models.Model):
         slug_str = "%s %s" % (self.name, uuid.uuid4())
         self.slug = slugify(slug_str)
         super(Profile, self).save(**kwargs)
+
+
+
+
+
+
 
     def __unicode__(self):
         return self.name

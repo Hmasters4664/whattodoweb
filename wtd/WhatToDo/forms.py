@@ -23,7 +23,7 @@ class SignUpForm(UserCreationForm):
 class ProfileForm(ModelForm):
     class Meta:
         model = Profile
-        fields = ['bio', 'country', 'city', 'province', 'birth_date']
+        fields = ['bio', 'country', 'city', 'province', 'birth_date', 'profile_picture']
 
 
 class UserForm(forms.ModelForm):

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'groups',
     'user',
     'comment',
+    'sorl.thumbnail',
     'rest_framework',
 ]
 
