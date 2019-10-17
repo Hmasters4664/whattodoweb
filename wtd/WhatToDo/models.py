@@ -17,6 +17,7 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from PIL import Image
 from io import StringIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
+import os
 
 RELATIONSHIP_FOLLOWING = 0
 RELATIONSHIP_REQUESTED = 1
@@ -106,15 +107,15 @@ class Category(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    bio = models.TextField(max_length=500, blank=True, validators=[validate_characters],)
-    name = models.TextField(max_length=50, blank=False, validators=[validate_characters],)
-    country = models.CharField(max_length=30, blank=True, validators=[validate_characters],)
+    bio = models.TextField(max_length=500, blank=True, validators=[validate_characters], )
+    name = models.TextField(max_length=50, blank=False, validators=[validate_characters], )
+    country = models.CharField(max_length=30, blank=True, validators=[validate_characters], )
     profile_picture = ImageField(upload_to='profile', blank=True, null=True, default='profile/avatar.jpg')
-    profile_small = ImageField(upload_to='profile', blank=True, null=True,)
-    profile_medium = ImageField(upload_to='profile', blank=True, null=True,)
-    city = models.CharField(max_length=30, blank=True, validators=[validate_characters],)
-    province = models.CharField(_('provice/state'), max_length=30, blank=True, validators=[validate_characters],)
-    birth_date = models.DateField(null=True, blank=True,)
+    profile_small = ImageField(upload_to='profile', blank=True, null=True, )
+    profile_medium = ImageField(upload_to='profile', blank=True, null=True, )
+    city = models.CharField(max_length=30, blank=True, validators=[validate_characters], )
+    province = models.CharField(_('provice/state'), max_length=30, blank=True, validators=[validate_characters], )
+    birth_date = models.DateField(null=True, blank=True, )
     relationships = models.ManyToManyField('self', through='Relationship',
                                            symmetrical=False, related_name='related_to')
     slug = models.SlugField(blank=True, unique=True)
@@ -128,16 +129,32 @@ class Profile(models.Model):
 
         slug_str = "%s %s" % (self.name, uuid.uuid4())
         self.slug = slugify(slug_str)
+        if self.profile_picture:
+            img = Image.open(self.profile_picture)
+            imgI = Image.open(self.profile_picture)
+            exif = None
+            if 'exif' in img.info:
+                exif = img.info['exif']
+
+            img = img.resize((54, 54), Image.ANTIALIAS)
+            imgI = img.resize((160, 155), Image.ANTIALIAS)
+            output = StringIO()
+            name = "%s %s" % (self.name, uuid.uuid4())
+            name += "54.jpg"
+
+            img.save(name, "JPEG", optimize=True)
+            name = "%s %s" % (self.name, uuid.uuid4())
+            name += "160.jpg"
+
+            output.seek(0, os.SEEK_END)
+            self.profile_small = InMemoryUploadedFile(output, 'ImageField', "%s.jpg" % self.profile_small.name,
+                                                       'image/jpeg',
+                                                       output.tell(), None)
         super(Profile, self).save(**kwargs)
-
-
-
-
-
-
 
     def __unicode__(self):
         return self.name
+
 
     def add_relationship(self, person, status, uuids=uuid.uuid4(), symm=True):
 
@@ -206,7 +223,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def save_user_profile(sender, instance, **kwargs):
-    #instance.profile.full_clean()
+    # instance.profile.full_clean()
     instance.profile.save()
 
 
