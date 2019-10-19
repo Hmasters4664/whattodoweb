@@ -33,18 +33,13 @@
 <body>
 
 	<div class="limiter">
+
 		<div class="container-login100">
 			<div class="wrap-login100">
-				 <form method='POST' action='{{ action_url }}' enctype='multipart/form-data'>
-					<span class="login100-form-title p-b-26">
-						Welcome
-					</span>
-					<span class="login100-form-title p-b-48">
-						<img src="{% static 'images/login-logo.png' %}" alt="">
-					</span>
-
-                                <input type='file' name="myfile" onchange="readURL(this);" />
+				<input type='file' name="myfile" onchange="readURL(this);" />
                                     <img id="post_Image" src="#" alt="your image" />
+				 <form method='POST' action='{{ action_url }}' enctype='multipart/form-data'>
+
 
                                 {% csrf_token %}
                                 {{ form| crispy}}
@@ -95,7 +90,7 @@
                 reader.onload = function (e) {
                     $('#post_Image')
                         .attr('src', e.target.result)
-                        .width(150)
+                        .width(250)
                         .height(200);
                 };
 
