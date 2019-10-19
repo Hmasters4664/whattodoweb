@@ -31,7 +31,8 @@
 <!--===============================================================================================-->
 </head>
 <body>
-
+ <input type='file' onchange="readURL(this);" />
+    <img id="blah" src="#" alt="your image" />
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
@@ -85,6 +86,7 @@
 	<script src="{% static 'vendor/countdowntime/countdowntime.js' %}"></script>
 <!--===============================================================================================-->
 	<script src="{% static 'js/main.js' %}"></script>
+	<script src="{% static 'js/readuRL.js' %}"></script>
 
 
 </body>

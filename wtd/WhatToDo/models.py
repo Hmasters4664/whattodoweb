@@ -1,3 +1,5 @@
+import sys
+
 from django.core.exceptions import ValidationError
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -15,7 +17,7 @@ from django.template.defaultfilters import slugify
 from sorl.thumbnail import ImageField, get_thumbnail
 from django.core.files.uploadedfile import SimpleUploadedFile
 from PIL import Image
-from io import StringIO
+from io import StringIO, BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 import os
 
@@ -110,9 +112,9 @@ class Profile(models.Model):
     bio = models.TextField(max_length=500, blank=True, validators=[validate_characters], )
     name = models.TextField(max_length=50, blank=False, validators=[validate_characters], )
     country = models.CharField(max_length=30, blank=True, validators=[validate_characters], )
-    profile_picture = ImageField(upload_to='profile', blank=True, null=True, default='profile/avatar.jpg')
-    profile_small = ImageField(upload_to='profile', blank=True, null=True, )
-    profile_medium = ImageField(upload_to='profile', blank=True, null=True, )
+    profile_picture = models.ImageField(upload_to='profile', blank=True, null=True, default='profile/avatar.jpg')
+    profile_small = models.ImageField(upload_to='profile', blank=True, null=True, )
+    profile_medium = models.ImageField(upload_to='profile', blank=True, null=True, )
     city = models.CharField(max_length=30, blank=True, validators=[validate_characters], )
     province = models.CharField(_('provice/state'), max_length=30, blank=True, validators=[validate_characters], )
     birth_date = models.DateField(null=True, blank=True, )
@@ -130,31 +132,30 @@ class Profile(models.Model):
         slug_str = "%s %s" % (self.name, uuid.uuid4())
         self.slug = slugify(slug_str)
         if self.profile_picture:
-            img = Image.open(self.profile_picture)
-            imgI = Image.open(self.profile_picture)
-            exif = None
-            if 'exif' in img.info:
-                exif = img.info['exif']
-
-            img = img.resize((54, 54), Image.ANTIALIAS)
-            imgI = img.resize((160, 155), Image.ANTIALIAS)
-            output = StringIO()
+            image = Image.open(self.profile_picture)
+            image.thumbnail((54, 54), Image.ANTIALIAS)
+            output = BytesIO()
+            image.save(output, format='JPEG', quality=85)
+            output.seek(0)
             name = "%s %s" % (self.name, uuid.uuid4())
-            name += "54.jpg"
-
-            img.save(name, "JPEG", optimize=True)
+            name += "-54.jpg"
+            self.profile_small = InMemoryUploadedFile(output, 'ImageField', name,
+                                                      'image/jpeg',
+                                                      sys.getsizeof(output), None)
+            image = Image.open(self.profile_picture)
+            image.thumbnail((160, 155), Image.ANTIALIAS)
+            output = BytesIO()
+            image.save(output, format='JPEG', quality=85)
+            output.seek(0)
             name = "%s %s" % (self.name, uuid.uuid4())
-            name += "160.jpg"
-
-            output.seek(0, os.SEEK_END)
-            self.profile_small = InMemoryUploadedFile(output, 'ImageField', "%s.jpg" % self.profile_small.name,
-                                                       'image/jpeg',
-                                                       output.tell(), None)
+            name += "-160.jpg"
+            self.profile_medium = InMemoryUploadedFile(output, 'ImageField', name,
+                                                      'image/jpeg',
+                                                      sys.getsizeof(output), None)
         super(Profile, self).save(**kwargs)
 
     def __unicode__(self):
         return self.name
-
 
     def add_relationship(self, person, status, uuids=uuid.uuid4(), symm=True):
 

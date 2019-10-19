@@ -281,7 +281,7 @@
                             </li>
                             {% endfor %}
                             <!-- Messages Post -->
-                            <li><a href="messages.html" class="waves-effect chack_all_btn">Check All Messages</a></li>
+                            <li><a href="{% url 'message-view' %}" class="waves-effect chack_all_btn">Check All Messages</a></li>
                         </ul>
                     </li>
                     <!-- Notifications -->
@@ -330,7 +330,7 @@
      <div class="banner_area banner_2">
         <img src="{% static 'images/banner-3.jpg' %}" alt="" class="banner_img" width="1900" height="400">
         <div class="media profile_picture">
-            <a href="#"><img src="{{ request.user.profile.profile_picture.url }}" alt="" class="circle" ></a>
+            <a href="#"><img src="{{ request.user.profile.profile_medium.url }}" alt="" class="circle" ></a>
             <div class="media_body">
                 <a href="#">{{ request.user.profile.name }}</a>
                 <h6>{{ request.user.profile.city }}, {{ request.user.profile.country }}</h6>
