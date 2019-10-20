@@ -36,9 +36,10 @@
 
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<input type='file' name="myfile" onchange="readURL(this);" />
-                                    <img id="post_Image" src="#" alt="your image" />
+
 				 <form method='POST' action='{{ action_url }}' enctype='multipart/form-data'>
+                     <input type='file' name="myfile" onchange="readURL(this);" />
+                                    <img id="post_Image" src="#" alt="your image" />
 
 
                                 {% csrf_token %}

@@ -131,7 +131,7 @@ class Profile(models.Model):
 
         slug_str = "%s %s" % (self.name, uuid.uuid4())
         self.slug = slugify(slug_str)
-        if self.profile_picture:
+        if self.profile_picture and not self.profile_small:
             image = Image.open(self.profile_picture)
             image.thumbnail((54, 54), Image.ANTIALIAS)
             output = BytesIO()
