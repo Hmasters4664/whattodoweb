@@ -100,26 +100,21 @@ def event_select(request):
 
 @login_required
 def notification(request):
-    notifications = Notifications.objects.filter(to_user=request.user, notification_type=1, read=False) \
-        .values('action', 'created', 'from_user__profile__profile_picture')
-    jayson = list(notifications)
-    return JsonResponse(jayson, safe=False)
+    notifications = Notifications.objects.filter(to_user=request.user, notification_type=1, read=False)
+
+    return render(request,'friendnotifications.html', {'notifications': notifications})
 
 
 @login_required
 def friend(request):
-    friends = Notifications.objects.filter(to_user=request.user, notification_type=0, read=False) \
-        .values('action', 'created', 'from_user__profile__profile_picture')
-    jayson = list(friends)
-    return JsonResponse(jayson, safe=False)
+    notifications = Notifications.objects.filter(to_user=request.user, notification_type=0, read=False)
+    return render(request,'friendnotifications.html', {'notifications': notifications})
 
 
 @login_required
 def message(request):
-    mess = Messages.objects.filter(to_user=request.user, opened=False) \
-        .values('from_user__profile__name', 'from_user__profile__profile_picture', 'created', 'text')
-    jayson = list(mess)
-    return JsonResponse(jayson, safe=False)
+    mess = Messages.objects.filter(to_user=request.user, opened=False)
+    return render(request,'friendnotifications.html', {'notifications': notifications})
 
 
 class Login(FormView):

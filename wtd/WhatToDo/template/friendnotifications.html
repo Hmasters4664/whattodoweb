@@ -1,0 +1,17 @@
+<li class="hed_notic">Friend Requests<span><i class="ion-ios-gear-outline"></i></span></li>
+{% for notification in notifications %}
+
+                            <li>
+                               <a href="#">
+                                   <div class="media">
+                                        <img src="{{notification.from_user__profile__profile_small}}" alt="" class="circle responsive-img">
+                                        <div class="media_body">
+                                            <p><b>notification.action</b></p>
+                                            <div class="btn_group"></div>
+                                        </div>
+                                   </div>
+                               </a>
+                            </li>
+{% endfor %}
+
+<li><a href="#" class="waves-effect chack_all_btn">All Friend Request</a></li>
