@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'WhatToDo',
+    'bootstrap_modal_forms',
     'django.forms',
     'crispy_forms',
     'groups',
@@ -137,5 +138,5 @@ FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'WhatToDo/media')
 MEDIA_URL = '/media/'
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_TEMPLATE_PACK = 'uni_form'
 AUTH_USER_MODEL = 'user.User'

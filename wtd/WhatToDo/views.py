@@ -102,7 +102,7 @@ def event_select(request):
 def notification(request):
     notifications = Notifications.objects.filter(to_user=request.user, notification_type=1, read=False)
 
-    return render(request,'friendnotifications.html', {'notifications': notifications})
+    return render(request,'generalnotifications.html', {'notifications': notifications})
 
 
 @login_required
@@ -114,7 +114,7 @@ def friend(request):
 @login_required
 def message(request):
     mess = Messages.objects.filter(to_user=request.user, opened=False)
-    return render(request,'friendnotifications.html', {'notifications': notifications})
+    return render(request,'messagenotifications.html', {'messages': mess})
 
 
 class Login(FormView):
@@ -311,7 +311,7 @@ class Notification(LoginRequiredMixin, ListView):
     def get_context_data(self, *, assets=None, **kwargs):
         noti = Notifications.objects.filter(to_user=self.request.user, notification_type=1, read=False)
         context = super(Notification, self).get_context_data()
-        context['notifications'] = noti.values('id', 'action', 'created', 'from_user__profile__profile_picture')
+        context['notifications'] = noti
         return context
 
 

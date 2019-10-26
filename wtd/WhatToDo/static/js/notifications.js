@@ -22,12 +22,9 @@ function executeQuery2() {
   $.ajax({
     url: NOTIFICATION,
     type: 'GET',
-    dataType: "json",
+    dataType: "html",
     success: function(data) {
       // do something with the return value here if you like
-      var num = data.length;
-      $('#Nnumber').text(num);
-      var link = "/pending";
       $('#dropdown2').html(data);
       $('#dropdown_s3').html(data);
 
@@ -44,64 +41,11 @@ function executeQuery3() {
   $.ajax({
     url: MESSAGE,
     type: 'GET',
-    dataType: "json",
+    dataType: "html",
     success: function(data) {
       // do something with the return value here if you like
-      var num = data.length;
-      $('#Mnumber').text(num);
-      var link = "/pending";
-      $('#dropdown3').html('');
-         $('#dropdown_s2').html('');
-      var holder1 = "circle responsive-img";
-      var blank = "";
-      var holder4 = "waves-effect chack_all_btn";
-      var val = "/messageview"
-
-      $('#dropdown3').append(
-          "<li class="+"hed_notic"+">" + "Notifications" + "<span><i class=" +"ion-ios-gear-outline"+ "></i></span></li>"
-      );
-      $('#dropdown_s2').append(
-          "<li class="+"hed_notic"+">" + "Notifications" + "<span><i class=" +"ion-ios-gear-outline"+ "></i></span></li>"
-      );
-       if (num > 5) {
-        num = 5;
-      }
-      for (var i = 0; i < num; i++) {
-        var profileImage = "/media/"+data[i].from_user__profile__profile_picture;
-        $('#dropdown3').append(
-               '<li>' +
-                               '<a href="#">' +
-                                   '<div class="media">' +
-                                        '<img src="'+ profileImage +'" alt="" class="circle responsive-img">' +
-                                        '<div class="media_body">' +
-                                            '<h4>'+ data[i].from_user__profile__name + '<small>'+ data[i].created +'</small><h4>' +
-                                            ' <p>' + data[i].text + '</p>' +
-                                        '</div>'+
-                                   '</div>'+
-                               '</a>'+
-                            '</li>'
-        );
-            $('#dropdown_s2').append(
-               '<li>' +
-                               '<a href="#">' +
-                                   '<div class="media">' +
-                                        '<img src="'+ profileImage +'" alt="" class="circle responsive-img">' +
-                                        '<div class="media_body">' +
-                                            '<h4>'+ data[i].from_user__profile__name + '<small>'+ data[i].created +'</small><h4>' +
-                                            ' <p>' + data[i].text + '</p>' +
-                                        '</div>'+
-                                   '</div>'+
-                               '</a>'+
-                            '</li>'
-        );
-      }
-
-         $('#dropdown3').append(
-          '<li><a href="' + val + '" class="' + holder4 + '" >' + "Messages" + '</a></li>'
-      );
-             $('#dropdown_s2').append(
-          '<li><a href="' + val + '" class="' + holder4 + '" >' + "Messages" + '</a></li>'
-      );
+      $('#dropdown3').html(data);
+      $('#dropdown_s2').html(data);
 
     },
     error: function(error) {

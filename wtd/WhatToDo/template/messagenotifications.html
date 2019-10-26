@@ -3,10 +3,10 @@
                             <li>
                                <a href="#">
                                    <div class="media">
-                                        <img src="images/profile-1.jpg" alt="" class="circle responsive-img">
+                                        <img src="/media/{{message.from_user__profile__profile_small}}" alt="" class="circle responsive-img">
                                         <div class="media_body">
-                                            <h4>Emran Khan <small>12:40pm</small></h4>
-                                            <p>Listen, I need to talk to you about this!</p>
+                                            <p><b>{{message.text}}</b></p>
+                                            <div class="btn_group"></div>
                                         </div>
                                    </div>
                                </a>
@@ -14,4 +14,4 @@
 
 {% endfor %}
 
-<li><a href="#" class="waves-effect chack_all_btn">All Friend Request</a></li>
+<li><a href="{% url 'message-view' %}" class="waves-effect chack_all_btn">All Messages</a></li>

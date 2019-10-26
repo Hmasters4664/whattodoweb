@@ -35,7 +35,7 @@
             </div>
             {% for post in posts %}
             <div class="col col l3 m4 s6 photos_col">
-                <a href="#" class="photos"><img src="{{ post.picture.url }}" alt=""></a>
+                <a href="#" class="photos" id="post{{ post.id }}" onclick="viewmodal({{post.id}});"><img src="{{ post.picture.url }}" alt=""></a>
             </div>
            {% endfor %}
         </div>
@@ -43,4 +43,15 @@
             <img src="images/icons/loding.png" alt="">
         </div>
     </section>
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+function viewmodal(id)
+{
+    ('#post'+ id).modalForm({  })
+}
+
+});
+</script>
 {% endblock %}
