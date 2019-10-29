@@ -35,7 +35,6 @@ from django.contrib import messages
 import xlwt
 import xlrd
 from tablib import Dataset
-import magic
 from django.core.files.storage import default_storage
 import os
 from django.core.files.storage import default_storage
