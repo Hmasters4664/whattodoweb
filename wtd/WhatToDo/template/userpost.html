@@ -1,1 +1,102 @@
 {% extends 'base2.html' %}
+{% load static %}
+
+{% block content %}
+    <!-- Min Container area -->
+<section class="min_container min_pages">
+    <div class="section_row">
+    <div class="middle_section col" id="infinite_scroll">
+            {% for post in posts %}
+
+
+            {% endfor %}
+
+     </div>
+      <!-- left side bar -->
+    <div class="col">
+                <div class="left_side_bar">
+                    <div class="categories">
+                        <h3 class="categories_tittle">Search</h3>
+                       <li><input placeholder="Search by event" type="text" id="evntSearch"></li>
+                        <button id="eventSearch" onclick="searchEvent();">Search</button>
+                    </div>
+                 <div class="profile">
+                        <h3 class="categories_tittle">Friends</h3>
+                        <ul class="profile_pic">
+                            {% for friend in friends %}
+                            <li><a href=""><img src="{{ friend.profile_small.url }}" alt="" class="circle"></a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="badges">
+                        <h3 class="categories_tittle">Nice Pictures</h3>
+                        <ul class="badges_list">
+                            <li><a href="#"><i class="ion-bonfire"></i><span>6</span></a></li>
+                            <li><a href="#"><i class="ion-bluetooth"></i></a></li>
+                            <li><a href="#"><i class="ion-coffee"></i></a></li>
+                            <li><a href="#"><i class="ion-clock"></i> <span>3</span></a></li>
+                            <li><a href="#"><i class="ion-camera"></i></a></li>
+                            <li><a href="#"><i class="ion-ios-bell-outline"></i><span>2</span></a></li>
+                            <li><a href="#"><i class="ion-bluetooth"></i></a></li>
+                            <li><a href="#"><i class="ion-coffee"></i></a></li>
+                            <li><a href="#"><i class="ion-clock"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="calendar_widget">
+                        <h3 class="categories_tittle">Calendar</h3>
+                        <table class="calendar"></table>
+                    </div>
+                    <!---<div class="social_Sharing">
+                        <h3 class="categories_tittle">Social Sharing</h3>
+                        <ul class="social_icon">
+                            <li><a href="#"><i class="ion-social-twitter"></i></a></li>
+                            <li><a href="#" class="tumblr"><i class="ion-social-tumblr"></i></a></li>
+                            <li><a href="#" class="googleplus"><i class="ion-social-googleplus"></i></a></li>
+                            <li><a href="#" class="pinterest"><i class="ion-social-pinterest"></i></a></li>
+                            <li><a href="#" class="facebook"><i class="ion-social-facebook"></i></a></li>
+                        </ul>
+                    </div>-->
+                    <div class="advertis">
+                        <a href="#"><img src="images/advertis.jpg" alt=""></a>
+                    </div>
+                </div>
+            </div>
+      <!-- end left side bar -->
+                <!-- Right side bar -->
+            <div class="right_side_bar col">
+                <div class="right_sidebar_iner">
+                    <a href="#">
+                        <img src="images/advertis-2.jpg" alt="" class="responsive-img">
+                    </a>
+                    <div class="trending_area">
+                        <h3 class="categories_tittle">Saved Events</h3>
+                        <ul class="collapsible trending_collaps" data-collapsible="accordion">
+                        {% include "schedule.html" %}
+                        </ul>
+
+                    </div>
+
+                    <div class="popular_gallery row">
+                        <h3 class="categories_tittle">Upcoming Events</h3>
+
+                           {% include "upcomming_events.html" %}
+
+
+                    </div>
+                    <div class="trending_area">
+                        <h3 class="categories_tittle">Most Popular</h3>
+
+                        <ul class="collapsible trending_collaps" data-collapsible="accordion">
+
+
+                            {% include "mostpopular.html" %}
+
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+    </div>
+</section>
+    <!-- End Min Container area -->
+{% endblock %}

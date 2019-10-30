@@ -501,3 +501,14 @@ def addtoschedule(request, pk):
         schedule.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+
+class PostView(LoginRequiredMixin, ListView):
+    model = Post
+    template_name = 'userpost.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(PostView, self).get_context_data()
+        relatioships = self.request.user.profile.get_relationships(0)
+        context['posts'] = Post.objects.filter(author__profile__in=relatioships)
+        context['friends'] = relatioships
+        return context

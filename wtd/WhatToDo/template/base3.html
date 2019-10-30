@@ -245,7 +245,7 @@
                             <li>
                                <a href="#">
                                    <div class="media">
-                                        <img src="images/profile-9.jpg" alt="" class="circle responsive-img">
+                                        <img src={{friend.from_user.profile.profile_small}} alt="" class="circle responsive-img">
                                         <div class="media_body">
                                             <p><b>{{ friend.from_user.profile.name}}</b> sent you a friend request.</p>
                                             <div class="btn_group">
@@ -271,7 +271,7 @@
                             <li>
                                <a href="#">
                                    <div class="media">
-                                        <img src="images/profile-1.jpg" alt="" class="circle responsive-img">
+                                        <img src={{message.from_user.profile.profile_small}} alt="" class="circle responsive-img">
                                         <div class="media_body">
                                             <h4>{{ message.from_user.profile.name}} <small>{{ message.created }}</small></h4>
                                             <p>{{ message.text}} </p>
@@ -294,7 +294,7 @@
                             <li>
                                <a href="#">
                                    <div class="media">
-                                        <img src="images/profile-6.jpg" alt="" class="circle responsive-img">
+                                        <img src={{notification.from_user.profile.profile_small}} alt="" class="circle responsive-img">
                                         <div class="media_body">
                                             <p><b>{{ notification.from_user.profile.name}}</b> {{ notification.action }}</p>
                                             <h6>{{ message.created }}</h6>
@@ -471,7 +471,7 @@
             </div>
         </div>
         <div class="copy_right">
-            � 2018 <a href="#">Open List</a>. All rights reserved.
+            � 2018 <a href="#">WhatToDoZa</a>. All rights reserved.
         </div>
     </footer>
     <!-- End Footer area -->
