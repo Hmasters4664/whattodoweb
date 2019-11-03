@@ -7,9 +7,41 @@
     <div class="section_row">
     <div class="middle_section col" id="infinite_scroll">
             {% for post in posts %}
+                <div class="fast_post">
+                <div class="post">
+                   <div class="post_content">
+                        <a href="details.html" class="post_img">
+                            <img src={{ post.picture.url }} alt="" width="620" height="300">
+                            <span><i class="ion-android-radio-button-off"></i>{{ event.category.name }}</span>
+                        </a>
+                        <div class="row author_area">
+                            <div class="col s4 author">
+                                <div class="col s4 media_left"><img src={{ post.author.profile.profile_small.url }} alt="" class="circle"></div>
+                                <div class="col s8 media_body">
+                                    <a href="#">{{ post.author.profile.name }}</a>
+                                    <span>{{post.dateCreated}}</span>
+                                </div>
+                            </div>
+                            <div class="col s4 btn_floating">
+                                <!--<a class="btn-floating waves-effect"><i class="ion-navicon-round"></i></a>-->
+                            </div>
+                        </div>
+                        <a href="details.html" class="post_heding"></a>
+                        <p>{{ post.content}}</p>
+
+                   </div>
+
+                    <div class="like_comment_area row">
+                       <div class="col s4 btn_floating">
+
+                        </div>
+                    </div>
+                </div>
+</div>
+{% endfor %}
 
 
-            {% endfor %}
+
 
      </div>
       <!-- left side bar -->
@@ -63,7 +95,7 @@
             </div>
       <!-- end left side bar -->
                 <!-- Right side bar -->
-            <div class="right_side_bar col">
+            <!--<div class="right_side_bar col">
                 <div class="right_sidebar_iner">
                     <a href="#">
                         <img src="images/advertis-2.jpg" alt="" class="responsive-img">
@@ -95,7 +127,7 @@
                         </ul>
                     </div>
                 </div>
-            </div>
+            </div>-->
     </div>
 </section>
     <!-- End Min Container area -->

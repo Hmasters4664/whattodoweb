@@ -509,6 +509,6 @@ class PostView(LoginRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(PostView, self).get_context_data()
         relatioships = self.request.user.profile.get_relationships(0)
-        context['posts'] = Post.objects.filter(author__profile__in=relatioships)
+        context['posts'] = Post.objects.filter(Q(author__profile__in=relatioships) | Q(author=self.request.user))
         context['friends'] = relatioships
         return context
