@@ -49,8 +49,7 @@
                 <div class="left_side_bar">
                     <div class="categories">
                         <h3 class="categories_tittle">Bio</h3>
-                       <li><input placeholder="Search by event" type="text" id="evntSearch"></li>
-                        <button id="eventSearch" onclick="searchEvent();">Search</button>
+                       <p>{{ request.user.profile.bio}}</p>
                     </div>
                  <div class="profile">
                         <h3 class="categories_tittle">Friends</h3>
@@ -60,19 +59,13 @@
                             {% endfor %}
                         </ul>
                     </div>
-                    <div class="badges">
-                        <h3 class="categories_tittle">Nice Pictures</h3>
-                        <ul class="badges_list">
-                            <li><a href="#"><i class="ion-bonfire"></i><span>6</span></a></li>
-                            <li><a href="#"><i class="ion-bluetooth"></i></a></li>
-                            <li><a href="#"><i class="ion-coffee"></i></a></li>
-                            <li><a href="#"><i class="ion-clock"></i> <span>3</span></a></li>
-                            <li><a href="#"><i class="ion-camera"></i></a></li>
-                            <li><a href="#"><i class="ion-ios-bell-outline"></i><span>2</span></a></li>
-                            <li><a href="#"><i class="ion-bluetooth"></i></a></li>
-                            <li><a href="#"><i class="ion-coffee"></i></a></li>
-                            <li><a href="#"><i class="ion-clock"></i></a></li>
-                        </ul>
+                     <div class="popular_gallery row">
+                        <h3 class="categories_tittle">Images</h3>
+                         {% for post in posts  %}
+                             {% if post.author == request.user %}
+                        <div class="col s4 p_img"><a href="#"><img src={{ post.picture.url }} alt="" width="144" height="100"></a></div>
+                             {% endif %}
+                         {% endfor %}
                     </div>
                     <div class="calendar_widget">
                         <h3 class="categories_tittle">Calendar</h3>
@@ -131,4 +124,5 @@
     </div>
 </section>
     <!-- End Min Container area -->
+    <script src="{% static 'vendors/calendar/dcalendar.picker.js' %}"></script>
 {% endblock %}
