@@ -32,6 +32,9 @@
     <![endif]-->
 
      <script type="text/javascript">
+         var FRIENDCOUNT = '{% url "friend-count" %}';
+         var NOTIFICATIONCOUNT = '{% url "notification-count" %}';
+         var MESSAGECOUNT = '{% url "message-count" %}';
          var FRIEND = '{% url "friend" %}';
          var NOTIFICATION = '{% url "notification" %}';
          var MESSAGE = '{% url "message" %}';
@@ -483,6 +486,7 @@ function enterpressalert2(e, textarea) {
     <script src="{% static 'js/searchEvent.js' %}"></script>
     <script src="{% static 'js/sendLike.js' %}"></script>
     <script src="{% static 'js/selector.js' %}"></script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
 
 
 </body>

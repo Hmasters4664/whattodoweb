@@ -56,6 +56,8 @@ from firebase_admin import credentials, firestore
 from django.db.models import Count
 from .calender import Calendar
 import calendar
+from bootstrap_modal_forms.generic import BSModalCreateView,BSModalReadView
+from django.urls import reverse_lazy
 
 cred = credentials.Certificate("secrets.json")
 firebase_admin.initialize_app(cred)
@@ -95,6 +97,23 @@ def event_select(request):
     print(d)
     return render(request, 'temp.html', {'events': d})
 
+
+@login_required
+def notification_count(request):
+    count = Notifications.objects.filter(to_user=request.user, notification_type=1, read=False).count()
+
+    return JsonResponse(count, safe=False)
+
+@login_required
+def friend_count(request):
+    count = Notifications.objects.filter(to_user=request.user, notification_type=0, read=False).count()
+    return JsonResponse(count, safe=False)
+
+
+@login_required
+def message_count(request):
+    count = Messages.objects.filter(to_user=request.user, opened=False).count()
+    return JsonResponse(count, safe=False)
 
 
 @login_required
@@ -353,7 +372,8 @@ def getmessages(request, pk):
         relationship = None
 
     if relationship:
-
+        mess= Messages.objects.filter(to_user=request.user, from_user=from_user.user, opened=False)
+        mess.update(opened=True)
         return render(request, 'chatpage.html', {'friend': from_user, 'chatkey': relationship.uuid})
 
     else:
@@ -511,4 +531,13 @@ class PostView(LoginRequiredMixin, ListView):
         relatioships = self.request.user.profile.get_relationships(0)
         context['posts'] = Post.objects.filter(Q(author__profile__in=relatioships) | Q(author=self.request.user))
         context['friends'] = relatioships
+        return context
+
+
+class EventDetailView(BSModalReadView):
+    model = Event
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['now'] = timezone.now()
         return context

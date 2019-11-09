@@ -32,6 +32,9 @@
     <![endif]-->
 
      <script type="text/javascript">
+         var FRIENDCOUNT = '{% url "friend-count" %}';
+         var NOTIFICATIONCOUNT = '{% url "notification-count" %}';
+         var MESSAGECOUNT = '{% url "message-count" %}';
          var FRIEND = '{% url "friend" %}';
          var NOTIFICATION = '{% url "notification" %}';
          var MESSAGE = '{% url "message" %}';
@@ -368,5 +371,6 @@
   <script src="https://www.gstatic.com/firebasejs/6.6.1/firebase-firestore.js"></script>
 
     <script src="{% static 'js/firebasechat.js' %}"></script>
+    <script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
 </body>
 </html>
