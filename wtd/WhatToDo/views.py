@@ -66,6 +66,7 @@ firebase_admin.initialize_app(cred)
 class Main(LoginRequiredMixin, ListView):
     model = Event
     login_url = '/login/'
+    paginate_by = 5
     redirect_field_name = 'redirect_to'
     template_name = 'main.html'
 

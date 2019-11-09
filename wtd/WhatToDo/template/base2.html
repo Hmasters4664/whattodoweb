@@ -74,6 +74,7 @@
                                    <li><a href="{% url 'all-request' %}">Requests</a></li>
                                    <li><a href="{% url 'all-notifications' %}">Notifications</a></li>
                                    <li><a href="{% url 'calender' %}">Calender</a></li>
+                                   <li><a href="{% url 'posts' %}">User Posts</a></li>
                                    <li><a href="{% url 'modify-profile' request.user.profile.slug %}">Update Profile</a></li>
                                </ul>
                            </div>
@@ -196,12 +197,7 @@
                         <!-- Dropdown Structure -->
                         <ul id="dropdown1" class="dropdown-content">
                              <li><a href="{% url 'view-profile' request.user.profile.slug %}" ><i class="ion-android-folder-open"></i>View Profile</a></li>
-                            <li><a href="read-later.html"><i class="ion-android-folder-open"></i>Saved Articles</a></li>
-                            <li class="b_t"><a href="#"><i class="ion-android-notifications"></i>Notification settings</a></li>
-                            <li class="b_b"><a href="#"><i class="ion-ios-locked"></i>Change Password</a></li>
-                            <li><a href="#"><i class="ion-gear-b"></i>Settings</a></li>
-                            <li><a href="#"><i class="ion-ios-flag"></i>Privacy Policy</a></li>
-                            <li><a href="#"><i class="ion-podium"></i>FAQ</a></li>
+                            <li><a href="{% url 'calender' %}"><i class="ion-android-folder-open"></i>Calender</a></li>
                             <li><a href="{% url 'logout'%}"><i class="ion-power"></i>Log out</a></li>
                         </ul>
                     </li>
