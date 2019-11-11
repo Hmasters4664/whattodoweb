@@ -310,3 +310,23 @@ class Schedule(models.Model):
     def clean(self):
         if self.end_time <= self.start_time:
             raise ValidationError('Ending times must be after starting times')
+
+
+class Comment(models.Model):
+    post = models.ForeignKey('WhatToDo.Event', on_delete=models.CASCADE, related_name='comments')
+    author = models.CharField(max_length=200)
+    authname = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='authorname')
+    text = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
+    approved_comment = models.BooleanField(default=True)
+
+    def approve(self):
+        self.approved_comment = True
+        self.save()
+
+    def disapprove(self):
+        self.approved_comment = False
+        self.save()
+
+    def __str__(self):
+        return self.text
