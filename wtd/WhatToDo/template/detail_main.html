@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- Min Container area -->
+
+{% block content %}
+
+<div class="post post_details">
+                   <div class="post_content">
+                        <a class="post_img" href="#">
+                            <img alt="" src="images/post-7.jpg">
+                        </a>
+                        <div class="row author_area">
+                            <div class="col s5 add_btn_col">
+                                <a class="add_btn waves-effect" href="#">More info</a>
+                            </div>
+                        </div>
+                        <div class="post_heding_aea">
+                            <a class="post_heding" href="#"> </a>
+                        </div>
+                        <div class="socail_share_area row">
+                           <p>In the last 10 years Americans have seen a boom in local food markets and for good reason. While Americans continue to buy more fast food, they still expect perfect ingredients and they are finding them.</p>
+                        </div>
+                   </div>
+
+                    <div class="like_comment_area row">
+                        <div class="col s6 updown_btn comment_c">
+                            <a href="#"><i class="ion-ios-chatboxes-outline"></i></a>
+                            <a class="count_n" href="#">14 comments</a>
+                        </div>
+                        <div class="col s6 updown_btn">
+                            <a href="#"><i class="ion-android-arrow-dropdown-circle"></i></a>
+                            <a href="#"><i class="ion-android-arrow-dropup-circle"></i></a>
+                            <a class="count_n" href="#">483</a>
+                        </div>
+                        <div class="col s12 comment_input_box">
+                            <div class="input-field comment_input">
+                                <input class="validate" type="text" placeholder="Placeholder">
+                                <i class="ion-camera"></i>
+                                <span>Post</span>
+                            </div>
+                        </div>
+                        <div class="col p0 s12">
+                            <div class="media">
+                                <img class="circle responsive-img" alt="" src="images/comment-a.jpg">
+                                <div class="media_body">
+                                    <h4><a href="#">Masum Rana</a>5 minutes ago</h4>
+                                    <p>Care for fresher ingredients? Locally grown items are usually harvested 1 or 2 days before hitting the market making them significantly fresher then traditional store bought ingredients</p>
+                                    <span><a href=""><i class="ion-ios-arrow-thin-up"></i></a>483<a href="#"><i class="ion-ios-arrow-thin-down"></i></a></span>
+                                    <a class="replay_btn" href="#">Reply</a>
+                                    <div class="media">
+                                        <img class="circle responsive-img" alt="" src="images/comment-a.jpg">
+                                        <div class="media_body">
+                                            <h4><a href="#">Masum Rana</a>5 minutes ago</h4>
+                                            <p>Locally grown items are usually harvested 1 or 2 days </p>
+                                            <span><a href=""><i class="ion-ios-arrow-thin-up"></i></a>483<a href="#"><i class="ion-ios-arrow-thin-down"></i></a></span>
+                                            <a class="replay_btn" href="#">Reply</a>
+                                        </div>
+                                    </div>
+                                    <a class="view_mor_r" href="#">View more replies...</a>
+                                </div>
+                            </div>
+                            <a class="view_mor_c" href="#">View more comments <i class="ion-chevron-down"></i></a>
+                        </div>
+                    </div>
+</div>
+{% endblock %}
