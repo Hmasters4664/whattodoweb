@@ -65,9 +65,17 @@ class Event(models.Model):
     interest = models.ManyToManyField('Profile', blank=True, related_name='post_interest')
 
     venue = models.ForeignKey('Venue', on_delete=models.CASCADE, blank=True, null=True)
+    slug = models.SlugField(blank=True, unique=True)
 
     class Meta:
         ordering = ['-id']
+
+    def save(self, **kwargs):
+        if not self.name:
+            self.name = "Unkown"
+
+        slug_str = "%s %s %s" % (self.name, uuid.uuid4(),self.category)
+        self.slug = slugify(slug_str)
 
 
 class Venue(models.Model):
