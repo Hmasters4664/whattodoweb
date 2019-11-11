@@ -35,6 +35,7 @@ from django.contrib import messages
 import xlwt
 import xlrd
 from tablib import Dataset
+#import magic
 from django.core.files.storage import default_storage
 import os
 from django.core.files.storage import default_storage
@@ -99,21 +100,26 @@ def event_select(request):
 
 @login_required
 def notification(request):
-    notifications = Notifications.objects.filter(to_user=request.user, notification_type=1, read=False)
-
-    return render(request,'generalnotifications.html', {'notifications': notifications})
+    notifications = Notifications.objects.filter(to_user=request.user, notification_type=1, read=False) \
+        .values('action', 'created', 'from_user__profile__profile_picture')
+    jayson = list(notifications)
+    return JsonResponse(jayson, safe=False)
 
 
 @login_required
 def friend(request):
-    notifications = Notifications.objects.filter(to_user=request.user, notification_type=0, read=False)
-    return render(request,'friendnotifications.html', {'notifications': notifications})
+    friends = Notifications.objects.filter(to_user=request.user, notification_type=0, read=False) \
+        .values('action', 'created', 'from_user__profile__profile_picture')
+    jayson = list(friends)
+    return JsonResponse(jayson, safe=False)
 
 
 @login_required
 def message(request):
-    mess = Messages.objects.filter(to_user=request.user, opened=False)
-    return render(request,'messagenotifications.html', {'messages': mess})
+    mess = Messages.objects.filter(to_user=request.user, opened=False) \
+        .values('from_user__profile__name', 'from_user__profile__profile_picture', 'created', 'text')
+    jayson = list(mess)
+    return JsonResponse(jayson, safe=False)
 
 
 class Login(FormView):
@@ -310,7 +316,7 @@ class Notification(LoginRequiredMixin, ListView):
     def get_context_data(self, *, assets=None, **kwargs):
         noti = Notifications.objects.filter(to_user=self.request.user, notification_type=1, read=False)
         context = super(Notification, self).get_context_data()
-        context['notifications'] = noti
+        context['notifications'] = noti.values('id', 'action', 'created', 'from_user__profile__profile_picture')
         return context
 
 
@@ -501,14 +507,3 @@ def addtoschedule(request, pk):
         schedule.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-
-class PostView(LoginRequiredMixin, ListView):
-    model = Post
-    template_name = 'userpost.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(PostView, self).get_context_data()
-        relatioships = self.request.user.profile.get_relationships(0)
-        context['posts'] = Post.objects.filter(Q(author__profile__in=relatioships) | Q(author=self.request.user))
-        context['friends'] = relatioships
-        return context
