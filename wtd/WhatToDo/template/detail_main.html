@@ -42,14 +42,25 @@
                         </div>
                         <div class="col p0 s12">
                             <div class="media">
-                                <img class="circle responsive-img" alt="" src="images/comment-a.jpg">
+                                <img class="circle responsive-img" alt="" src={{last.authname.profile.profile_small.url}}>
                                 <div class="media_body">
-                                    <h4><a href="#">{{comment.authname.profile.name}}</a></h4>
-                                    <p>{{comment.text}}</p>
-                                    <span><a href=""><i class="ion-ios-arrow-thin-up"></i></a>483<a href="#"><i class="ion-ios-arrow-thin-down"></i></a></span>
+                                    <h4><a href="#">{{last.authname.profile.name}}</a></h4>
+                                    <p>{{last.text}}</p>
                                 </div>
                             </div>
                             <a class="view_mor_c" href="#">View more comments <i class="ion-chevron-down"></i></a>
+                            <div id="comments">
+                                {% for comment in comments %}
+                                <div class="media">
+                                <img class="circle responsive-img" alt="" src={{comment.authname.profile.profile_small.url}}>
+                                <div class="media_body">
+                                    <h4><a href="#">{{comment.authname.profile.name}}</a></h4>
+                                    <p>{{comment.text}}</p>
+                                </div>
+                            </div>
+                                {% endfor %}
+
+                            </div>
                         </div>
                     </div>
 </div>
