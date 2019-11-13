@@ -74,8 +74,10 @@ class Event(models.Model):
         if not self.name:
             self.name = "Unkown"
 
-        slug_str = "%s %s %s" % (self.name, uuid.uuid4(),self.category)
+        slug_str = "%s %s %s" % (self.name, uuid.uuid4(), self.category)
         self.slug = slugify(slug_str)
+
+        super(Event, self).save(**kwargs)
 
 
 class Venue(models.Model):

@@ -11,12 +11,12 @@ $(function() {
                 //console.log(data[0].asset_name);
                 $('#dropdownsearch').html('');
                 for (i in data){
-                     var profileImage = "media/"+ data[i].profile_picture;
+                     var profileImage = "/media/"+ data[i].profile_picture;
                 $('#dropdownsearch').append(
                      '<li>' +
-                               '<a href="#">' +
+                               '<a href="/results?item='+data[i].name+'">' +
                                    '<div class="media">' +
-                                        '<img src="' + profileImage +'" alt="" class="circle responsive-img" width="21" height="21">' +
+                                        '<img src="' + profileImage +'" alt="" class="circle responsive-img" width="30" height="30">' +
                                         '<div class="media_body">' +
                                             '<p>'+ data[i].name +'</p>' +
                                             '<p><b>'+ data[i].city + '</b>' + ' ' + data[i].country +'</p>' +

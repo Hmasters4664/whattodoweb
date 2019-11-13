@@ -72,6 +72,7 @@ class Main(LoginRequiredMixin, ListView):
 
     def get_context_data(self, *, assets=None, **kwargs):
         d = Event.objects.all()
+        print(d)
         context = super(Main, self).get_context_data()
         context['events'] = d
         context['uevents'] = d.order_by('-startDate')[:5]
@@ -225,7 +226,9 @@ class AddEvent(LoginRequiredMixin, FormView):
                     addressline2=form.cleaned_data.get('Adress2'), city=form.cleaned_data.get('city'),
                     province=form.cleaned_data.get('province'), country=form.cleaned_data.get('country'), )
         ven.save()
+        print(form.cleaned_data.get('start'))
         event = form.save(commit=False)
+        print(event.name)
         event.startDate = form.cleaned_data.get('start')
         event.endDate = form.cleaned_data.get('end')
         event.venue = ven
@@ -538,6 +541,7 @@ class PostView(LoginRequiredMixin, ListView):
 class EventDetailView(BSModalReadView):
     model = Event
     template_name = 'detail_main.html'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['now'] = timezone.now()
