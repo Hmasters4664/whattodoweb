@@ -48,8 +48,8 @@
                                     <p>{{last.text}}</p>
                                 </div>
                             </div>
-                            <a class="view_mor_c" href="#">View more comments <i class="ion-chevron-down"></i></a>
-                            <div id="comments">
+                            <a class="view_mor_c" href="#" id="commentLink">View more comments <i class="ion-chevron-down"></i></a>
+                            <div id="commentContainer">
                                 {% for comment in comments %}
                                 <div class="media">
                                 <img class="circle responsive-img" alt="" src={{comment.authname.profile.profile_small.url}}>
@@ -64,4 +64,11 @@
                         </div>
                     </div>
 </div>
+    <script>
+    $(function(){
+   $('#commentLink').click(function(){
+      $('#commentContainer').slideToggle();
+   });
+});
+    </script>
 {% endblock %}

@@ -537,7 +537,7 @@ class PostView(LoginRequiredMixin, ListView):
 
 class EventDetailView(BSModalReadView):
     model = Event
-
+    template_name = 'detail_main.html'
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['now'] = timezone.now()
