@@ -40,6 +40,7 @@ urlpatterns = [
     re_path(r'^notification-count', views.notification_count, name='notification-count'),
     re_path(r'^Friends-count', views.friend_count, name='friend-count'),
     re_path(r'^message-count', views.message_count, name='message-count'),
+    re_path(r'^usereventcomments', views.eventcomment, name='event-comments'),
     re_path(r'^notification', views.notification, name='notification')
 ]
 

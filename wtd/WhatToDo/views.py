@@ -10,7 +10,7 @@ from django.utils.safestring import mark_safe
 
 from user.models import User
 from .models import Event, Venue, Organiser, Category, Profile, Notifications, Messages, RELATIONSHIP_REQUESTED, \
-    RELATIONSHIP_FOLLOWING, Relationship, Post, Schedule
+    RELATIONSHIP_FOLLOWING, Relationship, Post, Schedule, Comment
 from django.views.generic import CreateView
 from django.views.generic.edit import FormView
 from django.views.generic.base import View, TemplateView
@@ -538,11 +538,31 @@ class PostView(LoginRequiredMixin, ListView):
         return context
 
 
-class EventDetailView(BSModalReadView):
+class EventDetailView(DetailView):
     model = Event
     template_name = 'detail_main.html'
 
     def get_context_data(self, **kwargs):
+        d = Event.objects.all()
+        slug_val = self.kwargs['slug']
         context = super().get_context_data(**kwargs)
-        context['now'] = timezone.now()
+        context['uevents'] = d.order_by('-startDate')[:5]
+        context['tops'] = d.annotate(l_count=Count('interest')).order_by('-l_count')[:5]
+        context['schedules'] = Schedule.objects.filter(creator=self.request.user).order_by('start_time')[:5]
+        context['categories'] = Category.objects.filter(parent__isnull=True)
+        context['cities'] = Venue.objects.values('city').distinct()
+        context['count'] = Comment.objects.filter(post__slug=slug_val).count()
         return context
+
+
+def eventcomment(request):
+    pk = request.POST.get('id')
+    post = get_object_or_404(Event, pk=pk)
+    print(post)
+    comm = request.POST.get('comment')
+    comment = Comment(post=post, author=request.user.profile.name, authname=request.user, text=comm)
+    comment.save()
+    dict_obj = []
+    serialized_obj = json.dumps(dict_obj)
+    # print(serialized_obj)
+    return JsonResponse(serialized_obj, safe=False)

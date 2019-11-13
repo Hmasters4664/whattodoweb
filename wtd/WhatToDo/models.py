@@ -291,7 +291,7 @@ class Notifications(models.Model):
 
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='author')
-    content = models.CharField(max_length=300)
+    content = models.TextField(validators=[validate_characters],)
     picture = models.ImageField(upload_to='posts', blank=True, null=True)
     dateCreated = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField('Profile', blank=True, related_name='user_likes')

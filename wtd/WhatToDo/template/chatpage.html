@@ -14,9 +14,7 @@
             <div class="messages_heder">
                 <h2>All Messages</h2>
                 <ul class="mg_btn">
-                    <li><a href="#" class="waves-effect btn active"><i class="ion-ios-chatboxes"></i>New Message</a></li>
-                    <li><a href="#" class="waves-effect btn">Mark all as read</a></li>
-                    <li><a href="#" class="waves-effect btn setting_i"><i class="ion-ios-gear-outline"></i></a></li>
+                    <li><a href="#" class="waves-effect btn active"><i class="ion-ios-chatboxes"></i>Chat</a></li>
                 </ul>
             </div>
            <div class="col s4 tab_panel">
@@ -36,7 +34,7 @@
                 </ul>
            </div>
             <div class="col s8 tab_content">
-                <div id="messages-1" class="col s12 all_messages">
+                <div id="messages-1" class="col s12 all_messages" style="overflow-y: scroll; height:350px;">
                     <div class="media profile">
                         <img src={{ friend.profile_picture.url }} alt="" class="circle responsive-img">
                         <div class="media_body">
@@ -62,7 +60,7 @@
                         <div class="input-field">
                             <textarea  placeholder="Type something" id="mess"></textarea>
                             <ul class="imoji">
-                                <li><a href="#" onclick="Save();"><i class="fa fa-send"></i></a></li>
+                                <li><button onclick="Save();"><i class="fa fa-send"></i></button></li>
                             </ul>
                         </div>
                     </div>

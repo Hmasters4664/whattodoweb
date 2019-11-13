@@ -4,6 +4,7 @@
 <!-- Min Container area -->
 
 {% block content %}
+    <input type="hidden" id="me" name="variable" value="{{request.user.id}}">
 
 <div class="post post_details">
                    <div class="post_content">
@@ -12,7 +13,7 @@
                         </a>
                         <div class="row author_area">
                             <div class="col s5 add_btn_col">
-                                <a class="add_btn waves-effect" href="#">More info</a>
+                                <a class="add_btn waves-effect" href="https://{{event.url}}">More info/Get Tickets</a>
                             </div>
                         </div>
                         <div class="post_heding_aea">
@@ -35,26 +36,20 @@
                             <a class="count_n" href="#"></a>
                         </div>
                         <div class="col s12 comment_input_box">
-                            <div class="input-field comment_input">
-                                <input class="validate" type="text" placeholder="Placeholder">
-                                <span>Post</span>
+                            <div class="input-field">
+                                <textarea class="validate" id="comm" placeholder="Write your comment here"></textarea>
+                                <button onclick="Comments('{{ event.id }}')">Post Comment</button>
+
                             </div>
                         </div>
+
                         <div class="col p0 s12">
-                            <div class="media">
-                                <img class="circle responsive-img" alt="" src={{last.authname.profile.profile_small.url}}>
-                                <div class="media_body">
-                                    <h4><a href="#">{{last.authname.profile.name}}</a></h4>
-                                    <p>{{last.text}}</p>
-                                </div>
-                            </div>
-                            <a class="view_mor_c" href="#" id="commentLink">View more comments <i class="ion-chevron-down"></i></a>
-                            <div id="commentContainer">
-                                {% for comment in comments %}
+                            <div id="commentContainer" class="content" style="overflow-y: scroll; height:200px;">
+                                {% for comment in event.comments.all %}
                                 <div class="media">
                                 <img class="circle responsive-img" alt="" src={{comment.authname.profile.profile_small.url}}>
                                 <div class="media_body">
-                                    <h4><a href="#">{{comment.authname.profile.name}}</a></h4>
+                                    <h6><a href="#">{{comment.authname.profile.name}}</a></h6>
                                     <p>{{comment.text}}</p>
                                 </div>
                             </div>
@@ -62,13 +57,45 @@
 
                             </div>
                         </div>
+
                     </div>
+
 </div>
-    <script>
-    $(function(){
-   $('#commentLink').click(function(){
-      $('#commentContainer').slideToggle();
-   });
-});
-    </script>
+
+   <script>
+     function Comments(post){
+      var dt = Date($.now());
+    var now = $.now()/1000;
+      $.ajax({
+          headers: { "X-CSRFToken": csrf_token },
+    url: "/usereventcomments",
+    type: 'POST',
+    dataType: "json",
+    data: {
+        'comment'  : $('#comm').val(),
+        'id': post,
+        'time' : now
+    },
+    success: function(data) {
+              console.log("sent");
+              location.reload();
+
+            $('#comm').val('')
+
+            $('#comm').focus()
+
+
+
+    },
+          error: function(error) {
+                console.log(error);
+
+                }
+    });
+
+}
+
+
+</script>
+
 {% endblock %}
