@@ -10,7 +10,7 @@ from django.utils.safestring import mark_safe
 
 from user.models import User
 from .models import Event, Venue, Organiser, Category, Profile, Notifications, Messages, RELATIONSHIP_REQUESTED, \
-    RELATIONSHIP_FOLLOWING, Relationship, Post, Schedule, Comment
+    RELATIONSHIP_FOLLOWING, Relationship, Post, Schedule, Comment, PostComment
 from django.views.generic import CreateView
 from django.views.generic.edit import FormView
 from django.views.generic.base import View, TemplateView
@@ -72,7 +72,6 @@ class Main(LoginRequiredMixin, ListView):
 
     def get_context_data(self, *, assets=None, **kwargs):
         d = Event.objects.all()
-        print(d)
         context = super(Main, self).get_context_data()
         context['events'] = d
         context['uevents'] = d.order_by('-startDate')[:5]
@@ -80,6 +79,7 @@ class Main(LoginRequiredMixin, ListView):
         context['schedules'] = Schedule.objects.filter(creator=self.request.user).order_by('start_time')[:5]
         context['categories'] = Category.objects.filter(parent__isnull=True)
         context['cities'] = Venue.objects.values('city').distinct()
+        print(context['cities'])
         return context
 
 @login_required
@@ -566,3 +566,23 @@ def eventcomment(request):
     serialized_obj = json.dumps(dict_obj)
     # print(serialized_obj)
     return JsonResponse(serialized_obj, safe=False)
+
+
+def postcomment(request):
+    pk = request.POST.get('id')
+    post = get_object_or_404(Post, pk=pk)
+    user = post.author
+    from_user = get_object_or_404(Profile, pk=user.profile.id)
+    comm = request.POST.get('comment')
+    try:
+        relationship = Relationship.objects.get(from_person=request.user.profile, to_person=from_user, status=0)
+    except Relationship.DoesNotExist:
+        relationship = None
+    if (relationship is None) or (post.public is True):
+        comment = PostComment(post=post, author=request.user.profile.name, authname=request.user, text=comm)
+        comment.save()
+    dict_obj = []
+    serialized_obj = json.dumps(dict_obj)
+    return JsonResponse(serialized_obj, safe=False)
+
+

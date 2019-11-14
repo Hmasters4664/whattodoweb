@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+
     <!-- Min Container area -->
 <section class="min_container min_pages">
     <div class="section_row">
@@ -10,7 +11,7 @@
                 <div class="fast_post">
                 <div class="post">
                    <div class="post_content">
-                        <a href="details.html" class="post_img">
+                        <a href="#modal1" class="post_img">
                             <img src={{ post.picture.url }} alt="" width="620" height="300" >
                             <span><i class="ion-android-radio-button-off"></i>{{ event.category.name }}</span>
                         </a>
@@ -24,6 +25,8 @@
                             </div>
                             <div class="col s4 btn_floating">
                                 <!--<a class="btn-floating waves-effect"><i class="ion-navicon-round"></i></a>-->
+                                 <a class="waves-effect waves-light btn modal-trigger" href="#modal{{ post.id }}"><i class="ion-navicon-round"></i></a>
+
                             </div>
                         </div>
                         <a href="details.html" class="post_heding"></a>
@@ -37,7 +40,75 @@
                     </div>
                 </div>
 </div>
+<!--------------------------------------------------------------------------------------------------------------------->
+
+             <div id="modal{{ post.id }}" class="modal">
+<div class="post post_details">
+                   <div class="post_content">
+                        <a class="post_img" href="#">
+                            <img alt="" src={{ post.picture.url }}>
+                        </a>
+                        <div class="row author_area">
+                             <div class="col s4 author">
+                                <div class="col s4 media_left"><img src={{ post.author.profile.profile_small.url }} alt="" class="circle"></div>
+                                <div class="col s8 media_body">
+                                    <a href="#">{{ post.author.profile.name }}</a>
+                                    <span>{{post.dateCreated}}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="post_heding_aea">
+                            <a class="post_heding" href="#"> </a>
+                        </div>
+                        <div class="socail_share_area row">
+                            <p>{{ event.description}}</p>
+                            <p>{{ event.venue.city}}, {{ event.venue.country }}</p>
+                        </div>
+                   </div>
+
+                    <div class="like_comment_area row">
+                        <div class="col s6 updown_btn comment_c">
+                            <a href="#"><i class="ion-ios-chatboxes-outline"></i></a>
+                            <a class="count_n" href="#">{{count}} comments</a>
+                        </div>
+                        <div class="col s6 updown_btn">
+                            <a href="#"><i class="ion-android-arrow-dropdown-circle"></i></a>
+                            <a href="#"><i class="ion-android-arrow-dropup-circle"></i></a>
+                            <a class="count_n" href="#"></a>
+                        </div>
+                        <div class="col s12 comment_input_box">
+                            <div class="input-field">
+                                <textarea class="validate" id="comm{{ post.id }}" placeholder="Write your comment here"></textarea>
+                                <button onclick="Comments('{{ post.id }}')">Post Comment</button>
+
+                            </div>
+                        </div>
+
+                        <div class="col p0 s12">
+                            <div id="commentContainer" class="content" style="overflow-y: scroll; height:200px;">
+                                {% for comment in post.Pcomments.all %}
+                                <div class="media">
+                                <img class="circle responsive-img" alt="" src={{comment.authname.profile.profile_small.url}}>
+                                <div class="media_body">
+                                    <h6><a href="#">{{comment.authname.profile.name}}</a></h6>
+                                    <p>{{comment.text}}</p>
+                                </div>
+                            </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+
+                    </div>
+
+</div>
+             <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+  </div>
+<!---------------------------------------------------------------------------------------------------------------------->
+
+
 {% endfor %}
+
 
 
 
@@ -124,4 +195,7 @@
 </section>
     <!-- End Min Container area -->
     <script src="{% static 'vendors/calendar/dcalendar.picker.js' %}"></script>
+<script>
+
+</script>
 {% endblock %}
