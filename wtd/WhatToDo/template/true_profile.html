@@ -6,7 +6,7 @@
         <div class="row author_profile_row">
             <div class="col l4 m6">
                 <ul class="profile_menu">
-                    <li><a href="#">About</a></li>
+                    <li><a href="{% url 'modify-profile' request.user.profile.slug %}">About</a></li>
                     <li class="post_d"><a class="dropdown-button" href="#!" data-activates="dro_pm">...</a>
                         <!-- Dropdown Structure -->
                         <ul id="dro_pm" class="dropdown-content">
@@ -37,10 +37,9 @@
             <div class="col col l3 m4 s6 photos_col">
                 <a href="#" class="photos" id="post{{ post.id }}" onclick="return Viewmodal({{post.id}});"><img src="{{ post.picture.url }}" alt=""></a>
             </div>
+                    <!--------------------------------------------------------------------------------------------------------------------->
 
-                <!--------------------------------------------------------------------------------------------------------------------->
-
-             <div id="modal{{ post.id }}" class="modal">
+             <div id="modal{{ post.id }}" class="modal" style="opacity: inherit">
 <div class="post post_details">
                    <div class="post_content">
                         <a class="post_img" href="#">
@@ -102,12 +101,18 @@
 </div>
              <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
   </div>
+
 <!---------------------------------------------------------------------------------------------------------------------->
+
            {% endfor %}
         </div>
         <div class="loding_img">
             <img src="images/icons/loding.png" alt="">
         </div>
+
     </section>
+
+
+
 
 {% endblock %}

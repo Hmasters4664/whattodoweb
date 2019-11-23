@@ -96,7 +96,6 @@ function enterpressalert2(e, textarea) {
                                    <li><a href="{% url 'all-notifications' %}">Notifications</a></li>
                                    <li><a href="{% url 'calender' %}">Calender</a></li>
                                    <li><a href="{% url 'posts' %}">User Posts</a></li>
-                                   <li><a href="{% url 'modify-profile' request.user.profile.slug %}">Update Profile</a></li>
                                </ul>
                            </div>
                            <div class="col m4 menu_column">
@@ -249,7 +248,6 @@ function enterpressalert2(e, textarea) {
                         <ul id="dropdown_s0" class="dropdown-content">
 
                            <li><a href="{% url 'calender' %}">Calender</a></li>
-                           <li><a href="{% url 'modify-profile' request.user.profile.slug %}">Profile</a></li>
                             <li><a href="{% url 'view-profile' request.user.profile.slug %}" >View Profile</a></li>
                            <li><a href="{% url 'message-view' %}">Messages</a></li>
                            <li><a href="{% url 'all-request' %}">Requests</a></li>
@@ -335,7 +333,6 @@ function enterpressalert2(e, textarea) {
                     <li class="user_dropdown"><a class="dropdown-button" href="#!" data-activates="dropdown_s4"><img src="images/profile-pic.png" alt="" class="circle p_2"></a>
                         <!-- Dropdown Structure -->
                         <ul id="dropdown_s4" class="dropdown-content">
-                            <li><a href="{% url 'modify-profile' request.user.profile.slug %}"><i class="ion-person"></i>Modify profile</a></li>
                             <li><a href="{% url 'view-profile' request.user.profile.slug %}" ><i class="ion-android-folder-open"></i>View Profile</a></li>
                             <li class="b_b"><a href="#"><i class="ion-ios-locked"></i>Change Password</a></li>
                             <li><a href="#"><i class="ion-gear-b"></i>Settings</a></li>

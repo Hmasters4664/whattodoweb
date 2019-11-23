@@ -1,5 +1,5 @@
 function Viewmodal(id)
 {
-    ('#modal'+ id).modal('open')
+    $('#modal'+ id).modal('open')
 }
 
